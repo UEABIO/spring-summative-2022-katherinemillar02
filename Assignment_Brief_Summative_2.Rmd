@@ -1,0 +1,328 @@
+---
+title: 'Second Assignment Brief 2021'
+author: 'Lecturer: Philip Leftwich, Module: UEA BIO 5023Y'
+output: 
+  rmdformats::material
+  
+
+      
+ 
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(kableExtra)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1. Outline
+
+
+You are being given the choice of four possible datasets. 
+With your chosen dataset you are tasked with using exploratory data analysis and background reading to develop hypotheses that you will test with robust linear models. You will then write-up and communicate your findings with a clear results section and good data visuals.
+
+- Your write-up will be in the format of a lab report
+
+- You will hand in a pdf output through Blackboard (pdf is the format that should be easiest)
+
+- You will ALSO submit your GitHub assignment. 
+
+- You only need to analyse one data set, and you do not need to test *everything* within a dataset in order to make an excellent report. Planning and demonstration of thorough analysis of carefully chosen hypotheses with excellent write-ups and clear data visuals, is preferable to trying to study everything!
+
+- You have already carried out data cleaning, exploratory analysis and data visualisation in the course of completing your first assignment. This assignment extends that to include background reading and incorporating some simple statistics. 
+
+## Hand-in
+
+### GitHub Classroom
+
+You can make commits and push these at any time up until the assignment deadline. 
+That's all you need to do to save your code for the assignment. 
+Check out this short video for a how-to guide: https://www.youtube.com/watch?v=pAcMgGbCtQw&feature=youtu.be
+
+You should make regular, small and meaningful commits. Check you are pushing to GitHub by visiting Tools > Project options > Git to get the url of your project on Github.
+
+
+### Report
+
+Publish a report and Hand-in through the assignment portal on Blackboard. 
+
+# 2. Basic Information
+
+
+- Word limit and document formatting:
+
+    - The report and the appendix R code should be submitted as one pdf
+document.
+
+    - The maximum length is 1500 words.
+    
+    - The 1500 word limit includes: title, abstract, main text (results &
+discussion), conclusion.
+
+   - It does not include: plot legends, the R code in the supplementary
+methods (submitted separately as your Github classrooms repo), the references.
+
+- Choose one data set to work on for your report.
+
+    - The data sets are fully described in the GitHub Summative assignment. 
+    
+    
+## 2.1 The datasets in brief:
+
+    
+  - Studying the effect of the gene *raga-1* on longevity and reproduction in the nematode worm (*C. elegans*)
+              
+  - Malarial infection status and body condition in the Seychelles Warbler (*Acrocephalus sechellensis*)
+              
+  - Behavioural studies of the two-spot ladybird (*Adalia bipunctata*) 
+
+
+## 2.2 Some ideas for analysis
+
+Make sure to read the accompanying dataset READMEs for a full breakdown of the information provided with each dataset.
+
+Below I provide some hints  and ideas about how to make interesting reports for each of the datasets. Remember - you only need to analyse ONE dataset, and you don't need to analyse everything. 
+
+### Studying the effect of the gene *raga-1* and how it interacts with stress on longevity and reproduction in the nematode worm (*C. elegans*) through gene knockout
+
+- This is an *rnai* experiment to investigate the effect of a gene through knockdown
+
+- Offspring is count/rate data
+
+- Think about effects in terms of possible life-history trade-offs between lifespan and reproduction.
+
+- C.elegans are used to test epigenetic effects, so does lifehistory of parents affect their offspring?
+
+- Data originally supplied by Professor Alexei Maklakov
+
+### Malarial infection status and body condition in the Seychelles Warbler (*Acrocephalus sechellensis*)
+
+- The Seychelles warbler is a vulnerable species of passerine songbird
+
+- Malaria infection is a binary variable
+
+- Sex is a binary variable
+
+- This data is part of a long-term study set on the impact of Avian Malaria on this vulnerable species
+
+- Think about what variables might be suitable predictors of malarial status & why?
+
+- Data originally supplied by Professor David S. Richardson
+
+### Behavioural studies on the two-spot ladybird (*Adalia bipunctata*) 
+
+- A variety of different behaviours measured that are designed to investigate boldness and aggressiveness across males and females in the two-spot ladybird
+
+- Descriptive analyses of morphology between sexes can be reported
+
+- Analysis of behaviours and whether they are linked to Body size / Sex
+
+- Some data is averaged but might be better described in terms of count / rate data. This would need to be rounded to whole integers before running Poisson models. 
+
+- Data originally supplied by Dr Jen Perry
+
+
+# 3. General guide to the report
+
+## 3.1 Your report MUST have these sections
+
+1. Title
+
+2. Abstract. A concise summary of the background and main results (150 word limit)
+
+3. Main text
+
+    - Introduction
+    
+    - Results
+    
+    - Analysis
+    
+    - Discussion
+    
+
+4. References
+
+5. Supplementary methods. (This will submitted separately by you as a GitHub repo through Classrooms)
+
+## 3.2 Sections in detail
+
+### Title
+The title should describe your main question and/or your main result and what species you are using. We encourage interesting and enticing titles.
+  
+### Abstract [150 words]  
+  
+Your abstract should be concise summary of the background and main results. The best method to write an abstract is to include sentences that contain; the broad background to the topic, the narrow (specific) background to the topic, the main question/analysis that you are concerned with, what analysis you did, what result(s) you found, and finally what the biological implications of this analysis are.
+  
+### Introduction
+    
+This section should start with a brief (one-paragraph) introduction section, where you provide a brief background, some context and present your carefully formed hypotheses for testing
+
+### Results and discussion
+
+The ‘letter’ style manuscripts differ from article style, in that the main text contains
+both results and discussion, blended together. To achieve this, each paragraph or
+section should contain:
+
+• a short descriptive header
+
+• a question, query or hypothesis
+
+• a test or analysis you performed
+
+• the result (described verbally *and* in plots/tables)
+
+  - DO Include - Raw data figures, visual model summaries, model tables
+  - DON'T Include - Model checking plots, exploratory analysis
+
+• a brief discussion/comment (1-2 sentences) discussing the biological
+implications of the result, similar observations, mentioning any caveats, and/or
+new questions, etc.
+
+
+### Example
+
+**Differential Gene Expression** <span style="color: red;">[Each paragraph has a heading]</span>
+
+
+<span style="color: red;">[Hypothesis goes here]</span> I hypothesised that essential genes would be more highly expressed
+than non-essential genes, because they are involved in central cellular processes for which more abundant proteins would be required. <span style="color: red;">[test]</span> To test this hypothesis, I compared
+the protein expression levels of essential and non-essential genes using a general linear model with essential/non-essential gene as a factorial predictor variable against rank ordered protein expression levels.<span style="color: red;">[test]</span>  This analysis showed that essential genes have on average 1.3 fold (95% CI: 0.8-1.6) higher protein expression levels than non-essential genes (*F*~1,34~= 637, *P* <0.001, *R^2* = 0.94, Figure 1).
+<span style="color: red;">[discussion/comment]</span> * Similar results have been observed in other species such as **x** 
+<span style="color: red;">[citations]</span> , showing that this is a general trend of molecular biology. It is possible that
+the majority of this result is due to ribosomal proteins. <span style="color: red;">[next paragraph might be a test of this conclusion]</span> .
+
+<span style="color: red;">Don’t put these red markers in your own text!!!</span>
+
+I have included papers from the journal BMC Biology in the GitHub Assignment - take a look at these for examples of how to structure this write-up style. 
+
+### Analysis
+
+This is a brief section where you describe how you analysed the data. [https://jgscott.github.io/teaching/writeups/write_ups/]
+
+### Conclusion
+The conclusion should *briefly* reiterate the major findings of the study. Then try and draw some **major** conclusions from across the whole study. 
+How do these findings move the field forwards? What might be the next logical experiments to try?
+
+### References
+
+- You should cite in your text, the original source of all data you use, and any other
+articles that are relevant to the topic and your enquiries.
+
+- Please consult the Harvard Referencing style guides provided by the library and the Learning Enhancement Team.
+
+- Wherever possible original research papers are preferred. 
+
+- Make sure you cite the first/original paper to discover something. *Not* the paper that reports findings of another paper...
+
+### Supplementary methods
+
+You will submit your R repo through GitHub classrooms. 
+
+- As always code should be completely reproducible.
+
+- The project should be well organised (use sub folders).
+
+- R code should be annotated. 
+
+- Demonstrate exploratory analysis and model checking in the script.
+
+- Don't include unnecessary or duplicated code.
+
+- All *required* R packages clearly indicated at the top of the scripts `library()`.
+
+
+# 4. Mark Scheme
+
+```{r Mark scheme, echo=FALSE}
+knitr::kable(rbind(
+                    c("","Defines the broad and then the narrow background to the topic", "2", "5"),
+                    c("", "Defines the question or problem that is addressed", "1",""),
+                    c("", "Describes the analysis and result", "1",""),
+                    c("", "Makes a conclusion, or summary", "1",""),
+             
+                    c("","Clear summary of the background to the topic","10","15"),
+                    c("","Cites relevant published articles and reviews","5",""),
+             
+                    c("","Hypothesis-testing evident with result paragraphs following the pattern of: Hypothesis (or question), test, result, conclusion","5","10"),
+                     c("","Writing style is clear, well-referenced, free of spelling/grammar errors and has subheadings","5",""),
+                
+                     c("","Plots are attractive, responsible and clear","10","15"),
+                     c("","Figure legends meaningful & precise","5",""),
+                 
+                     c("","Statistical tests used appropriately (correct tests for the data)","5","15"),
+                    c("","Results are reported with full statistical details & confidence intervals where appropriate","5",""),
+                    c("","Conclusions/interpretations are well-supported by the data analysis","5",""),
+                    c("","Briefly reiterates the results","1","5"),
+                    c("","Mentions any limitations in data or analysis","2",""),
+                    c("","Meaningful conclusions","2",""),
+                  
+                    c("","Uses previously published original literature to explain and/or contrast against own analysis","5","5"),
+                    c("","Fully reproducible Markdown document","5","20"),
+                    c("","Annotated scripts","5",""),
+                    c("","Data cleaning and exploratory data analysis","5",""),
+                    c("","Model assumption checking","5",""),
+                    c("","Clear and interesting read throughout","5","10"),
+                    c("","Biological insight and/or technical coding skill","5",""),
+                    c("","","","100")),
+              caption = ' ',
+              col.names = c("Section", "Marking Guide", "Marks", "Total"),
+                           booktabs=T ) %>% 
+  kable_styling("striped", full_width=F) %>% 
+  group_rows(index=c("Abstract"=4, "Introduction"=2,"Main Text"=2, "Plots"=2, "Data Analysis"=3, "Conclusion"=3, "Literature"=1, "Supplementals"=4,"All sections"=2, " "=1)) %>% 
+  column_spec(4, bold=T)
+```
+
+*Do not get fixated on producing the perfect statistical model, note this is only worth 5 marks overall. Check the brief to make sure you address all parts required.* 
+
+# 5. Guidance
+
+## 5.1 How to start
+
+* Go through the README files and look at the spreadsheets, make sure you know what is in the dataset
+
+* Come up with some initial ideas you wish to test in the data, do some reading, come up with two or three simple hypotheses with sensible biology behind them
+
+* Tidy the data, this takes time
+
+* Visualise differences and relationships before you start modelling
+
+## 5.2 Deadline
+
+All assignment deadlines are always available on e-vision. 
+
+this assignment is due on the **12th May 2022**
+
+## 5.3 Help & Support
+
+You should make good use of Yammer - you can submit anonymously and I will respond quickly
+
+    - Stats theory
+    - R code issues
+    - Github
+    
+Any major issues and you can also e-mail me and request a chat! 
+
+## 5.4 Start early!
+
+That way you can think about which dataset you want to work with, do some exploratory analysis, background reading etc. before we have even finished our linear model lectures. 
+
+You will also have more opportunity to discuss the assignment with me before Easter. 
+
+I took a look at the amount of time people have logged on RStudio Cloud vs. their scores in the first assigment. 
+
+Giving yourself more time with the workshop materials & the assignment trends with a higher final mark. 
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("Rplot01.png")
+```
+
+# 6. Summative assignment cheat codes
+
+## Not for students - DO NOT USE! 
+
+This is a link to the analyses as compiled by Dr Leftwich, for TA use only.
+
+[Click here](https://github.com/UEABIO/Summative_answers/)
+
