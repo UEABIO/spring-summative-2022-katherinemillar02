@@ -1,10 +1,20 @@
 library(tidyverse)
+library(readxl)
 
+excel_sheets("Data/elegans.xlsx")
+
+
+readxl::read_excel
 
 celegans <- read.csv("Data/elegans_data.csv")
+reproductionf0 <- read.csv("Data/reproduction_f0.csv")
+lifespanf0 <- read.csv("Data/lifespan_f0.csv")
+# f0 = parental generation 
+reproductionf1 <- read.csv("Data/reproduction_f1.csv")
+# f1 = offspring 
 
-glimpse(celegans)
 head(celegans)
+head(reproductionf0)
 colnames(celegans)
 summary(celegans)
 
@@ -25,7 +35,6 @@ celegans%>%
 celegans%>%
   is.na()
 sum()
-
 
 celegans %>% 
   ggplot(aes(x=parental_rnai,
