@@ -36,11 +36,7 @@ celegans%>%
   is.na()
 sum()
 
-celegans %>% 
-  ggplot(aes(x=parental_rnai,
-             y=death_date))+
-  geom_boxplot()+
-  coord_flip()
+
 
 
 
