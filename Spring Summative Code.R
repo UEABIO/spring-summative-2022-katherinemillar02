@@ -50,13 +50,6 @@ treatment=f0l$treatment
 longevity=f0l$longevity
 data=data.frame(rnai, treatment ,  longevity)
 
-f0r <- na.omit(f0reproduction)
-rnaif0=f0r$rnai
-treatmentf0=f0r$treatment
-offspringf0=f0r$offspring
-data=data.frame(rnai, treatment ,  offspring)
-
-
 # Created a Box plot showing the effect of treatment and genes on longevity
 ggplot(data, aes(x=rnai, y=longevity, fill=treatment))+ 
   geom_boxplot()+
@@ -66,26 +59,24 @@ ggplot(data, aes(x=rnai, y=longevity, fill=treatment))+
 
 
 # Trying to look at rnai treatment and offspring in a table
-f1reproduction_wide <- f1reproduction %>%
-  pivot_wider(names_from = parental_rnai, values_from = offsprings, id_cols = day) %>%
-  mutate(difference=ev-raga)
+#f1reproduction_wide <- f1reproduction %>%
+#pivot_wider(names_from = parental_rnai, values_from = offsprings, id_cols = day) %>%
+# mutate(difference=ev-raga)
 
-f0reproduction_wide <- f0reproduction %>%
-  pivot_wider(names_from = rnai, values_from = offspring, id_cols = offspring) %>%
-  mutate(difference=raga-ev)
+  #f0reproduction_wide <- f0reproduction %>%
+# pivot_wider(names_from = rnai, values_from = offspring, id_cols = offspring) %>%
+# mutate(difference=raga-ev)
+
+# Data frame for f0 reproduction 
+f0r <- na.omit(f0reproduction)
+rnaif0r=f0r$rnai
+treatmentf0r=f0r$treatment
+offspringf0r=f0r$offspring
+data=data.frame(rnaif0r, treatmentf0r ,  offspringf0r)
 
 # Trying to look at rnai treatment and offspring in a table
-f0reproduction_summary1 <- f0r %>%
-  group_by(rnai) %>%
-  summarise(mean = mean(offspring),
-            sd=sd(offspring))
-  
-f0r <- na.omit(f0reproduction)
-rnaif0=f0r$rnai
-treatmentf0=f0r$treatment
-offspringf0=f0r$offspring
-data=data.frame(rnai, treatment ,  offspring)
 
+# Created f0r to emit NA values completley
 f0reproduction_summary1 <- f0r %>%
   group_by(rnai) %>%
   summarise(mean = mean(offspring),
@@ -95,4 +86,15 @@ f0reproduction_summary1 %>%
   kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
+# Beginning to look at models 
+
+# Offspring
+lsmodel0 <- lm(formula = offspring~1, data = f0r)
+lsmodel0
+broom::tidy(lsmodel0)
+
+# Looking at statistics for offspring vs rnai treatment
+lm(offspring ~ rnai + factor(rnai), data = f0r) %>%
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
   
