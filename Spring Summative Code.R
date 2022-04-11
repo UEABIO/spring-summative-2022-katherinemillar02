@@ -3,6 +3,10 @@ library(readxl)
 library(reshap)
 library(ggplot2)
 library(dplyr)
+library(GGally)
+library(emmeans)
+library(kableExtra)
+
 
 # Importing the sheets
 f0lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "lifespan_f0", na = "NA"))
@@ -39,14 +43,56 @@ ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
        x = 'Parental Treatment',
        y = 'Longevity')
 
-# Create a data frame and boxplot comparing longevity with treatment and genes
-f0l <- na.omit(f0lifespan) 
+# Created data frames
+f0l <- na.omit(f0lifespan)
 rnai=f0l$rnai
 treatment=f0l$treatment
 longevity=f0l$longevity
 data=data.frame(rnai, treatment ,  longevity)
-ggplot(data, aes(x=rnai, y=longevity, fill=treatment)) + 
+
+f0r <- na.omit(f0reproduction)
+rnaif0=f0r$rnai
+treatmentf0=f0r$treatment
+offspringf0=f0r$offspring
+data=data.frame(rnai, treatment ,  offspring)
+
+
+# Created a Box plot showing the effect of treatment and genes on longevity
+ggplot(data, aes(x=rnai, y=longevity, fill=treatment))+ 
   geom_boxplot()+
   labs('title' = 'Effect of treatment and genes on longevity',
        y = 'Longevity',
-       x = 'RNAi treatment')
+       x = 'RNAi treatment') 
+
+
+# Trying to look at rnai treatment and offspring in a table
+f1reproduction_wide <- f1reproduction %>%
+  pivot_wider(names_from = parental_rnai, values_from = offsprings, id_cols = day) %>%
+  mutate(difference=ev-raga)
+
+f0reproduction_wide <- f0reproduction %>%
+  pivot_wider(names_from = rnai, values_from = offspring, id_cols = offspring) %>%
+  mutate(difference=raga-ev)
+
+# Trying to look at rnai treatment and offspring in a table
+f0reproduction_summary1 <- f0r %>%
+  group_by(rnai) %>%
+  summarise(mean = mean(offspring),
+            sd=sd(offspring))
+  
+f0r <- na.omit(f0reproduction)
+rnaif0=f0r$rnai
+treatmentf0=f0r$treatment
+offspringf0=f0r$offspring
+data=data.frame(rnai, treatment ,  offspring)
+
+f0reproduction_summary1 <- f0r %>%
+  group_by(rnai) %>%
+  summarise(mean = mean(offspring),
+            sd=sd(offspring))
+
+f0reproduction_summary1 %>%
+  kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
+  kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
+
+  
