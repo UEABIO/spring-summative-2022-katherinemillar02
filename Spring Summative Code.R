@@ -7,7 +7,6 @@ library(GGally)
 library(emmeans)
 library(kableExtra)
 
-
 # Importing the sheets
 f0lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "lifespan_f0", na = "NA"))
 f1lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "f1_lifespan", na = "NA"))
@@ -97,4 +96,15 @@ broom::tidy(lsmodel0)
 lm(offspring ~ rnai + factor(rnai), data = f0r) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
+
+lsmodel2 <- lm(offspring ~ rnai + factor(rnai), data = f0r)
+anova(lsmodel2)
+
+# Looking at statistics for longevity of offspring vs parental rnai treatment
+lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
+
+lsmodel3 <- lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan )
+anova(lsmodel3)
   
