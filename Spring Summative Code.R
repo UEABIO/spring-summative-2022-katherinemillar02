@@ -56,6 +56,15 @@ ggplot(data, aes(x=rnai, y=longevity, fill=treatment))+
        y = 'Longevity',
        x = 'RNAi treatment') 
 
+# The parents lifespan
+f0lifespan_summary1 <- f0l %>%
+  group_by(rnai) %>%
+  summarise(mean = mean(longevity),
+            sd=sd(longevity))
+
+f0lifespan_summary1 %>%
+  kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
+  kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
 # Trying to look at rnai treatment and offspring in a table
 #f1reproduction_wide <- f1reproduction %>%
@@ -118,9 +127,12 @@ lsmodel4 <- lm(longevity ~ treatment + factor(treatment), data = f0l )
 anova(lsmodel4)
 lsmodel4
 
+# Looking at models for offspring vs what rnai treatment their parents had 
 lsmodel5 <- lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )
 anova(lsmodel5)
 
 lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )%>%
 broom::tidy(., conf.int=T) %>% 
   slice(1:2)
+
+
