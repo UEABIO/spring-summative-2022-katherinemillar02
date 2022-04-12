@@ -107,4 +107,20 @@ lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
 
 lsmodel3 <- lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan )
 anova(lsmodel3)
-  
+
+str(f0l)
+str(f0r)
+str(f1reproduction)
+str(f1lifespan)
+
+# Looking at models for longevity of f0 and what treatment they had
+lsmodel4 <- lm(longevity ~ treatment + factor(treatment), data = f0l )
+anova(lsmodel4)
+lsmodel4
+
+lsmodel5 <- lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )
+anova(lsmodel5)
+
+lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )%>%
+broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
