@@ -8,13 +8,16 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# The effect of rnai treatment on longevity 
+### The effect of rnai treatment on longevity 
 
-# Abstract 
+### Abstract 
 
-# Introduction
-## Hypothesis: 
-I hypothesise that the raga-1 gene being the dsDNA target gene will therefore have a direct effect on decreasing how many offspring a c.celegans will have as well as decreasing longevity both in themselves and in their offspring. 
+### Introduction
+ 
+I hypothesise that the raga-1 gene being the dsDNA target gene will therefore have a direct effect on decreasing how many offspring a c.elegans will have as well as decreasing longevity both in themselves and in their offspring. 
+
+Work by Schreiber et al, 2010 into looking at the raga-1 gene as an aging modulator has shown that the ‘gain of function’ raga-1 shortened lifespan while a ‘dominant negative’ raga-1 lengthened lifespan. 
+
 
 # Results and Discussion
 

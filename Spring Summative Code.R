@@ -136,3 +136,5 @@ broom::tidy(., conf.int=T) %>%
   slice(1:2)
 
 
+
+
