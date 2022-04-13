@@ -160,7 +160,7 @@ performance::check_model(f1reproductionls1)
 
 
 ##### COMBINING
-# Working with patchwork - looking at longevity 
+# Working with patchwork - looking at longevity of f0 and f1
 f0lplot + f1lplot
 
 
