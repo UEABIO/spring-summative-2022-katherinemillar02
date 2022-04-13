@@ -7,6 +7,7 @@ library(GGally)
 library(emmeans)
 library(kableExtra)
 library(performance)
+library(patchwork)
 
 # Importing the sheets
 f0lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "lifespan_f0", na = "NA"))
@@ -40,9 +41,9 @@ longevity=f0l$longevity
 dataf0l=data.frame(rnai, treatment ,  longevity)
 
 # Created a Box plot showing the effect of treatment and genes on longevity
-ggplot(dataf0l, aes(x=rnai, y=longevity, fill=treatment))+ 
+f0lplot <- ggplot(dataf0l, aes(x=rnai, y=longevity, fill=treatment))+ 
   geom_boxplot()+
-  labs('title' = 'Effect of treatment and genes on longevity',
+  labs('title' = ' F0 - Effect of treatment and genes on longevity',
        y = 'Longevity',
        x = 'RNAi treatment') 
 
@@ -124,6 +125,12 @@ ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
        x = 'Parental Treatment',
        y = 'Longevity')
 
+f1lplot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=treatment))+ 
+  geom_boxplot()+
+  labs('title' = ' F1 - Effect of treatment and genes on longevity',
+       y = 'Longevity',
+       x = 'RNAi treatment') 
+
 
 
 
@@ -137,15 +144,23 @@ broom::tidy(., conf.int=T) %>%
   slice(1:2)
 
 # Created a plot looking at amount of offspring the f1 generation can have vs what treatments they had 
-ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=treatment))+ 
+ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=treatment))+
   geom_boxplot()+
   labs('title' = 'Effect of treatment and genes on amount of offspring for f1',
        y = 'Offspring',
        x = 'RNAi treatment') 
 
+
 # "full model" of f1 reproduction 
 f1reproductionls1 <- lm(offsprings ~ parental_rnai + parental_treatment + 
                           parental_rnai:parental_treatment, data = f1reproduction)
 f1reproductionls1
-
 performance::check_model(f1reproductionls1)
+
+
+
+##### COMBINING
+# Working with patchwork - looking at longevity 
+f0lplot + f1lplot
+
+
