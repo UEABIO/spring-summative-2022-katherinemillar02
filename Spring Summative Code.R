@@ -92,10 +92,25 @@ f0reproduction_summary1 %>%
 lm(offspring ~ rnai + factor(rnai), data = f0r) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
-# Model for offspring that f0 generation have vs their rnai treatmenr
+
+# Model for offspring that f0 generation have vs their rnai treatment
 lsmodel2 <- lm(offspring ~ rnai, data = f0r)
 lsmodel2
 anova(lsmodel2)
+
+# Looked at emmeans data for amount of offspring f0 generation have vs rnai treatment
+means <- emmeans::emmeans(lsmodel2, specs = ~rnai)
+
+means %>% 
+  as_tibble() %>% 
+  ggplot(aes(x=rnai, 
+             y=emmean))+
+  geom_pointrange(aes(
+    ymin=lower.CL, 
+    ymax=upper.CL))
+
+# performance function - checked for normality?? 
+performance::check_model(lsmodel2, check=c("normality","qq"))
 
 
 
