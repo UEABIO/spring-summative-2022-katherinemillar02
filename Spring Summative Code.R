@@ -8,6 +8,7 @@ library(emmeans)
 library(kableExtra)
 library(performance)
 library(patchwork)
+library(here)
 
 # Importing the sheets
 f0lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "lifespan_f0", na = "NA"))
@@ -177,5 +178,7 @@ performance::check_model(f1reproductionls1)
 ##### COMBINING
 # Working with patchwork - looking at longevity of f0 and f1
 f0lplot + f1lplot
+
+
 
 
