@@ -8,7 +8,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE}
 library(here)
 library(tidyverse)
 ```

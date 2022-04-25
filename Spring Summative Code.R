@@ -47,22 +47,23 @@ f0lplot <- ggplot(dataf0l, aes(x=rnai, y=longevity, fill=treatment))+
   labs('title' = ' F0 - Effect of treatment and genes on longevity',
        y = 'Longevity',
        x = 'RNAi treatment') 
+f0lplot
 
 # Looking for a mean and SD for f0 lifespan depending on rnai treatment
-f0lifespan_summary1 <- f0l %>%
+f0lifespan_summary <- f0l %>%
   group_by(rnai) %>%
   summarise(mean = mean(longevity),
             sd=sd(longevity))
 
 # Making a table of f0 lifespan (mean and SD) depending on rnai treatment 
-f0lifespan_summary1 %>%
+f0lifespan_summary %>%
   kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
-# Looking at models for longevity of f0 and what treatment they had
-lsmodel4 <- lm(longevity ~ treatment + factor(treatment), data = f0l )
-anova(lsmodel4)
-lsmodel4
+# Looking at models for longevity of f0 and light/dark
+f0longevityandtreatment <- lm(longevity ~ treatment, data = f0l )
+anova(f0longevityandtreatment)
+f0longevityandtreatment
 
 
 
@@ -77,32 +78,36 @@ treatmentf0r=f0r$treatment
 offspringf0r=f0r$offspring
 dataf0r=data.frame(rnaif0r, treatmentf0r ,  offspringf0r)
 
-# Created f0r to emit NA values completley
-f0reproduction_summary1 <- f0r %>%
+# Created a summary for rnai treatment and offspring for f0
+f0reproduction_summary <- f0r %>%
   group_by(rnai) %>%
   summarise(mean = mean(offspring),
             sd=sd(offspring))
 
 # Looking at the mean offspring (and SD value) f0 gen have depending on rnai treatment
-f0reproduction_summary1 %>%
+f0reproduction_summary %>%
   kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
 ## Experimenting with looking at models for f0 generation  
 # Model for offspring that f0 generation have vs their rnai treatment
-lm(offspring ~ rnai + factor(rnai), data = f0r) %>%
+f0rnaiosmodel <- lm(offspring ~ rnai + factor(treatment) data = f0r) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
+f0rnaiosmodeltry <- lm(offspring ~ rnai, data = f0r)
+
+
+
 # Model for offspring that f0 generation have vs their rnai treatment
-lsmodel2 <- lm(offspring ~ rnai, data = f0r)
-lsmodel2
-anova(lsmodel2)
+f0rnaiosmodel2 <- lm(offspring ~ rnai, data = f0r)
+f0rnaiosmodel2
+anova(f0rnaiosmodel2)
 
 # Looked at emmeans data for amount of offspring f0 generation have vs rnai treatment
-means <- emmeans::emmeans(lsmodel2, specs = ~rnai)
-
-means %>% 
+f0means <- emmeans::emmeans(f0rnaiosmodel2, specs = ~rnai)
+f0means
+f0means %>% 
   as_tibble() %>% 
   ggplot(aes(x=rnai, 
              y=emmean))+
@@ -111,7 +116,7 @@ means %>%
     ymax=upper.CL))
 
 # performance function - checked for normality?? 
-performance::check_model(lsmodel2, check=c("normality","qq"))
+performance::check_model(f0rnaiosmodel2, check=c("normality","qq"))
 
 
 
@@ -124,8 +129,8 @@ lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
   slice(1:2)
 
 # Looking at f1 longevity vs parental rnai treatment 
-lsmodel3 <- lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan )
-anova(lsmodel3)
+f1longptreatmodel <- lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan )
+anova(f1longptreatmodel)
 
 # Created a boxplot comparing longevity of offspring and parental treatment 
 ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
@@ -147,13 +152,10 @@ f1lplot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=treatment))
        y = 'Longevity',
        x = 'RNAi treatment') 
 
-
-
-
 #### REPRODUCTION OF F1
 # Looking at models for offspring for f1 vs what rnai treatment their parents had 
-lsmodel5 <- lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )
-anova(lsmodel5)
+f1osptreatment <- lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )
+anova(f1osptreatment)
 
 lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )%>%
 broom::tidy(., conf.int=T) %>% 
