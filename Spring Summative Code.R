@@ -1,14 +1,14 @@
+# Loaded packages in 
 library(tidyverse)
 library(readxl)
-library(reshap)
-library(ggplot2)
-library(dplyr)
 library(GGally)
 library(emmeans)
+library(rstatix)
 library(kableExtra)
 library(performance)
 library(patchwork)
 library(here)
+
 
 # Importing the sheets
 f0lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "lifespan_f0", na = "NA"))
@@ -16,12 +16,14 @@ f1lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "f1_lifespan", na 
 f0reproduction <- (read_excel(path = "Data/elegans.xlsx", sheet = "reproduction_f0", na = "NA"))
 f1reproduction <- (read_excel(path = "Data/elegans.xlsx", sheet = "reproduction_f1", na = "NA"))
 
-# Renaming the variables for consistency (lowercasing)
+
+# lowercased everything 
 f0lifespan$rnai <- tolower(f0lifespan$rnai)
 f0lifespan$treatment <- tolower(f0lifespan$treatment)
 f1lifespan$parental_rnai <- tolower(f1lifespan$parental_rnai)
 f1lifespan$parental_treatment <- tolower(f1lifespan$parental_treatment)
-f1lifespan$treatment <- tolower(f1lifespan$treatment)
+f1lifespan$treatment <- tolower(f1lifespan$treatment) 
+
 
 # Calculating the longevity for f0 and f1 
 f0lifespan$longevity <- as.numeric (difftime
@@ -34,15 +36,15 @@ f1lifespan$longevity <- as.numeric (difftime
                                                     
 
 #### LOOKING AT LIFESPAN OF FO 
-# Created a data frame for f0 lifespan, ommited na values 
-f0l <- na.omit(f0lifespan)
-rnai=f0l$rnai
-treatment=f0l$treatment
-longevity=f0l$longevity
-dataf0l=data.frame(rnai, treatment ,  longevity)
+
+# #function 
+
+clean_data <- function(data){
+  
+}
 
 # Looking for a mean and SD for f0 lifespan depending on rnai treatment
-f0lifespan_summary <- f0l %>%
+f0lifespan_summary <- f0lifespan %>%
   group_by(rnai) %>%
   summarise(mean = mean(longevity),
             sd=sd(longevity))
@@ -57,6 +59,8 @@ f0lifespan_summary %>%
 
 # Model for longevity of f0 based on their gene and treatment 
 f0ls1 <- lm(longevity ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
+fols1
+broom::tidy()
 
 # Looking at models for longevity of f0 and light/dark
 f0longevityandtreatment <- lm(longevity ~ treatment, data = f0l )
@@ -65,9 +69,24 @@ f0longevityandtreatment
 
 # Possible models from hypotheses 
 # model of longevity of parents with their rnai and treatment 
-f0model <-  lm(longevity ~ rnai + treatment + rnai:treatment, data = f0l)
+f0model <-  lm(longevity ~ rnai + treatment + rnai:treatment, data = f0lifespan) 
+
+# using tidy() to look at the statistics
+summary(f0model)
+broom::tidy(f0model)
+f0tidymodel <- broom::tidy(f0model)
+
+# CI for paired T test 
+lm(longevity ~ rnai + factor(treatment), data = f0l) %>% 
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
+
+
+
+f0tidymodel[[2,2]] / f0tidymodel[[2,3]] # this is the same value as rnai raga with ev statistic
 # Checking for normality 
 performance::check_model(f0model)
+
 
 
 ## FIGURES/ VISUALING DATA for F0 LIFESPAN
@@ -77,21 +96,17 @@ f0lplot <- ggplot(dataf0l, aes(x=rnai, y=longevity, fill=treatment))+
   labs('title' = ' F0 - Effect of treatment and genes on longevity',
        y = 'Longevity',
        x = 'RNAi treatment') 
+
 f0lplot
 
 
 
 #### REPRODUCTION OF F0
 
-# Data frame for f0 reproduction, omitting (na) values
-f0r <- na.omit(f0reproduction) 
-rnaif0r=f0r$rnai
-treatmentf0r=f0r$treatment
-offspringf0r=f0r$offspring
-dataf0r=data.frame(rnaif0r, treatmentf0r ,  offspringf0r)
+
 
 # Created a summary for rnai treatment and offspring for f0
-f0reproduction_summary <- f0r %>%
+f0reproduction_summary <- f0reproduction %>%
   group_by(rnai) %>%
   summarise(mean = mean(offspring),
             sd=sd(offspring))
@@ -109,6 +124,8 @@ f0rnaiosmodel <- lm(offspring ~ rnai + factor(treatment), data = f0r) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 f0rnaiosmodel
+summary(f0rnaiosmodel)
+
 
 
 
@@ -126,8 +143,6 @@ f0means %>%
 
 # performance function - checked for normality?? 
 performance::check_model(f0rnaiosmodel2, check=c("normality","qq"))
-
-
 
 
 
@@ -173,10 +188,6 @@ f1lplot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=treatment))
 
 
 
-
-
-
-
 #### REPRODUCTION OF F1
 
 # MODELS FOR F1 REPRODUCTION 
@@ -202,8 +213,6 @@ ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=treatment))+
   labs('title' = 'Effect of treatment and genes on amount of offspring for f1',
        y = 'Offspring',
        x = 'RNAi treatment') 
-
-
 
 
 

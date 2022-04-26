@@ -22,12 +22,17 @@ library(tidyverse)
  
 I hypothesise that the raga-1 gene being the dsDNA target gene will therefore have a direct effect on decreasing how many offspring a c.elegans will have as well as decreasing longevity both in themselves and in their offspring. 
 
-Mini hypothesises:
+Mini hypothesisises 
 
 1. f0 knockdown gene with treatment has an affect on their longevity 
 2. f0 knockdown gene with treatment has an affect on their reproduction
 3. f0 knockdown gene with treatment has affect on offsprings longevity 
 4. f0 knockdown gene with treatment has affect on offsprings reproduction 
+
+f0 - does stress (light) have an affect on their own longevity 
+
+
+
 
 
 
