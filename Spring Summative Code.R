@@ -36,10 +36,6 @@ f1lifespan$longevity <- as.numeric (difftime
                                                     
 
 #### LOOKING AT LIFESPAN OF FO 
-
-# #function 
-
-
 # Looking for a mean and SD for f0 lifespan depending on rnai treatment
 f0lifespan_summary <- f0lifespan %>%
   group_by(rnai) %>%
@@ -52,36 +48,9 @@ f0lifespan_summary %>%
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
 
-# MODELS for F0 LIFESPAN 
-
-# Possible models from hypotheses 
-# Model for longevity of f0 based on their gene and treatment 
-f0ls1 <- lm(longevity ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
-
-broom::tidy(f0ls1)
-summary(f0ls1)
-f0tidymodel <- broom::tidy(f0ls1) 
-f0tidymodel
-
-# Looking at models for longevity of f0 and light/dark
-f0longevityandtreatment <- lm(longevity ~ treatment, data = f0lifespan )
-anova(f0longevityandtreatment)
-f0longevityandtreatment
-
-# CI for paired T test for longevity with rnai and light/dark treatment 
-lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>% 
-  broom::tidy(., conf.int=T) %>% 
-  slice(1:2)
-
-f0tidymodel[[2,2]] / f0tidymodel[[2,3]] # this is the same value as rnai raga with ev statistic
-# Checking for normality 
-performance::check_model(f0ls1)
-
-
-
 ## FIGURES/ VISUALING DATA for F0 LIFESPAN
 # Created a Box plot showing the effect of treatment and genes on longevity
-f0lplot <- ggplot(dataf0l, aes(x=rnai, y=longevity, fill=treatment))+
+f0lplot <- ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment))+
   geom_boxplot()+
   labs('title' = ' F0 - Effect of treatment and genes on longevity',
        y = 'Longevity',
@@ -92,8 +61,6 @@ f0lplot
 
 
 #### REPRODUCTION OF F0
-
-
 
 # Created a summary for rnai treatment and offspring for f0
  f0reproduction_summary <- f0reproduction %>%
@@ -108,56 +75,7 @@ f0reproduction_summary %>%
 
 
 
-## MODELS FOR F0 REPRODUCTION 
-# Model for amount of offspring that f0 generation have vs their rnai treatment
-f0rnaiosmodel <- lm(offspring ~ rnai + factor(treatment), data = f0reproduction) %>%
-  broom::tidy(., conf.int=T) %>% 
-  slice(1:2)
-f0rnaiosmodel
-summary(f0rnaiosmodel)
-
-
-# performance function - checked for normality?? 
-performance::check_model(f0rnaiosmodel, check=c("normality","qq"))
-
-
-
-# Looked at emmeans data for amount of offspring f0 generation have vs rnai treatment
-f0means <- emmeans::emmeans(f0rnaiosmodel, specs = ~rnai)
-f0means
-# Look at emmeans visually 
-f0means %>% 
-  as_tibble() %>% 
-  ggplot(aes(x=rnai, 
-             y=emmean))+
-  geom_pointrange(aes(
-    ymin=lower.CL, 
-    ymax=upper.CL))
-
-
-
-
-
-
 #### LIFESPAN OF F1
-
-# MODELS FOR F1 LIFESPAN
-# Looking at models for longevity of offspring from f0 vs parental rnai treatment
-f1longptreatmodel <- lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan )
-
-lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
-  broom::tidy(., conf.int=T) %>% 
-  slice(1:2)
-
-anova(f1longptreatmodel)
-
-
-# Possible models from hypotheses 
-#  model of longevity of f0 offspring with parents rnai and treatment 
-f1model <-  lm(longevity ~ parental_rnai + parental_treatment + 
-                 parental_rnai:parental_treatment, data = f1lifespan)
-
-summary(f1model)
 
 # FIGURES/ VISUALISING DATA FOR F1 LIFESPAN
 # Created a boxplot comparing longevity of offspring and parental treatment 
@@ -182,24 +100,7 @@ f1lplot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=treatment))
        x = 'RNAi treatment') 
 
 
-
 #### REPRODUCTION OF F1
-
-# MODELS FOR F1 REPRODUCTION 
-# Looking at models for offspring for f1 vs what rnai treatment their parents had 
-f1osptreatment <- lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )
-anova(f1osptreatment)
-
-lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )%>%
-broom::tidy(., conf.int=T) %>% 
-  slice(1:2)
-
-# "full model" of f1 REPRODUCTION
-f1reproductionls1 <- lm(offsprings ~ parental_rnai + parental_treatment + 
-                          parental_rnai:parental_treatment, data = f1reproduction)
-f1reproductionls1
-performance::check_model(f1reproductionls1)
-
 
 # FIGURES/ VISUALISING DATA FOR F1 REPRODUCTION 
 # Created a plot looking at amount of OFFSPRING the f1 generation can have vs what treatments they had 
@@ -209,9 +110,95 @@ ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=treatment))+
        y = 'Offspring',
        x = 'RNAi treatment') 
 
-
-
 ##### COMBINING
 # Working with patchwork - looking at longevity of f0 and f1
 f0lplot + f1lplot
+
+
+
+# summary of models have worked with 
+
+#  model 1 - f0 lifespan based on THEIR rnai gene and treatment 
+     #  f0 - longevity, rnai, treatment 
+f0ls1 <- lm(longevity ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
+broom::tidy(f0ls1)
+summary(f0ls1)
+f0tidymodel <- broom::tidy(f0ls1) 
+f0tidymodel
+# CI for paired T test for longevity with rnai and light/dark treatment 
+lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>% 
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
+f0tidymodel[[2,2]] / f0tidymodel[[2,3]] # this is the same value as rnai raga with ev statistic
+performance::check_model(f0ls1)
+
+ # model 2 - f0 longevity based on whether they were in light/dark
+             # f0 - longevity, treatment 
+f0longevityandtreatment <- lm(longevity ~ treatment, data = f0lifespan )
+anova(f0longevityandtreatment)
+f0longevityandtreatment
+# performance function - checked for normality?? 
+performance::check_model(f0longevityandtreatment, check=c("normality","qq"))
+# Looked at emmeans data for amount of offspring f0 generation have vs rnai treatment
+f0means <- emmeans::emmeans(f0longevityandtreatment, specs = ~treatment)
+f0means
+# Look at emmeans visually 
+f0means %>% 
+  as_tibble() %>% 
+  ggplot(aes(x=treatment, 
+             y=emmean))+
+  geom_pointrange(aes(
+    ymin=lower.CL, 
+    ymax=upper.CL))
+
+
+# model 3 - f0 amount of offspring based on rnai gene and treatment 
+                      # f0 - offspring, rnai, treatment 
+f0rnaiosmodel <- lm(offspring ~ rnai + factor(treatment), data = f0reproduction) %>%
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
+f0rnaiosmodel
+summary(f0rnaiosmodel)
+broom::tidy(f0rnaiosmodel)
+
+ # model 4 - f1 longevity based on their parent's rnai and treatment
+                  # f1 - longevity, parent's rnai, parent's treatment 
+f1longptreatmodel <- lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan )
+
+lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
+
+anova(f1longptreatmodel)
+
+f1 model <-  lm(longevity ~ parental_rnai + parental_treatment + 
+                 parental_rnai:parental_treatment, data = f1lifespan)
+summary(f1model)
+
+
+ # model 5 - f1 offspring vs their parents rnai and treatment 
+            # f1 - offspring, parent's rnai, parent's treatment
+f1reproductionls1 <- lm(offsprings ~ parental_rnai + parental_treatment + 
+                          parental_rnai:parental_treatment, data = f1reproduction)
+f1reproductionls1
+performance::check_model(f1reproductionls1)
+
+f1osptreatment <- lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )
+anova(f1osptreatment)
+
+lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )%>%
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
+
+
+# model 6 - f1 longevity based on their treatment and their parents treatment 
+       # f1 - longevity, parental treatment and treatment 
+f1treatptreatment <- lm(longevity ~ parental_treatment + factor(treatment), data = f1lifespan)
+anova(f1treatptreatment)
+
+broom::tidy(f1treatptreatment)
+
+summary(f1treatptreatment)
+
+
 

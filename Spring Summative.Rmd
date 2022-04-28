@@ -31,6 +31,18 @@ Mini hypothesisises
 
 f0 - does stress (light) have an affect on their own longevity 
 
+ model 1 - f0 lifespan based on THEIR rnai gene and treatment 
+f0 - longevity, rnai, treatment 
+ model 2 - f0 longevity based on whether they were in light/dark
+f0 - longevity, treatment
+ model 3 - f0 amount of offspring based on rnai gene and treatment 
+f0 - offspring, rnai, treatment
+ model 4 - f1 longevity based on their parent's rnai and treatment
+f1 - longevity, parent's rnai, parent's treatment
+ model 5 - f1 offspring vs their parents rnai and treatment 
+f1 - offspring, parent's rnai, parent's treatment
+ model 6 - f1 longevity based on their treatment and their parent's treatment 
+f1 - longevity, parental treatment and treatment  
 
 
 
