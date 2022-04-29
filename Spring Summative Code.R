@@ -132,10 +132,12 @@ lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 f0tidymodel[[2,2]] / f0tidymodel[[2,3]] # this is the same value as rnai raga with ev statistic
-performance::check_model(f0ls1)
 
+performance::check_model(f0ls1)
 performance::check_model(f0ls1, check="homogeneity")
 
+#  keep interaction term? 
+drop1(f0ls1, test = "F")
 
  # model 2 - f0 longevity based on whether they were in light/dark
              # f0 - longevity, treatment 
@@ -166,9 +168,9 @@ f0rnaiosmodel <- lm(offspring ~ rnai + factor(treatment), data = f0reproduction)
   slice(1:2)
 f0rnaiosmodel
 summary(f0rnaiosmodel)
-broom::tidy(f0rnaiosmodel)
 
-
+broom::tidy(f0rnaiosmodel) 
+performance::check_model(f0rnaiosmodel)
 
  # model 4 - f1 longevity based on their parent's rnai and treatment
                   # f1 - longevity, parent's rnai, parent's treatment 
@@ -180,11 +182,13 @@ lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
 
 anova(f1longptreatmodel)
 
-f1 model <-  lm(longevity ~ parental_rnai + parental_treatment + 
+f1model <-  lm(longevity ~ parental_rnai + parental_treatment + 
                  parental_rnai:parental_treatment, data = f1lifespan)
 summary(f1model)
 
-
+#  keep interaction term? 
+drop1(f1model, test = "F")
+#  Don't keep interaction term? 
 
  # model 5 - f1 offspring vs their parents rnai and treatment 
             # f1 - offspring, parent's rnai, parent's treatment
@@ -200,7 +204,11 @@ lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )%>
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
+performance::check_model(f1reproductionls1)
 
+#  keep interaction term? 
+drop1(f1reproductionls1, test = "F")
+# Don't keep interaction term? 
 
 # model 6 - f1 longevity based on their treatment and their parents treatment 
        # f1 - longevity, parental treatment and treatment 
