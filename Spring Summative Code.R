@@ -42,6 +42,8 @@ f0lifespan_summary <- f0lifespan %>%
   summarise(mean = mean(longevity),
             sd=sd(longevity))
 
+
+
 # Making a table of f0 lifespan (mean and SD) depending on rnai treatment 
 f0lifespan_summary %>%
   kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
@@ -132,6 +134,9 @@ lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>%
 f0tidymodel[[2,2]] / f0tidymodel[[2,3]] # this is the same value as rnai raga with ev statistic
 performance::check_model(f0ls1)
 
+performance::check_model(f0ls1, check="homogeneity")
+
+
  # model 2 - f0 longevity based on whether they were in light/dark
              # f0 - longevity, treatment 
 f0longevityandtreatment <- lm(longevity ~ treatment, data = f0lifespan )
@@ -151,6 +156,8 @@ f0means %>%
     ymin=lower.CL, 
     ymax=upper.CL))
 
+performance::check_model(f0longevityandtreatment, check="homogeneity")
+performance::check_model(f0longevityandtreatment)
 
 # model 3 - f0 amount of offspring based on rnai gene and treatment 
                       # f0 - offspring, rnai, treatment 
@@ -160,6 +167,8 @@ f0rnaiosmodel <- lm(offspring ~ rnai + factor(treatment), data = f0reproduction)
 f0rnaiosmodel
 summary(f0rnaiosmodel)
 broom::tidy(f0rnaiosmodel)
+
+
 
  # model 4 - f1 longevity based on their parent's rnai and treatment
                   # f1 - longevity, parent's rnai, parent's treatment 
@@ -174,6 +183,7 @@ anova(f1longptreatmodel)
 f1 model <-  lm(longevity ~ parental_rnai + parental_treatment + 
                  parental_rnai:parental_treatment, data = f1lifespan)
 summary(f1model)
+
 
 
  # model 5 - f1 offspring vs their parents rnai and treatment 
@@ -191,6 +201,7 @@ lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )%>
   slice(1:2)
 
 
+
 # model 6 - f1 longevity based on their treatment and their parents treatment 
        # f1 - longevity, parental treatment and treatment 
 f1treatptreatment <- lm(longevity ~ parental_treatment + factor(treatment), data = f1lifespan)
@@ -200,5 +211,6 @@ broom::tidy(f1treatptreatment)
 
 summary(f1treatptreatment)
 
-
+performance::check_model(f1treatptreatment, check="homogeneity")
+performance::check_model(f1treatptreatment, check="normality")
 
