@@ -182,8 +182,7 @@ lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
 
 anova(f1longptreatmodel)
 
-f1model <-  lm(longevity ~ parental_rnai + parental_treatment + 
-                 parental_rnai:parental_treatment, data = f1lifespan)
+f1model <-  lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
 summary(f1model)
 
 #  keep interaction term? 
@@ -222,3 +221,35 @@ summary(f1treatptreatment)
 performance::check_model(f1treatptreatment, check="homogeneity")
 performance::check_model(f1treatptreatment, check="normality")
 
+
+
+
+
+ggplot(data=f1lifespan, aes(x = treatment, y = plate)) +
+  geom_boxplot(aes(fill = plate),
+               alpha = 0.2, 
+               width = 0.5, 
+               outlier.shape=NA)+
+  theme(legend.position = "none")
+
+
+ggplot(data=f0lifespan, aes(x = treatment, y = plate)) +
+  geom_boxplot(aes(fill = plate),
+               alpha = 0.2, 
+               width = 0.5, 
+               outlier.shape=NA)+
+  theme(legend.position = "none")
+
+ggplot(data=f0reproduction, aes(x = treatment, y = replicate)) +
+  geom_boxplot(aes(fill = replicate),
+               alpha = 0.2, 
+               width = 0.5, 
+               outlier.shape=NA)+
+  theme(legend.position = "none")
+
+ggplot(data=f1reproduction, aes(x = treatment, y = replicate)) +
+  geom_boxplot(aes(fill = replicate),
+               alpha = 0.2, 
+               width = 0.5, 
+               outlier.shape=NA)+
+  theme(legend.position = "none")
