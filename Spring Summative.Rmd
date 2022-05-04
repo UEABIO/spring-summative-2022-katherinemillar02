@@ -52,6 +52,15 @@ f1 - longevity, parental treatment and treatment
 C elegans are known to develop over 3-4 days when in the laboratory (at 20 degree temperatures). 
 Work by Schreiber et al, 2010 into looking at the raga-1 gene as an aging modulator has shown that c elegans that were engineered with  the ‘gain of function’ active raga-1 had a shortened lifespan while a mutant ‘dominant negative’ raga-1 lengthened lifespan. 
 
+
+## Method
+
+Replicates were performed for each of f0 and f1 generation reproduction, and for f0 and f1 lifespan. 
+for f0 reproduction, there were 47 different replicates for a dark treatment, and 14 different replicates for a light treatment. 
+for f0 lifespan, there were 6 different replicates for dark, and 5 different replicates for a light treatment. 
+for f1 reproduction, there were 15 replicates for both light and dark treatment. 
+for f1 lifespan, there were 6 replicates for both light and dark treatment. 
+
 # Results and Discussion
 ```{r echo=FALSE}
 knitr::include_graphics(here("Data", "images", "rnaiandlongevity.png"))
