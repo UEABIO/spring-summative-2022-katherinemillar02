@@ -225,31 +225,20 @@ performance::check_model(f1treatptreatment, check="normality")
 
 
 
-ggplot(data=f1lifespan, aes(x = treatment, y = plate)) +
-  geom_boxplot(aes(fill = plate),
-               alpha = 0.2, 
-               width = 0.5, 
-               outlier.shape=NA)+
-  theme(legend.position = "none")
+# testing to see if replicate/plate values are the same throughout 
 
+f1reproduction %>% group_by(treatment, replicate) %>% summarise(n = n()) %>% view()
+f1reproduction %>% 
+  ggplot(aes(x = as.factor(replicate), y = offsprings, fill = treatment))+geom_boxplot()
 
-ggplot(data=f0lifespan, aes(x = treatment, y = plate)) +
-  geom_boxplot(aes(fill = plate),
-               alpha = 0.2, 
-               width = 0.5, 
-               outlier.shape=NA)+
-  theme(legend.position = "none")
+f0reproduction %>% group_by(treatment, replicate) %>% summarise(n = n()) %>% view()
+f0reproduction %>% 
+  ggplot(aes(x = as.factor(replicate), y = offspring, fill = treatment))+geom_boxplot()
 
-ggplot(data=f0reproduction, aes(x = treatment, y = replicate)) +
-  geom_boxplot(aes(fill = replicate),
-               alpha = 0.2, 
-               width = 0.5, 
-               outlier.shape=NA)+
-  theme(legend.position = "none")
+f0lifespan %>% group_by(treatment, plate) %>% summarise(n = n()) %>% view()
+f0lifespan %>% 
+  ggplot(aes(x = as.factor(plate), y = longevity, fill = treatment))+geom_boxplot()
 
-ggplot(data=f1reproduction, aes(x = treatment, y = replicate)) +
-  geom_boxplot(aes(fill = replicate),
-               alpha = 0.2, 
-               width = 0.5, 
-               outlier.shape=NA)+
-  theme(legend.position = "none")
+f1lifespan %>% group_by(treatment, plate) %>% summarise(n = n()) %>% view()
+f1lifespan %>% 
+  ggplot(aes(x = as.factor(plate), y = longevity, fill = treatment))+geom_boxplot()
