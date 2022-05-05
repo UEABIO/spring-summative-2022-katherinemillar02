@@ -17,6 +17,9 @@ f0reproduction <- (read_excel(path = "Data/elegans.xlsx", sheet = "reproduction_
 f1reproduction <- (read_excel(path = "Data/elegans.xlsx", sheet = "reproduction_f1", na = "NA"))
 
 
+
+
+
 # lowercased everything 
 f0lifespan$rnai <- tolower(f0lifespan$rnai)
 f0lifespan$treatment <- tolower(f0lifespan$treatment)
@@ -282,3 +285,9 @@ performance::check_model(f1replicatetest2,
                                    "qq"))
 
 
+
+replicate <- read_csv("Data/replicatedata.csv")
+
+ggplot(replicate, aes(fill=replicates, y=replicates, x=treatmentn) + 
+  geom_bar(position="dodge", stat="identity")
+spec(replicate)
