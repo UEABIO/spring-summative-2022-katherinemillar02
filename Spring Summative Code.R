@@ -169,7 +169,7 @@ performance::check_model(f0longevityandtreatment)
 f0rnaiosmodel <- lm(offspring ~ rnai + factor(treatment), data = f0reproduction) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
-f0rnaiosmodel
+broom::tidy(f0rnaiosmodel)
 summary(f0rnaiosmodel)
 
 broom::tidy(f0rnaiosmodel) 
@@ -183,10 +183,17 @@ lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
+
 anova(f1longptreatmodel)
 
 f1model <-  lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
 summary(f1model)
+
+lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan ) %>%
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
+
+
 
 #  keep interaction term? 
 drop1(f1model, test = "F")
@@ -287,7 +294,3 @@ performance::check_model(f1replicatetest2,
 
 
 replicate <- read_csv("Data/replicatedata.csv")
-
-ggplot(replicate, aes(fill=replicates, y=replicates, x=treatmentn) + 
-  geom_bar(position="dodge", stat="identity")
-spec(replicate)

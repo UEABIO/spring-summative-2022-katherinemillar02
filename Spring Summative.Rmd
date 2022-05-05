@@ -70,6 +70,18 @@ for f1 lifespan, there were 6 replicates for both light and dark treatment.
 knitr::include_graphics(here("Data", "images", "rnaiandlongevity.png"))
 ```
 
+A nematode worm usually lives best in dark conditions, as they are adapated to live in the soil. Conditions other than this, such as light conditions can be stated as a stressful condition and could be considered a factor for shorter longevity. 
+
+A model which looked at the longevity of f0 was created based on whether or not they lived in light or dark conditions, as well as what gene knockdown treatment they had.
+It was found that, rnai raga-1 (F, 4.09) (P=5.21^-5). 
+For light treatment, (F, -15.4) (P=4.97^-42). it was then tested to see if the rnai:treatment interaction effect was relevant, the value was = 0.006, so the interaction effect was kept. rnai ev and dark treatment to rnai raga and light treatment (F-2.75) (P=6.23^-3). 
+
+
+A model which looked at the amount of offspring the f0 generation had versus the rnai gene knockdown treatment they had, as well as if they lived in dark or light conditions was created. 
+
+A model which looked at the longevity of the offspring of the f0 generation based on the offspring parent's rnai and treatment during their lifetime. 
+
+
 # Analysis 
 
 # Conclusion 
