@@ -70,16 +70,21 @@ for f1 lifespan, there were 6 replicates for both light and dark treatment.
 knitr::include_graphics(here("Data", "images", "rnaiandlongevity.png"))
 ```
 
-A nematode worm usually lives best in dark conditions, as they are adapated to live in the soil. Conditions other than this, such as light conditions can be stated as a stressful condition and could be considered a factor for shorter longevity. 
+A nematode worm usually lives best in dark conditions, as they are adapted to live in the soil. Conditions other than this, such as light conditions can be stated as a stressful condition and could be considered a factor for shorter longevity. 
+
+The hypothesis that stressful conditions in the f0 generation have an affect on their on longevity was tested. Previous research has indicated that there have been previous studies into the relation of stressful conditions and longevity of the nematode worm. Although, a connection between the two has been found, the data for the exact reasonings is skewed (Zhou et al, 2011). A factor to be considered, with nematodes which are able to withstand an true affect of aging from stress, are known to have resistance to increased stress resistance. 
 
 A model which looked at the longevity of f0 was created based on whether or not they lived in light or dark conditions, as well as what gene knockdown treatment they had.
-It was found that, rnai raga-1 (F, 4.09) (P=5.21^-5). 
-For light treatment, (F, -15.4) (P=4.97^-42). it was then tested to see if the rnai:treatment interaction effect was relevant, the value was = 0.006, so the interaction effect was kept. rnai ev and dark treatment to rnai raga and light treatment (F-2.75) (P=6.23^-3). 
-
+It was found that there was a significant difference for the treatment dark treatment and longevity against light treatment and longevity, (F, 4.09) (P=5.21^-5).
+For light treatment, (F, -15.4) (P=4.97^-42). it was then tested to see if the rnai:treatment interaction effect was relevant, the value was = 0.006, so the interaction effect was kept. rnai empty vector and dark treatment to rnai raga-1 and light treatment (F-2.75) (P=6.23^-3). 
 
 A model which looked at the amount of offspring the f0 generation had versus the rnai gene knockdown treatment they had, as well as if they lived in dark or light conditions was created. 
 
-A model which looked at the longevity of the offspring of the f0 generation based on the offspring parent's rnai and treatment during their lifetime. 
+A model which looked at the longevity of the offspring of the f0 generation based on the offspring parent's rnai and parent's treatment during their lifetime. 
+It was found that, 95% Confidence Interval (1.6-0.6), 
+(P=0.371) for the difference in parental dark treatment and parental ev compared to parental light treatment and parental raga-1 treatment. 
+Meaning there was no statistical significance difference, between the longevity of the offspring of f0 generation based on what rnai and treatment they had during their lifetime. 
+
 
 
 # Analysis 
@@ -90,8 +95,9 @@ A model which looked at the longevity of the offspring of the f0 generation base
 
 Hamilton, B., Dong, Y., Shindo, M., Liu, W., Odell, I., Ruvkun, G. and Lee, S.S., 2005. A systematic RNAi screen for longevity genes in C. elegans. Genes & development, 19(13), pp.1544-1555.
 
- Wormbase.org. 2022. raga-1 (gene) - WormBase : Nematode Information Resource. [online] Available at: <https://wormbase.org/species/c_elegans/gene/WBGene00006414?redirect=1#0-9f-10> [Accessed 5 May 2022].
+Wormbase.org. 2022. raga-1 (gene) - WormBase : Nematode Information Resource. [online] Available at: <https://wormbase.org/species/c_elegans/gene/WBGene00006414?redirect=1#0-9f-10> [Accessed 5 May 2022].
 
+Zhou, K.I., Pincus, Z. and Slack, F.J., 2011. Longevity and stress in Caenorhabditis elegans. Aging (Albany NY), 3(8), p.733.
 
 
 ```{r pressure, echo=FALSE}
