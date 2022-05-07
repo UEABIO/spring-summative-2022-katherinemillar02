@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r echo=FALSE, message=FALSE}
 library(here)
 library(tidyverse)
+library(knitr)
 ```
 ### Investigating the effect of rnai treatment on the longevity of c elegans 
 
@@ -72,11 +73,33 @@ knitr::include_graphics(here("Data", "images", "rnaiandlongevity.png"))
 
 A nematode worm usually lives best in dark conditions, as they are adapted to live in the soil. Conditions other than this, such as light conditions can be stated as a stressful condition and could be considered a factor for shorter longevity. 
 
-The hypothesis that stressful conditions in the f0 generation have an affect on their on longevity was tested. Previous research has indicated that there have been previous studies into the relation of stressful conditions and longevity of the nematode worm. Although, a connection between the two has been found, the data for the exact reasonings is skewed (Zhou et al, 2011). A factor to be considered, with nematodes which are able to withstand an true affect of aging from stress, are known to have resistance to increased stress resistance. 
+# Hypothesis 1 - 
+
+The hypothesis that stressful conditions in the f0 generation have an affect on their on longevity was tested
+
+Previous research has indicated that there is a relation of stressful conditions and longevity of the nematode worm. Although, a connection between the two is known, the data for the exact reasons behind this is skewed (Zhou et al, 2011).
+A factor to be considered, with nematodes, which are able to withstand an true affect of aging from stress, are known to have resistance to increased stress resistance. 
+
+
+
+There was a significant overall effect on the longevity of the nematode worm of the f0 generation (Linear model:P=2.66^-77 ) with dark treatment to light treatment. 
+
 
 A model which looked at the longevity of f0 was created based on whether or not they lived in light or dark conditions, as well as what gene knockdown treatment they had.
-It was found that there was a significant difference for the treatment dark treatment and longevity against light treatment and longevity, (F, 4.09) (P=5.21^-5).
-For light treatment, (F, -15.4) (P=4.97^-42). it was then tested to see if the rnai:treatment interaction effect was relevant, the value was = 0.006, so the interaction effect was kept. rnai empty vector and dark treatment to rnai raga-1 and light treatment (F-2.75) (P=6.23^-3). 
+
+
+```{r, echo=FALSE}
+knitr::kable(head(model2table[, 1:4]), "model2table")
+```
+
+There was a reason to keep the interaction effect ( F= 0.006), and was kept in the model. 
+
+It was found that there was a significant difference for dark treatment and light treatment  (F, -15.4, P=4.97^-42). 
+There was significant difference in empty vector rnai treatment and raga-1 rnai treatment (F, 4.09, P=5.21^-5).
+
+There was a significant effect on empty vector rnai and dark treatment to rnai raga-1 and light treatment (F-2.75, P=6.23^-3). 
+
+# Hypothesis 2 - 
 
 A model which looked at the amount of offspring the f0 generation had versus the rnai gene knockdown treatment they had, as well as if they lived in dark or light conditions was created. 
 

@@ -130,6 +130,29 @@ broom::tidy(f0ls1)
 summary(f0ls1)
 f0tidymodel <- broom::tidy(f0ls1) 
 f0tidymodel
+
+
+
+library(kableExtra)
+
+model2table <- 
+  f0ls1 %>% broom::tidy(conf.int = T) %>% 
+  select(-`std.error`) %>% 
+  mutate_if(is.numeric, round, 2) %>% 
+  kbl(col.names = c("Predictors",
+                    "Estimates",
+                    "Z-value",
+                    "P",
+                    "Lower 95% CI",
+                    "Upper 95% CI"),
+      caption = "Model 2", 
+      booktabs = TRUE) %>% 
+  kable_styling(full_width = FALSE, font_size=16)
+  
+model2table
+
+
+
 # CI for paired T test for longevity with rnai and light/dark treatment 
 lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>% 
   broom::tidy(., conf.int=T) %>% 
@@ -145,8 +168,29 @@ drop1(f0ls1, test = "F")
  # model 2 - f0 longevity based on whether they were in light/dark
              # f0 - longevity, treatment 
 f0longevityandtreatment <- lm(longevity ~ treatment, data = f0lifespan )
+
+f0longevityandtreatment <- lm(longevity ~ treatment, data = f0lifespan) %>%
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
 anova(f0longevityandtreatment)
 f0longevityandtreatment
+
+model1table <- 
+  f0longevityandtreatment %>% broom::tidy(conf.int = T) %>% 
+  select(-`std.error`) %>% 
+  mutate_if(is.numeric, round, 2) %>% 
+  kbl(col.names = c("Predictors",
+                    "Estimates",
+                    "Z-value",
+                    "P",
+                    "Lower 95% CI",
+                    "Upper 95% CI"),
+      caption = "Model 1", 
+      booktabs = TRUE) %>% 
+  kable_styling(full_width = FALSE, font_size=16)
+
+model1table
+
 # performance function - checked for normality?? 
 performance::check_model(f0longevityandtreatment, check=c("normality","qq"))
 # Looked at emmeans data for amount of offspring f0 generation have vs rnai treatment
@@ -160,6 +204,9 @@ f0means %>%
   geom_pointrange(aes(
     ymin=lower.CL, 
     ymax=upper.CL))
+
+broom::tidy(f0longevityandtreatment)
+
 
 performance::check_model(f0longevityandtreatment, check="homogeneity")
 performance::check_model(f0longevityandtreatment)
