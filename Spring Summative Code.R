@@ -213,14 +213,33 @@ performance::check_model(f0longevityandtreatment)
 
 # model 3 - f0 amount of offspring based on rnai gene and treatment 
                       # f0 - offspring, rnai, treatment 
-f0rnaiosmodel <- lm(offspring ~ rnai + factor(treatment), data = f0reproduction) %>%
+f0rnaiosmodel <- lm(offspring ~ rnai + factor(treatment), data = f0reproduction) 
+f0rnaiosmodel2 <- lm(offspring ~ rnai + treatment, data = f0reproduction)
+
+%>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
-broom::tidy(f0rnaiosmodel)
+broom::tidy(f0rnaiosmodel2)
 summary(f0rnaiosmodel)
 
 broom::tidy(f0rnaiosmodel) 
 performance::check_model(f0rnaiosmodel)
+
+model3table <- 
+  f0rnaiosmodel %>% broom::tidy(conf.int = T) %>% 
+  select(-`std.error`) %>% 
+  mutate_if(is.numeric, round, 2) %>% 
+  kbl(col.names = c("Predictors",
+                    "Estimates",
+                    "Z-value",
+                    "P",
+                    "Lower 95% CI",
+                    "Upper 95% CI"),
+      caption = "Model 3", 
+      booktabs = TRUE) %>% 
+  kable_styling(full_width = FALSE, font_size=16)
+
+model3table
 
  # model 4 - f1 longevity based on their parent's rnai and treatment
                   # f1 - longevity, parent's rnai, parent's treatment 
@@ -240,7 +259,21 @@ lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan ) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
+model4table <- 
+  f1model %>% broom::tidy(conf.int = T) %>% 
+  select(-`std.error`) %>% 
+  mutate_if(is.numeric, round, 2) %>% 
+  kbl(col.names = c("Predictors",
+                    "Estimates",
+                    "Z-value",
+                    "P",
+                    "Lower 95% CI",
+                    "Upper 95% CI"),
+      caption = "Model 4", 
+      booktabs = TRUE) %>% 
+  kable_styling(full_width = FALSE, font_size=16)
 
+model4table
 
 #  keep interaction term? 
 drop1(f1model, test = "F")
@@ -259,6 +292,9 @@ anova(f1osptreatment)
 lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )%>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
+
+
+
 
 performance::check_model(f1reproductionls1)
 

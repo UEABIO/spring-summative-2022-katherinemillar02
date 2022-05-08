@@ -80,7 +80,9 @@ The hypothesis that stressful conditions in the f0 generation have an affect on 
 Previous research has indicated that there is a relation of stressful conditions and longevity of the nematode worm. Although, a connection between the two is known, the data for the exact reasons behind this is skewed (Zhou et al, 2011).
 A factor to be considered, with nematodes, which are able to withstand an true affect of aging from stress, are known to have resistance to increased stress resistance. 
 
-
+```{r, echo=FALSE}
+knitr::kable(head(model2table[, 1:4]), "model1table")
+```
 
 There was a significant overall effect on the longevity of the nematode worm of the f0 generation (Linear model:P=2.66^-77 ) with dark treatment to light treatment. 
 
@@ -92,7 +94,7 @@ A model which looked at the longevity of f0 was created based on whether or not 
 knitr::kable(head(model2table[, 1:4]), "model2table")
 ```
 
-There was a reason to keep the interaction effect ( F= 0.006), and was kept in the model. 
+There was a reason to keep the interaction effect (F= 0.006), and was kept in the model. 
 
 It was found that there was a significant difference for dark treatment and light treatment  (F, -15.4, P=4.97^-42). 
 There was significant difference in empty vector rnai treatment and raga-1 rnai treatment (F, 4.09, P=5.21^-5).
@@ -100,13 +102,30 @@ There was significant difference in empty vector rnai treatment and raga-1 rnai 
 There was a significant effect on empty vector rnai and dark treatment to rnai raga-1 and light treatment (F-2.75, P=6.23^-3). 
 
 # Hypothesis 2 - 
+The hypothesis that f0's reproduction would be affected by their lifestyle was created. 
+
 
 A model which looked at the amount of offspring the f0 generation had versus the rnai gene knockdown treatment they had, as well as if they lived in dark or light conditions was created. 
+```{r, echo=FALSE}
+knitr::kable(head(model3table[, 1:4]), "model3table")
+```
 
-A model which looked at the longevity of the offspring of the f0 generation based on the offspring parent's rnai and parent's treatment during their lifetime. 
-It was found that, 95% Confidence Interval (1.6-0.6), 
-(P=0.371) for the difference in parental dark treatment and parental ev compared to parental light treatment and parental raga-1 treatment. 
-Meaning there was no statistical significance difference, between the longevity of the offspring of f0 generation based on what rnai and treatment they had during their lifetime. 
+There is no significance when looking at the difference in offspring produced from rnai raga and rnai empty vector (F, 19 ,  P= 0.56). There is a high amount of significance when looking at the amount of offspring f0 generation had when comparing dark treatment and light treatment (F, -3.1O , P=0.0). 
+
+
+# Hypothesis 3 - 
+The hypothesis that the longevity of f0 generation's offspring would be affected by both their rnai gene and treatment was created. 
+
+It was found that there was a small interaction effect between parental rnai and parental treatment, but it was not significantly different from no effect (P=0.75), so therefore was dropped from the model. 
+
+```{r, echo=FALSE}
+knitr::kable(head(model4table[, 1:4]), "model4table")
+```
+ 
+There was no significance when comparing the longevity of the f1 offspring based on their parent's rnai.        (F, = -0.90, P=0.371),It was found that, 95% Confidence Interval (1.6-0.6). when comparing ev gene with raga gene. There was no statistical significance when comparing parental dark treatment with parental light treatment (F, -0.13, P=0.90). This shows that the treatment and gene which the parent's of f1 generation were knocked down with did not have a direct affect on their longevity. 
+
+
+
 
 
 
