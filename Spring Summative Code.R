@@ -64,8 +64,8 @@ f0reproduction_summary %>%
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
 
-### FIGURES/ VISUALISING DATA FOR F1 LIFESPAN
-# Created a boxplot for longevity of F1-generation based on F0-generation's light/dark treatment 
+### FIGURES/ VISUALISING DATA FOR F1 LIFESPAN 
+# KEEP? Created a boxplot for longevity of F1-generation based on F0-generation's light/dark treatment 
 ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
   geom_boxplot(aes(fill = longevity),
                alpha = 0.2, 
@@ -78,6 +78,9 @@ ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
        x = 'Parental Treatment',
        y = 'Longevity of offspring')
 
+
+
+# FIGURES/ VISUALISING DATA FOR F1 REPRODUCTION 
 # Created a boxplot for longevity of F1-generation based on F0-generation's light/dark treatment and rnai gene treatment 
 f1lplot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=parental_treatment))+ 
   geom_boxplot()+
@@ -86,22 +89,27 @@ f1lplot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=parental_tr
        x = 'RNAi treatment') 
 
 
-# FIGURES/ VISUALISING DATA FOR F1 REPRODUCTION 
+
 # Created a plot looking at amount of OFFSPRING the f1 generation can have vs what treatments they had 
-ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=treatment))+
+f1offspringplot <- ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=parental_treatment))+
   geom_boxplot()+
-  labs('title' = 'Effect of treatment and genes on amount of offspring for f1',
+  labs('title' = "F1 offspring and their parent's rnai and light/dark treatment",
+       "subtitle" = "the amount of offspring F1 generation have and what rnai gene and 
+       light/dark treatment their own parent's had",
        y = 'Offspring',
        x = 'RNAi treatment') 
+
+f1offspringplot
 
 # Working with patchwork - looking at longevity of f0 and f1 in a graph 
 f0lplot + f1lplot 
 
 
-# Testing and working with different models 
-# Looking for 
+## Testing and working with different models 
 
-#  Model 1 - F0-lifespan based on THEIR rnai gene and light/dark treatment 
+
+#  MODEL - Gene knockdown AND light/dark treatment 
+#  F0-lifespan based on THEIR rnai gene and light/dark treatment 
      #  F0 - longevity, rnai, treatment 
 f0lifespanls1 <- lm(longevity ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
 
@@ -110,18 +118,19 @@ summary(f0lifespanls1)
 f0tidymodel <- broom::tidy(f0lifespanls1) 
 f0tidymodel
 
-# CI for paired T test for longevity with rnai and light/dark treatment 
+# Confidence Intervals - for paired T-test for longevity with rnai and light/dark treatment 
 f0lifespanls2 <- lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>% 
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
-f0tidymodel[[2,2]] / f0tidymodel[[2,3]] # this is the same value as rnai raga with ev statistic
+# this is the same value as rnai raga with ev statistic - point to keep it ???? 
+f0tidymodel[[2,2]] / f0tidymodel[[2,3]] 
 
-performance::check_model(f0ls1)
-performance::check_model(f0ls1, check="homogeneity")
+performance::check_model(f0lifespanls1)
+performance::check_model(f0lifespanls1, check="homogeneity")
 
 #  keep interaction term? 
-drop1(f0ls1, test = "F")
+drop1(f0lifespanls1, test = "F")
 # Keep interaction term - there is a significant difference 
 
 # Making a table of f0lifespan based on their rnai gene and light/dark treatment 
@@ -150,9 +159,7 @@ f0lifespanls3 <- lm(longevity ~ treatment, data = f0lifespan)
 broom::tidy(f0lifespanls3)
 anova(f0lifespanls3)
 
-
-
-f0lifespanls4 <- lm(longevity ~ treatment, data = f0lifespan) %>%
+ lm(longevity ~ treatment, data = f0lifespan) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
@@ -180,7 +187,7 @@ performance::check_model(f0lifespanls3)
 f0offspringmeans <- emmeans::emmeans(f0lifespanls3, specs = ~treatment)
 f0offspringmeans
 # Visualised the amount of offspring FO have based on rnai treatment using emmeans data
-f00offspringmeans %>% 
+f0offspringmeans %>% 
   as_tibble() %>% 
   ggplot(aes(x=treatment, 
              y=emmean))+
@@ -188,23 +195,27 @@ f00offspringmeans %>%
     ymin=lower.CL, 
     ymax=upper.CL))
 
-# Model 3 - f0 amount of offspring based on rnai gene and treatment 
-                      # f0 - offspring, rnai, treatment 
-f0rnaiosmodel <- lm(offspring ~ rnai + factor(treatment), data = f0reproduction) 
+# Model 3 - F0-generation offspring against rnai gene and treatment 
+                      # F0 - offspring, rnai, treatment 
+f0reproductionls1 <- lm(offspring ~ rnai + factor(treatment), data = f0reproduction) 
 
-f0rnaiosmodel2 <- lm(offspring ~ rnai + treatment, data = f0reproduction)
+f0reproductionls2 <- lm(offspring ~ rnai + treatment, data = f0reproduction)
 
 %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
-broom::tidy(f0rnaiosmodel2)
-summary(f0rnaiosmodel)
 
-broom::tidy(f0rnaiosmodel) 
-performance::check_model(f0rnaiosmodel)
+broom::tidy(f0reproductionls1)
+broom::tidy(f0reproductionls2)
 
-model3table <- 
-  f0rnaiosmodel %>% broom::tidy(conf.int = T) %>% 
+
+summary(f0reproductionls1)
+
+broom::tidy(f0reproductionls1) 
+performance::check_model(f0reproductionls1)
+
+f0reproductionls1table <- 
+  f0reproductionls1 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
   mutate_if(is.numeric, round, 2) %>% 
   kbl(col.names = c("Predictors",
@@ -217,28 +228,35 @@ model3table <-
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=16)
 
-model3table
+f0reproductionls1table
 
- # model 4 - f1 longevity based on their parent's rnai and treatment
-                  # f1 - longevity, parent's rnai, parent's treatment 
-f1longptreatmodel <- lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan )
+# Model 4 - F1-generation longevity based on their parent's rnai
+                  # f1 - longevity, parent's rnai
+f1longevityls1 <- lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan )
 
 lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
 
-anova(f1longptreatmodel)
+anova(f1longevityls1)
 
-f1model <-  lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
-summary(f1model)
+# Model 5 - F1-generation longevity based on their parent's rnai and parent's treatment
+# F1 - longevity, parent's rnai, parent's treatment 
+f1longevityls2 <-  lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
+
+summary(f1longevityls2)
 
 lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan ) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
-model4table <- 
-  f1model %>% broom::tidy(conf.int = T) %>% 
+#  keep interaction term? 
+drop1(f1longevityls2, test = "F")
+#  Don't keep interaction term? 
+
+f1longevityls2table <- 
+  f1longevityls2 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
   mutate_if(is.numeric, round, 2) %>% 
   kbl(col.names = c("Predictors",
@@ -251,52 +269,49 @@ model4table <-
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=16)
 
-model4table
+f1longevityls2table
 
-#  keep interaction term? 
-drop1(f1model, test = "F")
-#  Don't keep interaction term? 
 
- # model 5 - f1 offspring vs their parents rnai and treatment 
+
+# Model 6  - f1 offspring vs their parents rnai and treatment 
             # f1 - offspring, parent's rnai, parent's treatment
-f1reproductionls1 <- lm(offsprings ~ parental_rnai + parental_treatment + 
+f1reproductionls3 <- lm(offsprings ~ parental_rnai + parental_treatment + 
                           parental_rnai:parental_treatment, data = f1reproduction)
-f1reproductionls1
-performance::check_model(f1reproductionls1)
+f1reproductionls3
+performance::check_model(f1reproductionls3)
 
-f1osptreatment <- lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )
+# Model
+f1reproductionls4 <- lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )
 anova(f1osptreatment)
 
 lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )%>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
-
-
-
-performance::check_model(f1reproductionls1)
+performance::check_model(f1reproductionls4)
 
 #  keep interaction term? 
-drop1(f1reproductionls1, test = "F")
+drop1(f1reproductionls4, test = "F")
 # Don't keep interaction term? 
 
-# model 6 - f1 longevity based on their treatment and their parents treatment 
+# Model  - f1 longevity based on their treatment and their parents treatment 
        # f1 - longevity, parental treatment and treatment 
-f1treatptreatment <- lm(longevity ~ parental_treatment + factor(treatment), data = f1lifespan)
-anova(f1treatptreatment)
+f1longevityls3 <- lm(longevity ~ parental_treatment + factor(treatment), data = f1lifespan)
 
-broom::tidy(f1treatptreatment)
+anova(f1longevityls3)
 
-summary(f1treatptreatment)
+broom::tidy(f1longevityls3)
 
-performance::check_model(f1treatptreatment, check="homogeneity")
-performance::check_model(f1treatptreatment, check="normality")
+summary(f1longevityls3)
 
-
-
+performance::check_model(f1longevityls3, check="homogeneity")
+performance::check_model(f1longevityls3, check="normality")
 
 
-# testing to see if replicate/plate values are the same throughout 
+
+
+
+# Testing to see if replicate/plate values are the same throughout 
 
 f1reproduction %>% group_by(treatment, replicate) %>% summarise(n = n()) %>% view()
 f1reproduction %>% 
