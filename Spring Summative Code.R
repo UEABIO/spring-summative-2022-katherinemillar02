@@ -295,7 +295,7 @@ drop1(f1reproductionls4, test = "F")
 # Don't keep interaction term? 
 
 # Model  - f1 longevity based on their treatment and their parents treatment 
-       # f1 - longevity, parental treatment and treatment 
+       # f1 - longevity, parental treatment and their own treatment 
 f1longevityls3 <- lm(longevity ~ parental_treatment + factor(treatment), data = f1lifespan)
 
 anova(f1longevityls3)
@@ -313,60 +313,84 @@ performance::check_model(f1longevityls3, check="normality")
 
 # Testing to see if replicate/plate values are the same throughout 
 
+## Test for f1 reproduction based on treatment and replicate
 f1reproduction %>% group_by(treatment, replicate) %>% summarise(n = n()) %>% view()
+
 f1reproduction %>% 
   ggplot(aes(x = as.factor(replicate), y = offsprings, fill = treatment))+geom_boxplot()
-f1replicatetest <- lm(offsprings ~ treatment + as.factor(replicate)
+
+f1reproductionls5 <- lm(offsprings ~ treatment + as.factor(replicate)
                       + treatment:as.factor(replicate), data = f1reproduction)
-summary(f1replicatetest)
-broom::tidy(f1replicatetest)
-drop1(f1replicatetest, test = "F")
-performance::check_model(f1replicatetest, 
+
+summary(f1reproductionls5)
+broom::tidy(f1reproductionls5)
+drop1(f1reproductionls5, test = "F")
+performance::check_model(f1reproductionls5, 
                          check = c("homogeneity",
                                    "qq"))
 
-
+## Test for f0 reproduction based on treatment and replicate
 f0reproduction %>% group_by(treatment, replicate) %>% summarise(n = n()) %>% view()
 f0reproduction %>% 
+  
   ggplot(aes(x = as.factor(replicate), y = offspring, fill = treatment))+geom_boxplot()
 
-f0replicatetest <- lm(offspring ~ treatment + as.factor(replicate)
+f0reproductionls3 <- lm(offspring ~ treatment + as.factor(replicate)
                       + treatment:as.factor(replicate), data = f0reproduction)
-summary(f0replicatetest)
-broom::tidy(f0replicatetest)
-drop1(f0replicatetest, test = "F")
-performance::check_model(f0replicatetest, 
+
+summary(f0reproductionls3)
+broom::tidy(f0reproductionls3)
+
+
+drop1(f0reproductionls3, test = "F")
+
+performance::check_model(f0reproductionls3, 
                          check = c("homogeneity",
                                    "qq"))
 
+## Test for f0 longevity based on treatment and replicate
 
 f0lifespan %>% group_by(treatment, plate) %>% summarise(n = n()) %>% view()
+
 f0lifespan %>% 
   ggplot(aes(x = as.factor(plate), y = longevity, fill = treatment))+geom_boxplot()
-f0replicatetest2 <- lm(longevity ~ treatment + as.factor(plate)
+
+f0lifespanls4 <- lm(longevity ~ treatment + as.factor(plate)
                       + treatment:as.factor(plate), data = f0lifespan)
-summary(f0replicatetest2)
-broom::tidy(f0replicatetest2)
-drop1(f0replicatetest2, test = "F")
-performance::check_model(f0replicatetest2, 
+summary(f0lifespanls4)
+
+broom::tidy(f0lifespanls4)
+
+drop1(f0lifespanls4, test = "F")
+
+performance::check_model(f0lifespanls4, 
                          check = c("homogeneity",
                                    "qq"))
 
-
-
+## Test for f1 longevity based on treatment and replicate
 f1lifespan %>% group_by(treatment, plate) %>% summarise(n = n()) %>% view()
 f1lifespan %>% 
   ggplot(aes(x = as.factor(plate), y = longevity, fill = treatment))+geom_boxplot()
 
-f1replicatetest2 <- lm(longevity ~ treatment + as.factor(plate)
+f1longevityls4 <- lm(longevity ~ treatment + as.factor(plate)
                        + treatment:as.factor(plate), data = f1lifespan)
-summary(f1replicatetest2)
-broom::tidy(f1replicatetest2)
-drop1(f1replicatetest2, test = "F")
-performance::check_model(f1replicatetest2, 
+summary(f1longevityls4)
+broom::tidy(f1longevityls4)
+drop1(f1longevityls4, test = "F")
+performance::check_model(f1longevityls4, 
                          check = c("homogeneity",
                                    "qq"))
 
 
+## Test for f1 longevity based on parental treatment and replicate
+f1longevityls5 <- lm(longevity ~ parental_treatment + as.factor(plate)
+                     + parental_treatment:as.factor(plate), data = f1lifespan)
 
-replicate <- read_csv("Data/replicatedata.csv")
+summary(f1longevityls5)
+broom::tidy(f1longevityls5)
+drop1(f1longevityls5, test = "F")
+performance::check_model(f1longevityls5, 
+                         check = c("homogeneity",
+                                   "qq"))
+
+
