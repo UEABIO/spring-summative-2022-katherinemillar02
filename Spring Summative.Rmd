@@ -1,8 +1,11 @@
 ---
 title: "Spring Summative"
 author: 'Katherine Millar' 
-output: html_document
+output: pdf_document
+css: style.css
 ---
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -13,23 +16,34 @@ library(here)
 library(tidyverse)
 library(knitr)
 ```
-### Investigating the effect of rnai treatment on the longevity of c elegans 
+### Investigating the effect of rnai treatment on the longevity of *c.elegans*
 
 ### Abstract 
 
 ### Introduction
  
-Caenorhabditis elegans are a widely used as a model organism in biology. They are often used to test for epigenetic effects, and how the life history of the parents of the c.elegans will affect their offspring. Both the longevity and fertility of organisms are influenced by both diverse genetic and environmental factors (Hamilton et al, 2005). 
-Stress can be an influential factor on longevity in organisms, as well as fertility. There have been previous studies into how particular rnai treatments such as using the raga-1 gene, can affect both longevity and reproduction in the c. elegans  (nematode worm). 
+*Caenorhabditis elegans* are a widely used as a model organism in biology. They are often used to test for epigenetic effects, and how the life history of the parents of the c.elegans will affect their offspring. Both the longevity and fertility of organisms are influenced by both diverse genetic and environmental factors (Hamilton et al, 2005). 
+Stress can be an influential factor on longevity in organisms, as well as fertility. There have been previous studies into how particular rnai treatments such as using the raga-1 gene, can affect both longevity and reproduction in the *c. elegans*  (nematode worm). 
 raga-1 is the (main) gene involved in the determination of adult lifespan  (WormBase, 2022).  
 
 
  
-I hypothesise that the raga-1 gene being the dsDNA target gene will therefore have a direct effect on decreasing how many offspring a c.elegans will have as well as decreasing longevity both in themselves and in their offspring. 
+I hypothesise that the raga-1 gene being the dsDNA target gene will therefore have a direct effect on decreasing how many offspring a *c.elegans* will have as well as decreasing longevity both in themselves and in their offspring. 
 
-Mini hypothesisises 
+Mini hypothesises:
 
-1. f0 knockdown gene with treatment has an affect on their longevity 
+(1)
+f0 treatment (stressful conditions) has an affect on their own longevity 
+f0 treatment (stressful conditions) has an affect on their offsprings longevity (include rnai?)
+
+(2)
+f0 treatment (stressful conditions) has an affect on the amount of offsprings they have 
+(mention amount of replicates taken in the practical)
+
+
+4. f0 treatment (stressful conditions) will have an affect on their reproduction
+5. f0 gene treatment and light/dark living affects the fertility of their offspring (affects f1 generation reproduction)
+
 2. f0 knockdown gene with treatment has an affect on their reproduction
 3. f0 knockdown gene with treatment has affect on offsprings longevity 
 4. f0 knockdown gene with treatment has affect on offsprings reproduction 
@@ -55,8 +69,8 @@ f1 - offspring, parent's rnai, parent's treatment (tick)
 f1 - longevity, parental treatment and treatment  (tick)
 
 
-model 7 - f1 longevity with their treatment and replicate (tick)
-f1 longevity, treatment, plate 
+model 7 - f1 longevity with their treatment and replicate 
+f1 longevity, treatment, plate (tick)
 
 
 
@@ -64,8 +78,9 @@ f1 longevity, treatment, plate
 
 
 
-C elegans are known to develop over 3-4 days when in the laboratory (at 20 degree temperatures). 
-Work by Schreiber et al, 2010 into looking at the raga-1 gene as an aging modulator has shown that c elegans that were engineered with  the ‘gain of function’ active raga-1 had a shortened lifespan while a mutant ‘dominant negative’ raga-1 lengthened lifespan. 
+
+*C.elegans* are known to develop over 3-4 days when in the laboratory (at 20 degree temperatures). 
+Work by Schreiber et al, 2010 into looking at the raga-1 gene as an aging modulator has shown that c elegans that were engineered with  the ‘gain of function’ active raga-1 had a shortened lifespan while a mutant ‘dominant negative’ *raga-1* lengthened lifespan. 
 
 
 ## Method
@@ -77,13 +92,17 @@ for f1 reproduction, there were 15 replicates for both light and dark treatment.
 for f1 lifespan, there were 6 replicates for both light and dark treatment. 
 
 # Results and Discussion
+
+The conditions in which the nematode worm lived in, and what gene treatment it received is said to affect the worm's longevity. There is debate into whether the nematode worms living coniditons, like living in light, stressful conditions or dark, like in the soil. 
+
+
 ```{r echo=FALSE}
 knitr::include_graphics(here("Data", "images", "rnaiandlongevity.png"))
 ```
 
 A nematode worm usually lives best in dark conditions, as they are adapted to live in the soil. Conditions other than this, such as light conditions can be stated as a stressful condition and could be considered a factor for shorter longevity. 
 
-# Hypothesis 1 - 
+### Hypothesis  - 
 
 The hypothesis that stressful conditions in the f0 generation have an affect on their on longevity was tested
 
@@ -94,7 +113,7 @@ A factor to be considered, with nematodes, which are able to withstand an true a
 
 ```
 
-There was a significant overall effect on the longevity of the nematode worm of the f0 generation (Linear model:P=2.66^-77 ) with dark treatment to light treatment. 
+There was a significant overall effect on the longevity of the nematode worm of the f0 generation (Linear model:(*P*=2.66^-77 ) with dark treatment to light treatment. 
 
 
 A model which looked at the longevity of f0 was created based on whether or not they lived in light or dark conditions, as well as what gene knockdown treatment they had.
@@ -106,13 +125,13 @@ A model which looked at the longevity of f0 was created based on whether or not 
 
 There was a reason to keep the interaction effect (F= 0.006), and was kept in the model. 
 
-It was found that there was a significant difference for dark treatment and light treatment  (F, -15.4, P=4.97^-42). 
-There was significant difference in empty vector rnai treatment and raga-1 rnai treatment (F, 4.09, P=5.21^-5).
+It was found that there was a significant difference for dark treatment and light treatment  (*F*, -15.4, *P*=4.97^-42). 
+There was significant difference in empty vector rnai treatment and raga-1 rnai treatment (F, 4.09, *P*=5.21^-5).
 
 There was a significant effect on empty vector rnai and dark treatment to rnai raga-1 and light treatment (F-2.75, P=6.23^-3). 
 
-# Hypothesis 2 - 
-The hypothesis that f0's reproduction would be affected by their lifestyle was created. 
+### Hypothesis  - 
+The hypothesis that f0's reproduction would be affected by their conditions was created. 
 
 
 A model which looked at the amount of offspring the f0 generation had versus the rnai gene knockdown treatment they had, as well as if they lived in dark or light conditions was created. 
@@ -120,11 +139,11 @@ A model which looked at the amount of offspring the f0 generation had versus the
 
 ```
 
-There is no significance when looking at the difference in offspring produced from rnai raga and rnai empty vector (F, 19 ,  P= 0.56). There is a high amount of significance when looking at the amount of offspring f0 generation had when comparing dark treatment and light treatment (F, -3.1O , P=0.0). 
+There is no significance when looking at the difference in offspring produced from rnai raga and rnai empty vector (F, 19 ,  P= 0.56). There is a high amount of significance when looking at the amount of offspring f0 generation had when comparing dark treatment and light treatment (F^-3.1O , P=0.0). 
 
 
-### Hypothesis 3 - 
-The hypothesis that the longevity of f0 generation's offspring would be affected by both their rnai gene and treatment was created. 
+### Hypothesis - 
+The hypothesis that the longevity of f0 generation's offspring would be affected by both their rnai gene and treatment was created. --- 
 
 It was found that there was a small interaction effect between parental rnai and parental treatment, but it was not significantly different from no effect (P=0.75), so therefore was dropped from the model. 
 
@@ -135,11 +154,32 @@ It was found that there was a small interaction effect between parental rnai and
 There was no significance when comparing the longevity of the f1 offspring based on their parent's rnai.        (F, = -0.90, P=0.371),It was found that, 95% Confidence Interval (1.6-0.6). when comparing ev gene with raga gene. There was no statistical significance when comparing parental dark treatment with parental light treatment (F, -0.13, P=0.90). This shows that the treatment and gene which the parent's of f1 generation were knocked down with did not have a direct affect on their longevity. 
 
 
+### Hypothesis -
+The hypothesis that the treatment in which the f0 generation had along with the amount of replicates taken over the course of the practical will affect the amount of offspring the f0 generation have was made. It is likely that nematodes which live in light conditions during their lifetime are more likely to have reduced fertility, as it is a stressful environment. The environment is known to have a direct affect on reproduction in the *c.elegans* (Sharf, et al 2021). 
 
+There was no significant interaction found between treatment and replicates (*P*=1), so this was therefore dropped from the model. 
 
+```{r, echo=FALSE}
+
+```
+
+### Hypothesis - 
+The hypothesis that the gene knockdown treatment in which the f0 generation have as well as if they lived in light or dark conditions during their lifetime will have an affect on the fertility of their own offspring. 
+
+It was found that there was no significant difference and reason for keeping the interaction between parental rnai and parental treatment (*F* = 0.09), (*P* 0.7). So this was therefore dropped from the model. 
+
+```{r, echo=FALSE}
+
+```
+
+There was no significant difference (*F* = -0.12) (*P* = 0.9) found between parental ev and parental raga based on the amount of offsprings the f1 generation have, meaning the gene treatment of f0 does not play a significant part in the the reproduction of their own offspring (reproduction of f1). 
 
 
 # Analysis 
+
+
+
+
 
 # Conclusion 
 
@@ -150,6 +190,8 @@ Hamilton, B., Dong, Y., Shindo, M., Liu, W., Odell, I., Ruvkun, G. and Lee, S.S.
 Wormbase.org. 2022. raga-1 (gene) - WormBase : Nematode Information Resource. [online] Available at: <https://wormbase.org/species/c_elegans/gene/WBGene00006414?redirect=1#0-9f-10> [Accessed 5 May 2022].
 
 Zhou, K.I., Pincus, Z. and Slack, F.J., 2011. Longevity and stress in Caenorhabditis elegans. Aging (Albany NY), 3(8), p.733.
+
+Scharf, A., Egan, B., Pohl, F., Kocsisova, Z. and Kornfeld, K., 2021. Reproductive aging in C. elegans: from molecules to ecology. Frontiers in cell and developmental biology, p.2343.
 
 
 ```{r pressure, echo=FALSE}
