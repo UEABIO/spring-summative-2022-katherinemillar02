@@ -9,24 +9,24 @@ library(performance)
 library(patchwork)
 library(here)
 
-# Importing the sheets
+# Importing the sheets via a read_excel path
 f0lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "lifespan_f0", na = "NA"))
 f1lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "f1_lifespan", na = "NA"))
 f0reproduction <- (read_excel(path = "Data/elegans.xlsx", sheet = "reproduction_f0", na = "NA"))
 f1reproduction <- (read_excel(path = "Data/elegans.xlsx", sheet = "reproduction_f1", na = "NA"))
 
-# Lowercased everything 
+# Lowercased everything so the data fits the same format
 f0lifespan$rnai <- tolower(f0lifespan$rnai)
 f0lifespan$treatment <- tolower(f0lifespan$treatment)
 f1lifespan$parental_rnai <- tolower(f1lifespan$parental_rnai)
 f1lifespan$parental_treatment <- tolower(f1lifespan$parental_treatment)
 f1lifespan$treatment <- tolower(f1lifespan$treatment) 
 
-# Calculating the longevity for f0 and f1 
+# Calculating the longevity for f0 
 f0lifespan$longevity <- as.numeric (difftime
                                      (f0lifespan$death_date, f0lifespan$set_up_date,
                                        units="days"))
-
+# Calculating the longevity for f1 
 f1lifespan$longevity <- as.numeric (difftime
                                      (f1lifespan$death_date, f1lifespan$set_up_date,
                                        units="days"))
@@ -107,35 +107,38 @@ f0lplot + f1lplot
 
 ### Testing and working with different models 
 
-
-# MODEL
+                 # MODEL
 # Gene knockdown AND light/dark treatment 
 # F0-lifespan based on THEIR rnai gene and light/dark treatment 
      #  F0 - longevity, rnai, treatment 
 
-# visualise the data 
+# Visualising the data with a box plot 
 ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment))+ 
-  geom_boxplot()
+  geom_boxplot(aes(col = ))+
+  labs(y= "Longevity",
+       x = "RNAi treatment")
+  
+  
 
-
+# Creating a linear model 
 f0lifespanls1 <- lm(longevity ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
 
+# Using summary and broom tidy to give a summary of f0lifespanls1 results 
 summary(f0lifespanls1)
-
 f0tidymodel <- broom::tidy(f0lifespanls1) 
 f0tidymodel
 
-# this is the same value as rnai raga with ev statistic - point to keep it ???? 
-f0tidymodel[[2,2]] / f0tidymodel[[2,3]] 
-
+# Doing a performance check to look for normality in the model
 performance::check_model(f0lifespanls1)
-performance::check_model(f0lifespanls1, check="homogeneity")
+performance::check_model(f0lifespanls1, check="homogeneity") 
+# Looked normal 
 
-#  keep interaction term? 
+# Using drop1 function to see if rnai:treatment interaction term should be kept  
 drop1(f0lifespanls1, test = "F")
 # Keep interaction term - there is a significant difference 
+# Use this as the final model 
 
-# Making a table of f0lifespan based on their rnai gene and light/dark treatment 
+# Making a table of f0lifespan for the write-up based on their rnai gene and light/dark treatment 
 f0lifespanls1table <- 
   f0lifespanls1 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
@@ -153,20 +156,32 @@ f0lifespanls1table <-
 f0lifespanls1table
 
 
-# MODEL
+         # MODEL
 # Gene knockdown and treatment (with no interaction effect, and as a factor)
 # Confidence Intervals - for paired T-test for longevity with rnai and light/dark treatment 
 f0lifespanls2 <- lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>% 
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
+# MAYBE DO NOT KEEP THIS AS INTERACTION EFFECT SEEMS SIGNIFICANT 
 
 
- # MODEL
+# MAYBE DO NOT KEEP THIS AS YOU HAVE ALREADY INCLUDED ONE WITH BOTH SO MAY NOT NEED 
+        # MODEL
+
 #  F0 longevity based on whether they were in light/dark
  # F0 - longevity, treatment 
+
+# Visualising the data 
+
+
+# Creating linear model 
 f0lifespanls3 <- lm(longevity ~ treatment, data = f0lifespan)
 
+# Using broom::tidy and summary function 
 broom::tidy(f0lifespanls3)
+summary(f0lifespanls3)
+
+# Doing an anova test 
 anova(f0lifespanls3)
 
  lm(longevity ~ treatment, data = f0lifespan) %>%
@@ -205,26 +220,38 @@ f0offspringmeans %>%
     ymin=lower.CL, 
     ymax=upper.CL))
 
-# MODEL
+
+
+
+                # MODEL
 # F0-generation offspring against rnai gene and treatment 
 # F0 - offspring, rnai, treatment 
-f0reproductionls1 <- lm(offspring ~ rnai + factor(treatment), data = f0reproduction) 
-#  (REMOVE ONE)
+
+# Visualising the data 
+ggplot(f0reproduction, aes(x=rnai, y=offspring, fill=treatment))+
+  geom_boxplot()
+ 
+# Creating a linear model 
 f0reproductionls2 <- lm(offspring ~ rnai + treatment, data = f0reproduction)
 
-%>%
+# Testing with confidence intervals 
+lm(offspring ~ rnai + treatment, data = f0reproduction)%>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
-broom::tidy(f0reproductionls1)
+# Using broom::tidy and summary to create a summary
 broom::tidy(f0reproductionls2)
+summary(f0reproductionls2)
+
+# Using performance check to check for normality 
+performance::check_model(f0reproductionls2)
+
+# Transforming data 
+MASS::boxcox(f0reproductionls2)
 
 
-summary(f0reproductionls1)
 
-broom::tidy(f0reproductionls1) 
-performance::check_model(f0reproductionls1)
-
+# Creating a table for the write-up
 f0reproductionls1table <- 
   f0reproductionls1 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
@@ -244,6 +271,8 @@ f0reproductionls1table
 # MODEL
 #  F1-generation longevity based on their parent's rnai
   # f1 - longevity, parent's rnai
+
+# creating a linear model
 f1longevityls1 <- lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan )
 
 lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
@@ -254,7 +283,7 @@ lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
 anova(f1longevityls1)
 
 # MODEL
-#  F1-generation longevity based on their parent's rnai and parent's treatment
+# F1 - generation longevity based on their parent's rnai and parent's treatment
 # F1 - longevity, parent's rnai, parent's treatment 
 f1longevityls2 <-  lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
 

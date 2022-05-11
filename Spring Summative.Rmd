@@ -22,23 +22,34 @@ library(knitr)
 
 ### Introduction
  
-*Caenorhabditis elegans* are a widely used as a model organism in biology. They are often used to test for epigenetic effects, and how the life history of the parents of the c.elegans will affect their offspring. Both the longevity and fertility of organisms are influenced by both diverse genetic and environmental factors (Hamilton et al, 2005). 
-Stress can be an influential factor on longevity in organisms, as well as fertility. There have been previous studies into how particular rnai treatments such as using the raga-1 gene, can affect both longevity and reproduction in the *c. elegans*  (nematode worm). 
-raga-1 is the (main) gene involved in the determination of adult lifespan  (WormBase, 2022).  
+*Caenorhabditis elegans* are a widely used as a model organism in biology. They are often used to test for epigenetic effects, and how the life history of the parents of the c.elegans will affect their offspring. Both the longevity and fertility of organisms are known to be influenced by both diverse genetic and environmental factors (Hamilton et al, 2005). 
+Stress can be an influential factor on longevity, as well as fertility in organisms, There have been previous studies into how particular rnai treatments such as using the *raga-1* gene, can affect both longevity and reproduction in the *c. elegans*  (nematode worm). 
+*raga-1* is the dominant gene involved in the determination of adult lifespan in the *c.elegans*  (WormBase, 2022). The RNAi inhibition of *raga-1* in the intestine is sufficient for lifespan extension (Lapierre et al, 2012). 
 
 
- 
-I hypothesise that the raga-1 gene being the dsDNA target gene will therefore have a direct effect on decreasing how many offspring a *c.elegans* will have as well as decreasing longevity both in themselves and in their offspring. 
+### Main Text
+
+It could be predicted that *raga-1* gene being the dsDNA target gene will therefore have a direct effect on decreasing how many offspring a *c.elegans* will have as well as decreasing longevity both in themselves and in their offspring. 
 
 Mini hypothesises:
-
+ 
 (1)
-f0 treatment (stressful conditions) has an affect on their own longevity 
-f0 treatment (stressful conditions) has an affect on their offsprings longevity (include rnai?)
+Stressful conditions in the f0 generation will have both an affect on their longevity and their offsprings longevity.
+-f0 treatment (stressful conditions) has an affect on their own longevity 
+-f0 treatment (stressful conditions) has an affect on their offsprings longevity (include rnai?)
 
 (2)
-f0 treatment (stressful conditions) has an affect on the amount of offsprings they have 
-(mention amount of replicates taken in the practical)
+Stressful conditions and rnai treatment that f0 generation receive will have an affect on both their longevity and their offsprings longevity. 
+-f0 treatment and gene treatment has an affect on their longevity 
+-fo treatment has an affecrt on their offspring's longevity. 
+
+(3)
+Stressful conditions has an affect on the amount of offsprings the f0 generation have. 
+(mention here you did replicates)
+-f0 treatment and offsprings 
+
+(4)
+
 
 
 4. f0 treatment (stressful conditions) will have an affect on their reproduction
@@ -79,6 +90,7 @@ f1 longevity, treatment, plate (tick)
 
 
 
+
 *C.elegans* are known to develop over 3-4 days when in the laboratory (at 20 degree temperatures). 
 Work by Schreiber et al, 2010 into looking at the raga-1 gene as an aging modulator has shown that c elegans that were engineered with  the ‘gain of function’ active raga-1 had a shortened lifespan while a mutant ‘dominant negative’ *raga-1* lengthened lifespan. 
 
@@ -110,7 +122,7 @@ Previous research has indicated that there is a relation of stressful conditions
 A factor to be considered, with nematodes, which are able to withstand an true affect of aging from stress, are known to have resistance to increased stress resistance. 
 
 ```{r, echo=FALSE} 
-
+knitr::kable()
 ```
 
 There was a significant overall effect on the longevity of the nematode worm of the f0 generation (Linear model:(*P*=2.66^-77 ) with dark treatment to light treatment. 
@@ -192,6 +204,11 @@ Wormbase.org. 2022. raga-1 (gene) - WormBase : Nematode Information Resource. [o
 Zhou, K.I., Pincus, Z. and Slack, F.J., 2011. Longevity and stress in Caenorhabditis elegans. Aging (Albany NY), 3(8), p.733.
 
 Scharf, A., Egan, B., Pohl, F., Kocsisova, Z. and Kornfeld, K., 2021. Reproductive aging in C. elegans: from molecules to ecology. Frontiers in cell and developmental biology, p.2343.
+
+Lapierre, L.R. and Hansen, M., 2012. Lessons from C. elegans: signaling pathways for longevity. Trends in Endocrinology & Metabolism, 23(12), pp.637-644.
+Vancouver	
+
+
 
 
 ```{r pressure, echo=FALSE}
