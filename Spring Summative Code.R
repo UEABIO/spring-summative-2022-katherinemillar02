@@ -125,18 +125,33 @@ f0lifespanls1 <- lm(longevity ~ rnai + treatment + rnai + rnai:treatment, data =
 
 # Using summary and broom tidy to give a summary of f0lifespanls1 results 
 summary(f0lifespanls1)
-f0tidymodel <- broom::tidy(f0lifespanls1) 
-f0tidymodel
-
-# Doing a performance check to look for normality in the model
-performance::check_model(f0lifespanls1)
-performance::check_model(f0lifespanls1, check="homogeneity") 
-# Looked normal 
+broom::tidy(f0lifespanls1) 
 
 # Using drop1 function to see if rnai:treatment interaction term should be kept  
 drop1(f0lifespanls1, test = "F")
 # Keep interaction term - there is a significant difference 
 # Use this as the final model 
+
+# Doing a performance check to look for normality in the model
+performance::check_model(f0lifespanls1)
+
+performance::check_model(f0lifespanls1, check="homogeneity") 
+# Doesn't look normal 
+
+performance::check_model(f0lifespanls1, check=c("normality","qq"))
+# Doesn't look normal 
+
+performance::check_model(f0lifespanls1, check="outliers")
+# 
+
+coef(f0lifespanls1)
+
+# Data Transformations - 
+MASS::boxcox(f0lifespanls1)
+
+
+
+
 
 # Making a table of f0lifespan for the write-up based on their rnai gene and light/dark treatment 
 f0lifespanls1table <- 
@@ -157,22 +172,23 @@ f0lifespanls1table
 
 
          # MODEL
-# Gene knockdown and treatment (with no interaction effect, and as a factor)
+# Gene knockdown and treatment (with no interaction effect)
 # Confidence Intervals - for paired T-test for longevity with rnai and light/dark treatment 
 f0lifespanls2 <- lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>% 
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 # MAYBE DO NOT KEEP THIS AS INTERACTION EFFECT SEEMS SIGNIFICANT 
-
-
 # MAYBE DO NOT KEEP THIS AS YOU HAVE ALREADY INCLUDED ONE WITH BOTH SO MAY NOT NEED 
-        # MODEL
 
+
+
+# MODEL
 #  F0 longevity based on whether they were in light/dark
  # F0 - longevity, treatment 
 
 # Visualising the data 
-
+ggplot(f0lifespan, aes(x=treatment, y=longevity, fill=treatment))+ 
+  geom_boxplot()
 
 # Creating linear model 
 f0lifespanls3 <- lm(longevity ~ treatment, data = f0lifespan)
@@ -180,6 +196,19 @@ f0lifespanls3 <- lm(longevity ~ treatment, data = f0lifespan)
 # Using broom::tidy and summary function 
 broom::tidy(f0lifespanls3)
 summary(f0lifespanls3)
+
+# performance function - checked for normality
+performance::check_model(f0lifespanls3)
+
+performance::check_model(f0lifespanls3, check=c("normality","qq"))
+# Doesn't look great
+
+performance::check_model(f0lifespanls3, check="homogenity")
+#  ? 
+
+
+# Did a transformation test
+MASS::boxcox(f0lifespanls3)
 
 # Doing an anova test 
 anova(f0lifespanls3)
@@ -204,9 +233,7 @@ f0lifespanls3table <-
 
 f0lifespanls3table
 
-# performance function - checked for normality
-performance::check_model(f0lifespanls3, check=c("normality","qq"))
-performance::check_model(f0lifespanls3)
+
 
 # Looked at emmeans data for amount of offspring f0 generation have vs rnai treatment
 f0offspringmeans <- emmeans::emmeans(f0lifespanls3, specs = ~treatment)
@@ -246,6 +273,10 @@ summary(f0reproductionls2)
 # Using performance check to check for normality 
 performance::check_model(f0reproductionls2)
 
+performance::check_model(f0reproductionls2, check=c("normality","qq"))
+# No 
+
+
 # Transforming data 
 MASS::boxcox(f0reproductionls2)
 
@@ -272,12 +303,20 @@ f0reproductionls1table
 #  F1-generation longevity based on their parent's rnai
   # f1 - longevity, parent's rnai
 
-# creating a linear model
-f1longevityls1 <- lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan )
+# Visualise the data 
 
-lm(longevity ~ parental_rnai + factor(parental_rnai), data = f1lifespan ) %>%
+
+# creating a linear model
+f1longevityls1 <- lm(longevity ~ parental_rnai, data = f1lifespan )
+
+lm(longevity ~ parental_rnai, data = f1lifespan ) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
+
+# Checking the data 
+performance::check_model(f1longevityls1)
+
+performance::check_model(f1longevityls1, check = "homogenity")
 
 
 anova(f1longevityls1)
