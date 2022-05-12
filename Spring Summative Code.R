@@ -30,6 +30,12 @@ f0lifespan$longevity <- as.numeric (difftime
 f1lifespan$longevity <- as.numeric (difftime
                                      (f1lifespan$death_date, f1lifespan$set_up_date,
                                        units="days"))
+
+# Looking at plots for all the datasets - necesarry ? 
+GGally::ggpairs(f0lifespan)
+GGally::ggpairs(f1lifespan)
+GGally::ggpairs(f0reproduction)
+GGally::ggpairs(f1reproduction)
                                                     
 # Looking for a mean and SD for f0 lifespan depending on rnai treatment
 f0lifespan_summary <- f0lifespan %>%
@@ -107,17 +113,14 @@ f0lplot + f1lplot
 
 ### Testing and working with different models 
 
-                 # MODEL
+# MODEL 1 
 # Gene knockdown AND light/dark treatment 
 # F0-lifespan based on THEIR rnai gene and light/dark treatment 
      #  F0 - longevity, rnai, treatment 
 
 # Visualising the data with a box plot 
 ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment))+ 
-  geom_boxplot(aes(col = ))+
-  labs(y= "Longevity",
-       x = "RNAi treatment")
-  
+  geom_boxplot()
   
 
 # Creating a linear model 
@@ -132,6 +135,7 @@ drop1(f0lifespanls1, test = "F")
 # Keep interaction term - there is a significant difference 
 # Use this as the final model 
 
+# Assumption checking 
 # Doing a performance check to look for normality in the model
 performance::check_model(f0lifespanls1)
 
@@ -144,14 +148,11 @@ performance::check_model(f0lifespanls1, check=c("normality","qq"))
 performance::check_model(f0lifespanls1, check="outliers")
 # 
 
+# Coefficients 
 coef(f0lifespanls1)
 
 # Data Transformations - 
 MASS::boxcox(f0lifespanls1)
-
-
-
-
 
 # Making a table of f0lifespan for the write-up based on their rnai gene and light/dark treatment 
 f0lifespanls1table <- 
@@ -171,7 +172,7 @@ f0lifespanls1table <-
 f0lifespanls1table
 
 
-         # MODEL
+# MODEL
 # Gene knockdown and treatment (with no interaction effect)
 # Confidence Intervals - for paired T-test for longevity with rnai and light/dark treatment 
 f0lifespanls2 <- lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>% 
@@ -250,7 +251,7 @@ f0offspringmeans %>%
 
 
 
-                # MODEL
+# MODEL
 # F0-generation offspring against rnai gene and treatment 
 # F0 - offspring, rnai, treatment 
 
@@ -304,7 +305,8 @@ f0reproductionls1table
   # f1 - longevity, parent's rnai
 
 # Visualise the data 
-
+ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=longevity))+
+  geom_boxplot()
 
 # creating a linear model
 f1longevityls1 <- lm(longevity ~ parental_rnai, data = f1lifespan )
@@ -315,18 +317,22 @@ lm(longevity ~ parental_rnai, data = f1lifespan ) %>%
 
 # Checking the data 
 performance::check_model(f1longevityls1)
+# Doesn't look good 
 
 performance::check_model(f1longevityls1, check = "homogenity")
 
 
+# Doing an anova 
 anova(f1longevityls1)
 
 # MODEL
 # F1 - generation longevity based on their parent's rnai and parent's treatment
 # F1 - longevity, parent's rnai, parent's treatment 
-f1longevityls2 <-  lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
 
-summary(f1longevityls2)
+# Visualising the data 
+
+# Creating a model 
+f1longevityls2 <-  lm(longevity ~ parental_rnai + parental_treatment + parental_rnai:parental:treatment, data = f1lifespan)
 
 lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan ) %>%
   broom::tidy(., conf.int=T) %>% 
@@ -335,6 +341,13 @@ lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan ) %>%
 #  keep interaction term? 
 drop1(f1longevityls2, test = "F")
 #  Don't keep interaction term? 
+
+# Using broom::tidy as a summary function 
+broom::tidy(f1longevityls2)
+summary(f1longevityls2)
+
+
+
 
 f1longevityls2table <- 
   f1longevityls2 %>% broom::tidy(conf.int = T) %>% 
