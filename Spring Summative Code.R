@@ -31,7 +31,7 @@ f1lifespan$longevity <- as.numeric (difftime
                                      (f1lifespan$death_date, f1lifespan$set_up_date,
                                        units="days"))
 
-# Looking at plots for all the datasets - necesarry ? 
+# Using GGally to look at whole plots of the datasets 
 GGally::ggpairs(f0lifespan)
 GGally::ggpairs(f1lifespan)
 GGally::ggpairs(f0reproduction)
@@ -48,13 +48,8 @@ f0lifespan_summary %>%
   kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
-## FIGURES/ VISUALING DATA for F0 LIFESPAN
-# Created a Boxplot for FO-generation showing the effect of treatment and genes on their own longevity
-f0lplot <- ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment))+
-  geom_boxplot()+
-  labs('title' = ' F0 - Effect of treatment and genes on longevity',
-       y = 'Longevity',
-       x = 'RNAi treatment') 
+
+
 
 #### REPRODUCTION OF F0
 
@@ -70,29 +65,9 @@ f0reproduction_summary %>%
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
 
-### FIGURES/ VISUALISING DATA FOR F1 LIFESPAN 
-# KEEP? Created a boxplot for longevity of F1-generation based on F0-generation's light/dark treatment 
-ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
-  geom_boxplot(aes(fill = longevity),
-               alpha = 0.2, 
-               width = 0.5, 
-               outlier.shape=NA)+
-  geom_jitter(aes(colour = longevity),
-              width=0.2)+
-  theme(legend.position = "none")+
-  labs('title' = 'Effect of parental treatment on offspring longevity',
-       x = 'Parental Treatment',
-       y = 'Longevity of offspring')
 
 
 
-# FIGURES/ VISUALISING DATA FOR F1 REPRODUCTION 
-# Created a boxplot for longevity of F1-generation based on F0-generation's light/dark treatment and rnai gene treatment 
-f1lplot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=parental_treatment))+ 
-  geom_boxplot()+
-  labs('title' = ' F1 - Effect of treatment and genes on longevity',
-       y = 'Longevity (offspring)',
-       x = 'RNAi treatment') 
 
 
 
@@ -107,8 +82,7 @@ f1offspringplot <- ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fil
 
 f1offspringplot
 
-# Working with patchwork - looking at longevity of f0 and f1 in a graph 
-f0lplot + f1lplot 
+
 
 
 ### Testing and working with different models 
@@ -119,8 +93,11 @@ f0lplot + f1lplot
      #  F0 - longevity, rnai, treatment 
 
 # Visualising the data with a box plot 
-ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment))+ 
-  geom_boxplot()
+ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment))+
+  geom_boxplot()+
+  labs('title' = ' F0 - Effect of treatment and genes on longevity',
+       y = 'Longevity',
+       x = 'RNAi treatment') 
   
 
 # Creating a linear model 
@@ -322,6 +299,7 @@ performance::check_model(f1longevityls1)
 performance::check_model(f1longevityls1, check = "homogenity")
 
 
+
 # Doing an anova 
 anova(f1longevityls1)
 
@@ -330,27 +308,47 @@ anova(f1longevityls1)
 # F1 - longevity, parent's rnai, parent's treatment 
 
 # Visualising the data 
+ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
+  geom_boxplot(aes(fill = parental_rnai),
+               alpha = 0.2, 
+               width = 0.5, 
+               outlier.shape=NA)+
+  geom_jitter(aes(colour = longevity),
+              width=0.2)+
+  theme(legend.position = "none")+
+  labs('title' = 'Effect of parental treatment on offspring longevity',
+       x = 'Parental Treatment',
+       y = 'Longevity of offspring')
 
 # Creating a model 
-f1longevityls2 <-  lm(longevity ~ parental_rnai + parental_treatment + parental_rnai:parental:treatment, data = f1lifespan)
+f1longevityls2 <-  lm(longevity ~ parental_rnai + parental_treatment + parental_rnai:parental_treatment, data = f1lifespan)
 
-lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan ) %>%
+lm(longevity ~ parental_rnai + parental_treatment + parental_rnai:parental_treatment, data = f1lifespan ) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
 #  keep interaction term? 
 drop1(f1longevityls2, test = "F")
-#  Don't keep interaction term? 
+#  Don't keep interaction term, no significance 
+
+# New model
+f1longevityls6 <-  lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
+
+lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan ) %>%
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
 
 # Using broom::tidy as a summary function 
-broom::tidy(f1longevityls2)
-summary(f1longevityls2)
+broom::tidy(f1longevityls6)
+summary(f1longevityls6)
+
+# Assumption checking 
+performance::check_model(f1longevityls6)
+# Looks normal at first glance 
 
 
-
-
-f1longevityls2table <- 
-  f1longevityls2 %>% broom::tidy(conf.int = T) %>% 
+f1longevityls6table <- 
+  f1longevityls6 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
   mutate_if(is.numeric, round, 2) %>% 
   kbl(col.names = c("Predictors",
@@ -363,57 +361,39 @@ f1longevityls2table <-
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=16)
 
-f1longevityls2table
+f1longevityls6table
 
 
 
-# MODEL
-# f1 offspring vs their parents rnai and treatment 
-# f1 - offspring, parent's rnai, parent's treatment
-f1reproductionls3 <- lm(offsprings ~ parental_rnai + parental_treatment + 
-                          parental_rnai:parental_treatment, data = f1reproduction)
-#  keep interaction term? 
-drop1(f1reproductionls3, test = "F")
-# Don't keep interaction term? 
-
-f1reproductionls3
-
-performance::check_model(f1reproductionls3)
-
-# Testing without the interaction term 
-
-f1reproductionls6 <- lm(offsprings ~ parental_rnai + parental_treatment, data = f1reproduction)
-
-performance::check_model(f1reproductionls6)
-
-f1reproductionls6table <- 
-  f1reproductionls6 %>% broom::tidy(conf.int = T) %>% 
-  select(-`std.error`) %>% 
-  mutate_if(is.numeric, round, 2) %>% 
-  kbl(col.names = c("Predictors",
-                    "Estimates",
-                    "Z-value",
-                    "P",
-                    "Lower 95% CI",
-                    "Upper 95% CI"),
-      caption = "Model 4", 
-      booktabs = TRUE) %>% 
-  kable_styling(full_width = FALSE, font_size=16)
-
-
-
-f1reproductionls6table
 
 
 # MODEL
 # F1 offsprings vs their parent's rnai treatment 
 #  F1 offsprings, parent's rnai 
-f1reproductionls4 <- lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )
-anova(f1osptreatment)
 
-lm(offsprings ~ parental_rnai + factor(parental_rnai), data = f1reproduction )%>%
+# Visualising the data 
+ ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=parental_rnai))+
+  geom_boxplot()+
+  labs('title' = "F1 offspring and their parent's rnai"
+       "subtitle" = "the amount of offspring F1 generation have and what rnai gene their parents had",
+       y = 'Offspring',
+       x = 'RNAi treatment')
+
+# Creating the model 
+f1reproductionls4 <- lm(offsprings ~ parental_rnai, data = f1reproduction )
+
+lm(offsprings ~ parental_rnai, data = f1reproduction )%>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
+
+# Assumption Checking 
+performance::check_model(f1reproductionls4)
+
+# Homogenity not okay 
+
+# Transformation with BoxCox 
+# run this, pick a transformation and retest the model fit
+MASS::boxcox(f1reproductionls4)
 
 f1reproductionls4table <- 
   f1reproductionls4 %>% broom::tidy(conf.int = T) %>% 
@@ -431,25 +411,36 @@ f1reproductionls4table <-
 
 f1reproductionls4table
 
-performance::check_model(f1reproductionls4)
 
-#  keep interaction term? 
-drop1(f1reproductionls4, test = "F")
-# Don't keep interaction term? 
 
 # MODEL
 # f1 longevity based on their treatment and their parents treatment 
- # f1 - longevity, parental treatment and their own treatment 
-f1longevityls3 <- lm(longevity ~ parental_treatment + factor(treatment), data = f1lifespan)
+ # f1 - longevity, parental treatment and their own treatment, with interaction effect  
 
-anova(f1longevityls3)
+# Visualise the data 
+ggplot(f1lifespan, aes(x=parental_treatment, y=longevity, fill=treatment))+
+  geom_boxplot()
 
+f1longevityls3 <- lm(longevity ~ parental_treatment + treatment + parental_treatment:treatment, data = f1lifespan)
+
+
+# Summary of model 
 broom::tidy(f1longevityls3)
-
 summary(f1longevityls3)
 
+# Using drop1 - keep interaction effect?
+drop1(f1longevityls3, test = "F")
+#
+
+# Assumption checking 
 performance::check_model(f1longevityls3, check="homogeneity")
 performance::check_model(f1longevityls3, check="normality")
+
+
+
+
+
+
 
 
 
