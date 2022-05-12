@@ -30,6 +30,11 @@ f0lifespan$longevity <- as.numeric (difftime
 f1lifespan$longevity <- as.numeric (difftime
                                      (f1lifespan$death_date, f1lifespan$set_up_date,
                                        units="days"))
+# Necesarry? 
+GGally::ggpairs(f0lifespan)
+GGally::ggpairs(f1lifespan)
+GGally::ggpairs(f0reproduction)
+GGally::ggpairs(f1reproduction)
                                                     
 # Looking for a mean and SD for f0 lifespan depending on rnai treatment
 f0lifespan_summary <- f0lifespan %>%
@@ -304,7 +309,8 @@ f0reproductionls1table
   # f1 - longevity, parent's rnai
 
 # Visualise the data 
-
+ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=longevity))+
+  geom_boxplot()
 
 # creating a linear model
 f1longevityls1 <- lm(longevity ~ parental_rnai, data = f1lifespan )
@@ -315,8 +321,10 @@ lm(longevity ~ parental_rnai, data = f1lifespan ) %>%
 
 # Checking the data 
 performance::check_model(f1longevityls1)
+# Doesn't look good 
 
 performance::check_model(f1longevityls1, check = "homogenity")
+
 
 
 anova(f1longevityls1)
