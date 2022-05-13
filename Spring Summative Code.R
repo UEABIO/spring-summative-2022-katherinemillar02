@@ -103,7 +103,7 @@ f0lifespanls1 <- lm(sqrt(longevity) ~ rnai + treatment + rnai + rnai:treatment, 
 performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
 # Looks 
 
-# 
+# Using log to transform data 
 f0lifespanls1 <- lm(log(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
 performance::check_model(f0lifespanls1, check=c"homogeneity", "qq"))
 
