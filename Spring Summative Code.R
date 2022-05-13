@@ -101,25 +101,31 @@ MASS::boxcox(f0lifespanls1)
 # Using sqrt to transform data 
 f0lifespanls1 <- lm(sqrt(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
 performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
-# Looks 
+# Looks the best
 
 # Using log to transform data 
 f0lifespanls1 <- lm(log(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
-performance::check_model(f0lifespanls1, check=c"homogeneity", "qq"))
-
-# 
-f0lifespanls1 <- glm(longevity ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan, family=poisson())
 performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
 
+# Using glm to transform data 
+f0lifespanls1 <- glm(longevity ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan, family=poisson())
+performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
+summary(f0lifespanls1)
 
 
+
+# Found that 
+# Using residual deviance and degrees of freedom 
+619/394
 
 # 
-log()
+f0lifespanls1 <- glm(formula = longevity ~ rnai + treatment + rnai:treatment,
+                     family = quasipoisson(), data = f0lifespan)
+summary(f0lifespanls1)
 
-
-
-
+# Confirming log exp value of intercept 
+exp(2.7)
+# = 15 
 
 # Using summary and broom tidy to give a summary of f0lifespanls1 results 
 summary(f0lifespanls1)
@@ -149,18 +155,8 @@ f0lifespanls1table <-
 f0lifespanls1table
 
 
+
 # MODEL 2
-# Gene knockdown and treatment (with no interaction effect)
-# Confidence Intervals - for paired T-test for longevity with rnai and light/dark treatment 
-f0lifespanls2 <- lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>% 
-  broom::tidy(., conf.int=T) %>% 
-  slice(1:2)
-# MAYBE DO NOT KEEP THIS AS INTERACTION EFFECT SEEMS SIGNIFICANT 
-# MAYBE DO NOT KEEP THIS AS YOU HAVE ALREADY INCLUDED ONE WITH BOTH SO MAY NOT NEED 
-
-
-
-# MODEL 3 
 #  F0 longevity based on whether they were in light/dark
  # F0 - longevity, treatment 
 
