@@ -61,7 +61,7 @@ f0reproduction_summary %>%
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
 
-### Testing and working with different models 
+#### Testing and working with different models 
 
 # MODEL 1 
 # Gene knockdown AND light/dark treatment 
@@ -79,15 +79,6 @@ ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment))+
 # Creating a linear model 
 f0lifespanls1 <- lm(longevity ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
 
-# Using summary and broom tidy to give a summary of f0lifespanls1 results 
-summary(f0lifespanls1)
-broom::tidy(f0lifespanls1) 
-
-# Using drop1 function to see if rnai:treatment interaction term should be kept  
-drop1(f0lifespanls1, test = "F")
-# Keep interaction term - there is a significant difference 
-# Use this as the final model 
-
 # Assumption checking 
 # Doing a performance check to look for normality in the model
 performance::check_model(f0lifespanls1)
@@ -101,13 +92,44 @@ performance::check_model(f0lifespanls1, check=c("normality","qq"))
 performance::check_model(f0lifespanls1, check="outliers")
 # 
 
-# Coefficients 
-coef(f0lifespanls1)
-
 # Data Transformations - 
 MASS::boxcox(f0lifespanls1)
+# Shows parameter = (0-0.5) 
 
 # 
+
+# Using sqrt to transform data 
+f0lifespanls1 <- lm(sqrt(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
+performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
+# Looks 
+
+# 
+f0lifespanls1 <- lm(log(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
+performance::check_model(f0lifespanls1, check=c"homogeneity", "qq"))
+
+# 
+f0lifespanls1 <- glm(longevity ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan, family=poisson())
+performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
+
+
+
+
+# 
+log()
+
+
+
+
+
+# Using summary and broom tidy to give a summary of f0lifespanls1 results 
+summary(f0lifespanls1)
+broom::tidy(f0lifespanls1) 
+
+# Using drop1 function to see if rnai:treatment interaction term should be kept  
+drop1(f0lifespanls1, test = "F")
+# Keep interaction term - there is a significant difference 
+# Use this as the final model 
+
 
 # Making a table of f0lifespan for the write-up based on their rnai gene and light/dark treatment 
 f0lifespanls1table <- 
@@ -532,6 +554,7 @@ performance::check_model(f1longevityls4,
 
 ## Test for f1 longevity based on parental treatment and replicate
 f1lifespan %>% group_by(parental_treatment, plate) %>% summarise(n = n()) %>% view()
+
 f1lifespan %>% 
   ggplot(aes(x = as.factor(plate), y = longevity, fill = parental_treatment))+geom_boxplot()
 
