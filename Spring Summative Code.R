@@ -116,9 +116,10 @@ summary(f0lifespanls1)
 
 # Found that 
 # Using residual deviance and degrees of freedom 
-619/394
+#  619/394 = 
 
 # 
+
 f0lifespanls1 <- glm(formula = longevity ~ rnai + treatment + rnai:treatment,
                      family = quasipoisson(), data = f0lifespan)
 summary(f0lifespanls1)
@@ -133,9 +134,12 @@ broom::tidy(f0lifespanls1)
 
 # Using drop1 function to see if rnai:treatment interaction term should be kept  
 drop1(f0lifespanls1, test = "F")
-# Keep interaction term - there is a significant difference 
-# Use this as the final model 
+# Do not keep interaction effect, there is no statistical significance 
 
+f0lifespanls1 <- glm(formula = longevity ~ rnai + treatment,
+                     family = quasipoisson(), data = f0lifespan)
+summary(f0lifespanls1)
+broom::tidy(f0lifespanls1)
 
 # Making a table of f0lifespan for the write-up based on their rnai gene and light/dark treatment 
 f0lifespanls1table <- 
@@ -167,14 +171,10 @@ ggplot(f0lifespan, aes(x=treatment, y=longevity, fill=treatment))+
 # Creating linear model 
 f0lifespanls3 <- lm(longevity ~ treatment, data = f0lifespan)
 
-# Using broom::tidy and summary function 
-broom::tidy(f0lifespanls3)
-summary(f0lifespanls3)
-
 # performance function - checked for normality
 performance::check_model(f0lifespanls3)
 
-performance::check_model(f0lifespanls3, check=c("normality","qq"))
+performance::check_model(f0lifespanls3, check=c("normality","qq")) 
 # Doesn't look great
 
 performance::check_model(f0lifespanls3, check="homogenity")
@@ -184,15 +184,23 @@ performance::check_model(f0lifespanls3, check="homogenity")
 # Did a transformation test
 MASS::boxcox(f0lifespanls3)
 
+# Using sqrt to transform data 
+f0lifespanls2 <- lm(sqrt(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
+performance::check_model(f0lifespanls2, check=c("homogeneity", "qq"))
+# Looks OK 
+
+
+# Using broom::tidy and summary function 
+broom::tidy(f0lifespanls2)
+summary(f0lifespanls2)
+
+
 # Doing an anova test with original data 
-anova(f0lifespanls3)
+anova(f0lifespanls2)
 
- lm(longevity ~ treatment, data = f0lifespan) %>%
-  broom::tidy(., conf.int=T) %>% 
-  slice(1:2)
 
-f0lifespanls3table <- 
-  f0lifespanls3 %>% broom::tidy(conf.int = T) %>% 
+f0lifespanls2table <- 
+  f0lifespanls2 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
   mutate_if(is.numeric, round, 2) %>% 
   kbl(col.names = c("Predictors",
@@ -205,12 +213,12 @@ f0lifespanls3table <-
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=16)
 
-f0lifespanls3table
+f0lifespanls2table
 
 
 
 # Looked at emmeans data for amount of offspring f0 generation have vs rnai treatment
-f0offspringmeans <- emmeans::emmeans(f0lifespanls3, specs = ~treatment)
+f0offspringmeans <- emmeans::emmeans(f0lifespanls2, specs = ~treatment)
 f0offspringmeans
 # Visualised the amount of offspring FO have based on rnai treatment using emmeans data
 f0offspringmeans %>% 
@@ -233,21 +241,7 @@ ggplot(f0reproduction, aes(x=rnai, y=offspring, fill=treatment))+
   geom_boxplot()
  
 # Creating a linear model 
-f0reproductionls2 <- lm(offspring ~ rnai + treatment + rnai:treatment, data = f0reproduction)
-
-# Using drop1 to see if interaction term should be kept
-drop1(f0reproductionls2, test = "F")
-#  
-
-
-# Testing with confidence intervals 
-lm(offspring ~ rnai + treatment + rnai:treatment, data = f0reproduction)%>%
-  broom::tidy(., conf.int=T) %>% 
-  slice(1:2)
-
-# Using broom::tidy and summary to create a summary
-broom::tidy(f0reproductionls2)
-summary(f0reproductionls2)
+f0reproductionls1 <- lm(offspring ~ rnai + treatment + rnai:treatment, data = f0reproduction)
 
 # Using performance check to check for normality 
 performance::check_model(f0reproductionls2)
@@ -257,9 +251,30 @@ performance::check_model(f0reproductionls2, check=c("normality","qq"))
 
 
 # Transforming data 
-MASS::boxcox(f0reproductionls2)
+MASS::boxcox(f0reproductionls1)
+
+# Using sqrt to transform data 
+f0reproductionls1 <- lm(sqrt(offspring) ~ rnai + treatment + rnai:treatment, data = f0reproduction)
+performance::check_model(f0reproductionls1, check=c("homogeneity", "qq"))
+
+# Using log to transform data 
+f0reproductionls1 <- lm(log(offspring) ~ rnai + treatment +  rnai:treatment, data = f0reproduction)
+performance::check_model(f0reproductionls1, check=c("homogeneity", "qq"))
+
+# Using drop1 to see if interaction term should be kept
+drop1(f0reproductionls2, test = "F")
+
+#  sqrt was best to transform data 
 
 
+# Testing with confidence intervals 
+lm(offspring ~ rnai + treatment + rnai:treatment, data = f0reproduction)%>%
+  broom::tidy(., conf.int=T) %>% 
+  slice(1:2)
+
+# Using broom::tidy and summary to create a summary
+broom::tidy(f0reproductionls1)
+summary(f0reproductionls1)
 
 # Creating a table for the write-up
 f0reproductionls1table <- 
@@ -290,17 +305,33 @@ ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=longevity))+
   geom_boxplot()
 
 # creating a linear model
-f1longevityls1 <- lm(longevity ~ parental_rnai, data = f1lifespan )
+f1lifespanls1 <- lm(longevity ~ parental_rnai, data = f1lifespan )
+
+# Checking the data 
+performance::check_model(f1lifespanls1)
+# Doesn't look good 
+
+performance::check_model(f1longevityls1, check = c("normality", "qq"))
+
+# When normality is bad 
+# BoxCox to transform data 
+
+# run this, pick a transformation and retest the model fit
+MASS::boxcox(f1lifespanls1)
+
+f1lifespanls1 <- lm(sqrt(longevity) ~ parental_rnai, data = f1lifespan)
+
+performance::check_model(f1lifespanls1, check=c("homogeneity", "qq")
+
+
+
 
 lm(longevity ~ parental_rnai, data = f1lifespan ) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
 # Checking the data 
-performance::check_model(f1longevityls1)
-# Doesn't look good 
 
-performance::check_model(f1longevityls1, check = "homogenity")
 
 
 
