@@ -321,8 +321,15 @@ MASS::boxcox(f1lifespanls1)
 
 f1lifespanls1 <- lm(sqrt(longevity) ~ parental_rnai, data = f1lifespan)
 
-performance::check_model(f1lifespanls1, check=c("homogeneity", "qq")
 
+performance::check_model(f1lifespanls1, check=c("homogeneity", "qq")) 
+
+
+f1lifespanls1 <- lm(log(longevity) ~ parental_rnai, data = f1lifespan)
+performance::check_model(f1lifespanls1, check=c("homogeneity", "qq")) 
+
+# poisson? 
+f1lifespanls1 <- glm(longevity ~ parental_rnai, family=gaussian(link=identity))
 
 
 
@@ -331,12 +338,33 @@ lm(longevity ~ parental_rnai, data = f1lifespan ) %>%
   slice(1:2)
 
 # Checking the data 
-
-
+f1lifespanls1 <- glm(longevity ~ parental_rnai, data = f1lifespan, family=poisson())
+performance::check_model(f1lifespanls1, check=c("homogeneity", "qq"))
+# Homogenity OK, normality not OK
+summary(f1lifespanls1)
+broom::tidy(f1lifespanls1)
 
 
 # Doing an anova 
-anova(f1longevityls1)
+anova(f1lifespanls1)
+
+
+f1lifespanls1table <- 
+  f1lifespanls1 %>% broom::tidy(conf.int = T) %>% 
+  select(-`std.error`) %>% 
+  mutate_if(is.numeric, round, 2) %>% 
+  kbl(col.names = c("Predictors",
+                    "Estimates",
+                    "Z-value",
+                    "P",
+                    "Lower 95% CI",
+                    "Upper 95% CI"),
+      caption = "Model 4", 
+      booktabs = TRUE) %>% 
+  kable_styling(full_width = FALSE, font_size=16)
+# ISSUE WITH TABLE 
+
+
 
 
 
