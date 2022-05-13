@@ -49,10 +49,6 @@ f0lifespan_summary %>%
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
 
-
-
-#### REPRODUCTION OF F0
-
 # Created a summary for rnai treatment and offspring for f0
  f0reproduction_summary <- f0reproduction %>%
   group_by(rnai) %>%
@@ -63,26 +59,6 @@ f0lifespan_summary %>%
 f0reproduction_summary %>%
   kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
-
-
-
-
-
-
-
-
-# Created a plot looking at amount of OFFSPRING the f1 generation can have vs what treatments they had 
-f1offspringplot <- ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=parental_treatment))+
-  geom_boxplot()+
-  labs('title' = "F1 offspring and their parent's rnai and light/dark treatment",
-       "subtitle" = "the amount of offspring F1 generation have and what rnai gene and 
-       light/dark treatment their own parent's had",
-       y = 'Offspring',
-       x = 'RNAi treatment') 
-
-f1offspringplot
-
-
 
 
 ### Testing and working with different models 
@@ -131,6 +107,8 @@ coef(f0lifespanls1)
 # Data Transformations - 
 MASS::boxcox(f0lifespanls1)
 
+# 
+
 # Making a table of f0lifespan for the write-up based on their rnai gene and light/dark treatment 
 f0lifespanls1table <- 
   f0lifespanls1 %>% broom::tidy(conf.int = T) %>% 
@@ -149,7 +127,7 @@ f0lifespanls1table <-
 f0lifespanls1table
 
 
-# MODEL
+# MODEL 2
 # Gene knockdown and treatment (with no interaction effect)
 # Confidence Intervals - for paired T-test for longevity with rnai and light/dark treatment 
 f0lifespanls2 <- lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>% 
@@ -160,7 +138,7 @@ f0lifespanls2 <- lm(longevity ~ rnai + factor(treatment), data = f0lifespan) %>%
 
 
 
-# MODEL
+# MODEL 3 
 #  F0 longevity based on whether they were in light/dark
  # F0 - longevity, treatment 
 
@@ -188,7 +166,7 @@ performance::check_model(f0lifespanls3, check="homogenity")
 # Did a transformation test
 MASS::boxcox(f0lifespanls3)
 
-# Doing an anova test 
+# Doing an anova test with original data 
 anova(f0lifespanls3)
 
  lm(longevity ~ treatment, data = f0lifespan) %>%
@@ -228,7 +206,7 @@ f0offspringmeans %>%
 
 
 
-# MODEL
+# MODEL 4 
 # F0-generation offspring against rnai gene and treatment 
 # F0 - offspring, rnai, treatment 
 
@@ -237,10 +215,15 @@ ggplot(f0reproduction, aes(x=rnai, y=offspring, fill=treatment))+
   geom_boxplot()
  
 # Creating a linear model 
-f0reproductionls2 <- lm(offspring ~ rnai + treatment, data = f0reproduction)
+f0reproductionls2 <- lm(offspring ~ rnai + treatment + rnai:treatment, data = f0reproduction)
+
+# Using drop1 to see if interaction term should be kept
+drop1(f0reproductionls2, test = "F")
+#  
+
 
 # Testing with confidence intervals 
-lm(offspring ~ rnai + treatment, data = f0reproduction)%>%
+lm(offspring ~ rnai + treatment + rnai:treatment, data = f0reproduction)%>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
@@ -277,7 +260,10 @@ f0reproductionls1table <-
 
 f0reproductionls1table
 
-# MODEL
+
+
+
+# MODEL 5 
 #  F1-generation longevity based on their parent's rnai
   # f1 - longevity, parent's rnai
 
@@ -303,7 +289,9 @@ performance::check_model(f1longevityls1, check = "homogenity")
 # Doing an anova 
 anova(f1longevityls1)
 
-# MODEL
+
+
+# MODEL 6 
 # F1 - generation longevity based on their parent's rnai and parent's treatment
 # F1 - longevity, parent's rnai, parent's treatment 
 
@@ -367,7 +355,7 @@ f1longevityls6table
 
 
 
-# MODEL
+# MODEL 7 
 # F1 offsprings vs their parent's rnai treatment 
 #  F1 offsprings, parent's rnai 
 
@@ -413,7 +401,7 @@ f1reproductionls4table
 
 
 
-# MODEL
+# MODEL 8 
 # f1 longevity based on their treatment and their parents treatment 
  # f1 - longevity, parental treatment and their own treatment, with interaction effect  
 
@@ -435,6 +423,9 @@ drop1(f1longevityls3, test = "F")
 # Assumption checking 
 performance::check_model(f1longevityls3, check="homogeneity")
 performance::check_model(f1longevityls3, check="normality")
+
+
+# Box cox - Transformation 
 
 
 
