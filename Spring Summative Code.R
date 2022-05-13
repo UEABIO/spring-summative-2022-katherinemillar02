@@ -247,7 +247,7 @@ f0reproductionls1 <- lm(offspring ~ rnai + treatment + rnai:treatment, data = f0
 performance::check_model(f0reproductionls2)
 
 performance::check_model(f0reproductionls2, check=c("normality","qq"))
-# No 
+# Doesn't look good 
 
 
 # Transforming data 
@@ -388,6 +388,36 @@ ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
 # Creating a model 
 f1longevityls2 <-  lm(longevity ~ parental_rnai + parental_treatment + parental_rnai:parental_treatment, data = f1lifespan)
 
+# Assumption checking 
+performance::check_model(f1longevityls2)
+# 
+
+performance::check_model(f1longevityls2, check=c("homogenity", "qq"))
+# Doesn't look normal 
+
+# Transformation with BoxCox 
+# run this, pick a transformation and retest the model fit
+MASS::boxcox(f1longevityls2)
+
+# transforming data with sqrt 
+f1longevityls2 <- lm(sqrt(longevity) ~ parental_rnai + parental_treatment + parental_treatment:parental_rnai, data = f1lifespan)
+
+
+performance::check_model(f1longevityls2)
+
+performance::check_model(f1longevityls2, check=c("homogenity", "qq"))
+
+f1longevityls2 <- lm(log(longevity) ~ parental_rnai + parental_treatment + parental_treatment:parental_rnai, data = f1lifespan)
+performance::check_model(f1longevityls2, check=c("homogenity", "qq"))
+# Better 
+
+f1longevityls2 <- glm(longevity ~ parental_rnai + parental_treatment + parental_treatment:parental_rnai , data = f1lifespan, family=poisson())
+performance::check_model(f1longevityls2, check=c("homogeneity", "qq"))
+# Not OK
+
+
+
+
 lm(longevity ~ parental_rnai + parental_treatment + parental_rnai:parental_treatment, data = f1lifespan ) %>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
@@ -407,9 +437,6 @@ lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan ) %>%
 broom::tidy(f1longevityls6)
 summary(f1longevityls6)
 
-# Assumption checking 
-performance::check_model(f1longevityls6)
-# Looks normal at first glance 
 
 
 f1longevityls6table <- 
