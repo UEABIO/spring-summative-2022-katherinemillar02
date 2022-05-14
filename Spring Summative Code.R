@@ -562,6 +562,33 @@ f1longevityls3 <- glm(longevity ~ treatment + parental_treatment
                          family = gaussian(link = "identity"),
                          data = f1lifespan)
 
+exp(coef(f1longevityls3)[1]) 
+
+exp(coef(f1longevityls3)[2])  
+
+exp(coef(f1longevityls3)[3]) 
+
+exp(coef(f1longevityls3)[4]) 
+
+broom::tidy(f1longevityls3, 
+            exponentiate=T, 
+            conf.int=T)
+
+
+
+drop1(f1longevityls3, test = "Chisq")
+
+
+emmeans::emmeans(f1longevityls3, specs = ~ treatment:parental_treatment, type = "response")
+
+f1longevityls4 <- glm(longevity ~ treatment+parental_treatment+treatment:parental_treatment,
+                      data=f1lifespan, family=quasipoisson(link="log"))
+
+performance::check_model(f1longevityls4, check=c("homogeneity", "qq"))
+
+summary(f1longevityls4)
+broom::tidy(f1longevity)
+
 # Summary of model 
 broom::tidy(f1longevityls3)
 summary(f1longevityls3)
