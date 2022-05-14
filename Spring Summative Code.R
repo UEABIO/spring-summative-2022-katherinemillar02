@@ -400,7 +400,7 @@ f1lifespanls2 <-  lm(longevity ~ parental_rnai + parental_treatment + parental_r
 summary(f1lifespanls2)
 # Assumption checking 
 performance::check_model(f1lifespanls2)
-# 
+
 
 performance::check_model(f1longevityls2, check=c("normality", "qq"))
 # Doesn't look normal 
@@ -417,42 +417,31 @@ f1longevityls2 <- lm(log(longevity) ~ parental_rnai + parental_treatment + paren
 performance::check_model(f1longevityls2, check=c("normality", "qq"))
 # Better 
 
-
+# Doing a glm test 
 f1longevityls2<- glm(longevity ~ parental_rnai + parental_treatment 
                      + parental_treatment:parental_rnai, 
               family = gaussian(link = "identity"),
               data = f1lifespan)
+performance::check_model(f1longevityls2, check=c("normality", "qq"))
+
 
 summary(f1longevityls2)
 # glm exactly the same as lm
 # Still doesn't look okay 
 
 
-
-
-lm(longevity ~ parental_rnai + parental_treatment + parental_rnai:parental_treatment, data = f1lifespan ) %>%
-  broom::tidy(., conf.int=T) %>% 
-  slice(1:2)
-
 #  keep interaction term? 
 drop1(f1longevityls2, test = "F")
 #  Don't keep interaction term, no significance 
-# Significance? 
+
 
 # New model
 f1longevityls3 <-  lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
 performance::check_model(f1longevityls3, check=c("homogeneity", "qq"))
 
-
-lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan ) %>%
-  broom::tidy(., conf.int=T) %>% 
-  slice(1:2)
-
 # Using broom::tidy as a summary function 
 broom::tidy(f1longevityls3)
 summary(f1longevityls3)
-
-
 
 f1longevityls3table <- 
   f1longevityls3 %>% broom::tidy(conf.int = T) %>% 
@@ -472,8 +461,6 @@ f1longevityls3table
 
 
 
-
-
 # MODEL 6 
 # F1 offsprings vs their parent's rnai treatment 
 #  F1 offsprings, parent's rnai 
@@ -489,10 +476,6 @@ f1longevityls3table
 
 # Creating the model 
 f1reproductionls1 <- lm(offsprings ~ parental_rnai, data = f1reproduction )
-
-lm(offsprings ~ parental_rnai, data = f1reproduction )%>%
-  broom::tidy(., conf.int=T) %>% 
-  slice(1:2)
 
 # Assumption Checking 
 performance::check_model(f1reproductionls1)
@@ -549,60 +532,70 @@ MASS::boxcox(f1lifespanls3)
 
 # Box cox - Transformation 
 
+# Using sqrt 
 f1longevityls3 <- lm(sqrt(longevity) ~ treatment + parental_treatment 
                      + parental_treatment:treatment, data = f1lifespan)
-
 performance::check_model(f1longevityls3, check=c("homogeneity", "qq"))
 
+# Using log 
 f1longevityls3 <- lm(log(longevity) ~ treatment + parental_treatment 
                      + parental_treatment:treatment, data = f1lifespan)
-
+# Doing a glm 
 f1longevityls3 <- glm(longevity ~ treatment + parental_treatment 
                       + parental_treatment:parental_rnai, 
-                         family = gaussian(link = "identity"),
+                         family = poisson(link = "identity"),
                          data = f1lifespan)
 
+# exponentiate coefficients 
 exp(coef(f1longevityls3)[1]) 
-
 exp(coef(f1longevityls3)[2])  
-
 exp(coef(f1longevityls3)[3]) 
-
 exp(coef(f1longevityls3)[4]) 
 
+# Tidying models (removing log transformation)
 broom::tidy(f1longevityls3, 
             exponentiate=T, 
             conf.int=T)
 
 
-
+# fixed mean variance model - chisquared 
 drop1(f1longevityls3, test = "Chisq")
 
-
-emmeans::emmeans(f1longevityls3, specs = ~ treatment:parental_treatment, type = "response")
-
-f1longevityls4 <- glm(longevity ~ treatment+parental_treatment+treatment:parental_treatment,
+# quasipoisson - overdistribution 
+f1longevityls4 <- glm(longevity ~ treatment + parental_treatment + parental_treatment:treatment,
                       data=f1lifespan, family=quasipoisson(link="log"))
-
 performance::check_model(f1longevityls4, check=c("homogeneity", "qq"))
 
-summary(f1longevityls4)
-broom::tidy(f1longevity)
-
 # Summary of model 
-broom::tidy(f1longevityls3)
-summary(f1longevityls3)
+summary(f1longevityls4)
+broom::tidy(f1longevityls4)
+
+
 
 # Using drop1 - keep interaction effect?
-drop1(f1longevityls3, test = "F")
-#
+drop1(f1longevityls4, test = "F")
+# no longer significant 
+ 
+# new model without interaction effect 
+f1longevityls5 <- glm(longevity ~ treatment + parental_treatment,
+                      data=f1lifespan, family=quasipoisson(link="log"))
 
-# Assumption checking 
-performance::check_model(f1longevityls3, check="homogeneity")
-performance::check_model(f1longevityls3, check="normality")
+f1longevityls5table <- 
+  f1longevityls5 %>% broom::tidy(conf.int = T) %>% 
+  select(-`std.error`) %>% 
+  mutate_if(is.numeric, round, 2) %>% 
+  kbl(col.names = c("Predictors",
+                    "Estimates",
+                    "Z-value",
+                    "P",
+                    "Lower 95% CI",
+                    "Upper 95% CI"),
+      caption = "Model 4", 
+      booktabs = TRUE) %>% 
+  kable_styling(full_width = FALSE, font_size=16)
 
 
-
+f1longevityls5table
 
 
 
