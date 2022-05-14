@@ -480,30 +480,38 @@ f1longevityls3table
 
 # Visualising the data 
  ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=parental_rnai))+
-  geom_boxplot()+
+  geom_boxplot()
+ 
   labs('title' = "F1 offspring and their parent's rnai"
        "subtitle" = "the amount of offspring F1 generation have and what rnai gene their parents had",
        y = 'Offspring',
        x = 'RNAi treatment')
 
 # Creating the model 
-f1reproductionls4 <- lm(offsprings ~ parental_rnai, data = f1reproduction )
+f1reproductionls1 <- lm(offsprings ~ parental_rnai, data = f1reproduction )
 
 lm(offsprings ~ parental_rnai, data = f1reproduction )%>%
   broom::tidy(., conf.int=T) %>% 
   slice(1:2)
 
 # Assumption Checking 
-performance::check_model(f1reproductionls4)
-
+performance::check_model(f1reproductionls1)
+performance::check_model(f1reproductionls1, check=c("homogeneity", "qq"))
 # Homogenity not okay 
 
 # Transformation with BoxCox 
 # run this, pick a transformation and retest the model fit
-MASS::boxcox(f1reproductionls4)
+MASS::boxcox(f1reproductionls1)
 
-f1reproductionls4table <- 
-  f1reproductionls4 %>% broom::tidy(conf.int = T) %>% 
+# use glm 
+f1reproductionls1 <- glm(offsprings ~ parental_rnai, 
+              family = gaussian(link = "identity"),
+              data = f1reproduction)
+performance::check_model(f1reproductionls1, check=c("homogeneity", "qq"))
+
+
+f1reproductionls1table <- 
+  f1reproductionls1 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
   mutate_if(is.numeric, round, 2) %>% 
   kbl(col.names = c("Predictors",
@@ -516,7 +524,7 @@ f1reproductionls4table <-
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=16)
 
-f1reproductionls4table
+f1reproductionls1table
 
 
 
@@ -528,8 +536,31 @@ f1reproductionls4table
 ggplot(f1lifespan, aes(x=parental_treatment, y=longevity, fill=treatment))+
   geom_boxplot()
 
-f1longevityls3 <- lm(longevity ~ parental_treatment + treatment + parental_treatment:treatment, data = f1lifespan)
+f1lifespanls3 <- lm(longevity ~ parental_treatment + treatment + parental_treatment:treatment, data = f1lifespan)
 
+
+
+performance::check_model(f1lifespanls3, check=c("homogeneity", "qq"))
+
+MASS::boxcox(f1lifespanls3)
+
+
+
+
+# Box cox - Transformation 
+
+f1longevityls3 <- lm(sqrt(longevity) ~ treatment + parental_treatment 
+                     + parental_treatment:treatment, data = f1lifespan)
+
+performance::check_model(f1longevityls3, check=c("homogeneity", "qq"))
+
+f1longevityls3 <- lm(log(longevity) ~ treatment + parental_treatment 
+                     + parental_treatment:treatment, data = f1lifespan)
+
+f1longevityls3 <- glm(longevity ~ treatment + parental_treatment 
+                      + parental_treatment:parental_rnai, 
+                         family = gaussian(link = "identity"),
+                         data = f1lifespan)
 
 # Summary of model 
 broom::tidy(f1longevityls3)
@@ -542,11 +573,6 @@ drop1(f1longevityls3, test = "F")
 # Assumption checking 
 performance::check_model(f1longevityls3, check="homogeneity")
 performance::check_model(f1longevityls3, check="normality")
-
-
-# Box cox - Transformation 
-
-
 
 
 
