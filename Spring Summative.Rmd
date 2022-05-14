@@ -61,27 +61,7 @@ Stressful conditions has an affect on the amount of offsprings the f0 generation
 
 f0 - does stress (light) have an affect on their own longevity 
 
- model 1 - f0 lifespan based on THEIR rnai gene and treatment 
-f0 - longevity, rnai, treatment (tick)
 
- model 2 - f0 longevity based on whether THEY were in light/dark
-f0 - longevity, treatment (tick)
-
- model 3 - f0 amount of offspring based on rnai gene and treatment 
-f0 - offspring, rnai, treatment (tick)
-
- model 4 - f1 longevity based on their parent's rnai and parents treatment
-f1 - longevity, parent's rnai, parent's treatment (tick)
-
- model 5 - f1 offspring vs their parents rnai and treatment 
-f1 - offspring, parent's rnai, parent's treatment (tick)
-
- model 6 - f1 longevity based on their treatment and their parent's treatment 
-f1 - longevity, parental treatment and treatment  (tick)
-
-
-model 7 - f1 longevity with their treatment and replicate 
-f1 longevity, treatment, plate (tick)
 
 
 
@@ -114,7 +94,7 @@ A nematode worm usually lives best in dark conditions, as they are adapted to li
 
 ### Hypothesis  - 
 
-The hypothesis that stressful conditions in the f0 generation have an affect on their on longevity was tested
+The hypothesis that stressful conditions in the f0 generation have an affect on their on longevity was tested. 
 
 Previous research has indicated that there is a relation of stressful conditions and longevity of the nematode worm. Although, a connection between the two is known, the data for the exact reasons behind this is skewed (Zhou et al, 2011).
 A factor to be considered, with nematodes, which are able to withstand an true affect of aging from stress, are known to have resistance to increased stress resistance. 
@@ -123,7 +103,7 @@ A factor to be considered, with nematodes, which are able to withstand an true a
 knitr::kable()
 ```
 
-There was a significant overall effect on the longevity of the nematode worm of the f0 generation (Linear model:(*P*=2.66^-77 ) with dark treatment to light treatment. 
+There was a significant overall effect on the longevity of the nematode worm of the f0 generation (Linear model:(*P*=0 ) with dark treatment to light treatment. 95% CI (1.13-0.96). 
 
 
 A model which looked at the longevity of f0 was created based on whether or not they lived in light or dark conditions, as well as what gene knockdown treatment they had.
@@ -133,24 +113,23 @@ A model which looked at the longevity of f0 was created based on whether or not 
 
 ```
 
-There was a reason to keep the interaction effect (F= 0.006), and was kept in the model. 
+The model originally started with an interaction effect between rnai:treatment, however thuis was removed from the model as there was no statistical significance (*P*= 0.12). 
 
-It was found that there was a significant difference for dark treatment and light treatment  (*F*, -15.4, *P*=4.97^-42). 
-There was significant difference in empty vector rnai treatment and raga-1 rnai treatment (F, 4.09, *P*=5.21^-5).
+It was found that there was a significant difference for dark treatment and light treatment (*Z*=-25.18, *P*=0).  
+There was significant difference in empty vector rnai treatment and raga-1 rnai treatment (*Z*=3.32, *P*=0). 
 
-There was a significant effect on empty vector rnai and dark treatment to rnai raga-1 and light treatment (F-2.75, P=6.23^-3). 
 
 ### Hypothesis  - 
 The hypothesis that f0's reproduction would be affected by their conditions was created. 
-
 
 A model which looked at the amount of offspring the f0 generation had versus the rnai gene knockdown treatment they had, as well as if they lived in dark or light conditions was created. 
 ```{r, echo=FALSE}
 
 ```
 
-There is no significance when looking at the difference in offspring produced from rnai raga and rnai empty vector (F, 19 ,  P= 0.56). There is a high amount of significance when looking at the amount of offspring f0 generation had when comparing dark treatment and light treatment (F^-3.1O , P=0.0). 
+There was no significance found when looking at the difference in offspring produced from rnai raga and rnai empty vector (F, 19 ,  P= 0.56). This means the null hypothesis is rejected that there will be a significant difference in reproduction when comparing how the empty vector gene and the rnai knockdown gene affect the offspring of the f0 generation. 
 
+There is a high amount of significance when looking at the amount of offspring f0 generation had when comparing dark treatment and light treatment (*F*-3.1O , *P*=0.0). This accepts the null hypothesis that there will be a significant difference in how the conditions the *c.elegans* will affect the amount of offspring they have. 
 
 ### Hypothesis - 
 The hypothesis that the longevity of f0 generation's offspring would be affected by both their rnai gene and treatment was created. --- 

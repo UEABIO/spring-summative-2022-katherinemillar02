@@ -82,32 +82,22 @@ f0lifespanls1 <- lm(longevity ~ rnai + treatment + rnai + rnai:treatment, data =
 # Assumption checking 
 # Doing a performance check to look for normality in the model
 performance::check_model(f0lifespanls1)
-
 performance::check_model(f0lifespanls1, check="homogeneity") 
-# Doesn't look normal 
-
 performance::check_model(f0lifespanls1, check=c("normality","qq"))
+performance::check_model(f0lifespanls1, check="outliers")
 # Doesn't look normal 
 
-performance::check_model(f0lifespanls1, check="outliers")
-# 
-
-# Data Transformations - 
+# Data Transformations - using BoxCox
 MASS::boxcox(f0lifespanls1)
 # Shows parameter = (0-0.5) 
-
-# 
 
 # Using sqrt to transform data 
 f0lifespanls1 <- lm(sqrt(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
 performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
-# Looks the best
 
 # Using log to transform data 
 f0lifespanls1 <- lm(log(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
 performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
-
-
 
 # Found that 
 # Using residual deviance and degrees of freedom 
