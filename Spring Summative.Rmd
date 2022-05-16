@@ -87,7 +87,7 @@ The conditions in which the nematode worm lived in, and what gene treatment it r
 
 
 ```{r echo=FALSE}
-knitr::include_graphics(here("Data", "images", "rnaiandlongevity.png"))
+knitr::include_graphics(here("figures", "treatmentslongevity.png"))
 ```
 
 A nematode worm usually lives best in dark conditions, as they are adapted to live in the soil. Conditions other than this, such as light conditions can be stated as a stressful condition and could be considered a factor for shorter longevity. 
@@ -100,7 +100,7 @@ Previous research has indicated that there is a relation of stressful conditions
 A factor to be considered, with nematodes, which are able to withstand an true affect of aging from stress, are known to have resistance to increased stress resistance. 
 
 ```{r, echo=FALSE} 
-knitr::kable()
+
 ```
 
 There was a significant overall effect on the longevity of the nematode worm of the f0 generation (Linear model:(*P*=0 ) with dark treatment to light treatment. 95% CI (1.13-0.96). 
@@ -183,8 +183,8 @@ Zhou, K.I., Pincus, Z. and Slack, F.J., 2011. Longevity and stress in Caenorhabd
 Scharf, A., Egan, B., Pohl, F., Kocsisova, Z. and Kornfeld, K., 2021. Reproductive aging in C. elegans: from molecules to ecology. Frontiers in cell and developmental biology, p.2343.
 
 Lapierre, L.R. and Hansen, M., 2012. Lessons from C. elegans: signaling pathways for longevity. Trends in Endocrinology & Metabolism, 23(12), pp.637-644.
-Vancouver	
 
+Benayoun, B.A. and Brunet, A., 2012, January. Epigenetic memory of longevity in Caenorhabditis elegans. In Worm (Vol. 1, No. 1, pp. 77-81). Taylor & Francis.
 
 
 

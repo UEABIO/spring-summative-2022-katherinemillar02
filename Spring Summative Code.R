@@ -36,12 +36,25 @@ GGally::ggpairs(f0lifespan)
 GGally::ggpairs(f1lifespan)
 GGally::ggpairs(f0reproduction)
 GGally::ggpairs(f1reproduction)
+
+
                                                     
 # Looking for a mean and SD for f0 lifespan depending on rnai treatment
 f0lifespan_summary <- f0lifespan %>%
   group_by(rnai) %>%
   summarise(mean = mean(longevity),
             sd=sd(longevity))
+
+f0lifespan_summary <- f0lifespan %>%
+  group_by(as.factor(treatment)) %>%
+  summarise(mean = mean(longevity),
+            sd=sd(longevity))
+
+f0lifespan %>% 
+  group_by(treatment) %>% 
+  summarise(mean=mean(longevity),
+            sd=sd(longevity))
+
 
 # Making a table of f0 lifespan (mean and SD) depending on rnai treatment 
 f0lifespan_summary %>%
@@ -69,11 +82,16 @@ f0reproduction_summary %>%
      #  F0 - longevity, rnai, treatment 
 
 # Visualising the data with a box plot 
-ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment))+
-  geom_boxplot()+
+q2 <- ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment)) +
+  geom_boxplot() +
   labs('title' = ' F0 - Effect of treatment and genes on longevity',
        y = 'Longevity',
-       x = 'RNAi treatment') 
+       x = 'RNAi treatment', 
+       fill = "Treatment") +
+  scale_fill_manual(values = alpha(c("#a84632", "#8ba832"),.3)) 
+  
+
+
   
 
 # Creating a linear model 
@@ -94,6 +112,7 @@ MASS::boxcox(f0lifespanls1)
 # Using sqrt to transform data 
 f0lifespanls1 <- lm(sqrt(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
 performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
+
 
 # Using log to transform data 
 f0lifespanls1 <- lm(log(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
@@ -128,6 +147,10 @@ performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
 
 
 
+means <- emmeans::emmeans(f0lifespanls1, specs = ~rnai)
+means
+
+
 summary(f0lifespanls1)
 broom::tidy(f0lifespanls1)
 
@@ -155,8 +178,17 @@ f0lifespanls1table
  # F0 - longevity, treatment 
 
 # Visualising the data 
-ggplot(f0lifespan, aes(x=treatment, y=longevity, fill=treatment))+ 
-  geom_boxplot()
+q1 <- ggplot(f0lifespan, aes(x=treatment, y=longevity, fill=treatment))+ 
+geom_boxplot() + 
+labs('title' = ' F0 - Effect of treatment on longevity',
+       y = 'Longevity',
+       x = 'Treatment', 
+       fill = "Treatment") +
+  scale_fill_manual(values = alpha(c("#a84632", "#8ba832"),.3)) 
+
+q1 + q2
+
+ggsave("figures/treatmentslongevity.png", plot= q1+q2 , dpi=900, width = 7, height = 7)
 
 # Creating linear model 
 f0lifespanls2 <- lm(longevity ~ treatment, data = f0lifespan)
@@ -195,8 +227,6 @@ broom::tidy(f0lifespanls2)
 summary(f0lifespanls2)
 
 
-# Doing an anova test with original data 
-anova(f0lifespanls2)
 
 # created a table for the final model choice 
 f0lifespanls2table <- 
@@ -338,6 +368,14 @@ performance::check_model(f1lifespanls1, check=c("homogeneity", "qq"))
 # poisson 
 f1lifespanls1<- glm(formula = longevity ~ parental_rnai,
                       family = quasipoisson(), data = f1lifespan)
+performance::check_model(f1lifespanls1, check=c("homogeneity", "qq")) 
+
+f1lifespanls1<- glm(longevity ~ parental_rnai,
+                    family=binomial(link=logit), data = f1lifespan)
+
+
+
+
 # best fit out of 
 
 
@@ -405,7 +443,7 @@ performance::check_model(f1longevityls2, check=c("normality", "qq"))
 
 f1longevityls2 <- lm(log(longevity) ~ parental_rnai + parental_treatment + parental_treatment:parental_rnai, data = f1lifespan)
 performance::check_model(f1longevityls2, check=c("normality", "qq"))
-# Better 
+# Better - the best
 
 # Doing a glm test 
 f1longevityls2<- glm(longevity ~ parental_rnai + parental_treatment 
@@ -413,6 +451,7 @@ f1longevityls2<- glm(longevity ~ parental_rnai + parental_treatment
               family = gaussian(link = "identity"),
               data = f1lifespan)
 performance::check_model(f1longevityls2, check=c("normality", "qq"))
+
 
 
 summary(f1longevityls2)
@@ -426,8 +465,10 @@ drop1(f1longevityls2, test = "F")
 
 
 # New model
-f1longevityls3 <-  lm(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
+
+f1longevityls3 <-  lm(sqrt(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
 performance::check_model(f1longevityls3, check=c("homogeneity", "qq"))
+
 
 # Using broom::tidy as a summary function 
 broom::tidy(f1longevityls3)
@@ -482,6 +523,7 @@ f1reproductionls1 <- glm(offsprings ~ parental_rnai,
               data = f1reproduction)
 performance::check_model(f1reproductionls1, check=c("homogeneity", "qq"))
 
+broom::tidy(f1reproductionls1)
 
 f1reproductionls1table <- 
   f1reproductionls1 %>% broom::tidy(conf.int = T) %>% 
@@ -530,6 +572,8 @@ performance::check_model(f1longevityls3, check=c("homogeneity", "qq"))
 # Using log 
 f1longevityls3 <- lm(log(longevity) ~ treatment + parental_treatment 
                      + parental_treatment:treatment, data = f1lifespan)
+performance::check_model(f1longevityls3, check=c("homogeneity", "qq"))
+
 # Doing a glm 
 f1longevityls3 <- glm(longevity ~ treatment + parental_treatment 
                       + parental_treatment:parental_rnai, 
@@ -563,12 +607,20 @@ broom::tidy(f1longevityls4)
 
 
 # Using drop1 - keep interaction effect?
-drop1(f1longevityls4, test = "F")
+drop1(f1longevityls4, 
+      test = "F")
 # no longer significant 
  
 # new model without interaction effect 
 f1longevityls5 <- glm(longevity ~ treatment + parental_treatment,
                       data=f1lifespan, family=quasipoisson(link="log"))
+performance::check_model(f1longevityls5, check=c("homogeneity", "qq"))
+
+
+drop1(f1longevityls5, test = "Chisq")
+
+
+broom::tidy(f1longevityls5)
 
 f1longevityls5table <- 
   f1longevityls5 %>% broom::tidy(conf.int = T) %>% 
