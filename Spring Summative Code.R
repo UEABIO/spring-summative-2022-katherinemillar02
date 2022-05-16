@@ -41,7 +41,7 @@ GGally::ggpairs(f1reproduction)
                                                     
 # Looking for a mean and SD for f0 lifespan depending on rnai treatment
 f0lifespan_summary <- f0lifespan %>%
-  group_by(rnai) %>%
+  group_by(rnai) %>% 
   summarise(mean = mean(longevity),
             sd=sd(longevity))
 
@@ -150,6 +150,10 @@ performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
 means <- emmeans::emmeans(f0lifespanls1, specs = ~rnai)
 means
 
+means <- emmeans::emmeans(f0lifespanls1, specs = ~treatment)
+
+exp(2.79)
+
 
 summary(f0lifespanls1)
 broom::tidy(f0lifespanls1)
@@ -170,6 +174,19 @@ f0lifespanls1table <-
   kable_styling(full_width = FALSE, font_size=16)
 
 f0lifespanls1table
+
+exp(2.67) 
+exp (2.78)
+# 14- 16 days 
+
+exp(0.05)
+exp(0.19)
+# 1 - 1.21 days 
+
+exp(-1.13)
+exp (-0.97)
+# 0.32 - 0.38 days 
+
 
 
 
