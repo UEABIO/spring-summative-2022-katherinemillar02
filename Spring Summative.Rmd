@@ -12,6 +12,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r echo=FALSE, message=FALSE}
 library(here)
 library(tidyverse)
+
+source(here("scripts", "Spring Summative Code.R"))
+
 ```
 
 ### Investigating the effect of RNAi treatment on the longevity of *c.elegans*
@@ -31,8 +34,10 @@ It could be predicted that *raga-1* gene being the dsDNA target gene will theref
     
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
-plot1
+
+
+f0lifespanls1table 
+
 
 ```
 
@@ -43,16 +48,12 @@ The model tested, originally started with an interaction effect between RNAi for
 
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
-f0lifespanls1table
-
 ```
 
 A Poisson GLM test with Quasi, to counter for overdispersion in variance was performed. This model looked at both how living in stressful conditions and what gene treatment received can have a clear effect on how many days a *c.elegans* in the F0 generation would live for. There was a significant overall effect on longevity of the nematode worm (Poisson GLM: *P* \< 0.0001), (*t* = \< 0.0001 )The average lifespan of the *c.elegans* living in dark conditions was 16 days, 95% CI [14 - 16]. The average lifespan of *c.elegans* that lived in light, non-stressful conditions was ( ). Having the empty vector knockout gene, as suppose to the *raga-1* gene, showed to have a clear significance to the lifespan of the *c.elegans* in the F0 generation (Poisson GLM: *P* \< 0.001 ). Showing that the *c.elegans* which received the raga gene, had slightly longer longevity but not by a massive amount.
 
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
 f0lifespanls2table
 
 ```
@@ -63,7 +64,6 @@ A model looking at just the stressful conditions in which the lifespan of the *c
 
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
 q1 + q2
 
 ```
@@ -80,7 +80,6 @@ There was originally an interaction term between RNAi and treatment for the amou
 
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
 f0reproductionls2table
 
 ```
@@ -92,21 +91,19 @@ There is a high amount of significance when looking at the amount of offspring f
 (3) Plot 
     Model 4
     Model 5
+    
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
-plot3
 
 ```
     
     
 *C.elegans* are often used as a model organism in epigenetic research. Epigenetic marks are known to respond to environmental cues, and can potentially pass on this information to the next few generations, it could be possible for transgenerational inheritance of longevity to occur in the *c.elegans* (Benayoun et al, 2012).
 
-The idea that environmental conditions such as treatment and, the rnai gene treatment and the F0 generation received will likely shorten the longevity of their F1 offspring was tested.
+The idea that environmental conditions such as treatment and, the RNAi gene treatment and the F0 generation received will likely shorten the longevity of their F1 offspring was tested.
 
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
 
 ```
 
@@ -117,7 +114,6 @@ There was an interaction effect between parental rnai and parental treatment use
 
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
 
 
 ```
@@ -131,8 +127,7 @@ Model 6
 
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
-plot4
+
 
 ```
 
@@ -141,7 +136,7 @@ plot4
 
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
+
 f1reproductionls1table
 
 ```
@@ -152,8 +147,7 @@ The rnai treatment in which the parent of the F1 generation received during thei
 
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
-plot5
+
 
 ```
 
@@ -163,8 +157,6 @@ The initial model contained an interaction term between Parental RNAi and Parent
 
 ```{r echo=FALSE, message=FALSE}
 
-source(here("scripts", "Spring Summative Code.R"))
-f1longevityls5table
 
 ```
 
