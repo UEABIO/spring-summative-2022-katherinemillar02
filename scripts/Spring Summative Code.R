@@ -37,46 +37,17 @@ GGally::ggpairs(f1lifespan)
 GGally::ggpairs(f0reproduction)
 GGally::ggpairs(f1reproduction)
 
-
-                                                    
-# Looking for a mean and SD for f0 lifespan depending on rnai treatment
-f0lifespan_summary <- f0lifespan %>%
-  group_by(rnai) %>% 
-  summarise(mean = mean(longevity),
-            sd=sd(longevity))
-
-# Looking for a mean and SD for f0 lifespan depending on rnai treatment
-f0lifespan_summary <- f0lifespan %>%
-  group_by(as.factor(treatment)) %>%
-  summarise(mean = mean(longevity),
-            sd=sd(longevity))
-
-f0lifespan %>% 
-  group_by(treatment) %>% 
-  summarise(mean=mean(longevity),
-            sd=sd(longevity))
-
-
-# Making a table of f0 lifespan (mean and SD) depending on rnai treatment 
-f0lifespan_summary %>%
-  kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
-  kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
-
-
-# Created a summary for rnai treatment and offspring for f0
+# Created a summary for rnai and offspring for f0
  f0reproduction_summary <- f0reproduction %>%
   group_by(rnai) %>%
   summarise(mean = mean(offspring),
             sd=sd(offspring))
-
-# Looking at the mean offspring (and SD value) F0-generation have depending on rnai treatment
+# Created a table for mean and sd of f0 offspring based on rnai treatment
 f0reproduction_summary %>%
   kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
   kable_styling(bootstrap_options = "striped", full_width = T, position = "left")
 
-
 #### Testing and working with different models 
-
         # MODEL 1 
 # Gene knockdown AND light/dark treatment 
 # F0-lifespan based on THEIR rnai gene and light/dark treatment 
@@ -91,10 +62,6 @@ q2 <- ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment)) +
        fill = "Treatment") +
   scale_fill_manual(values = alpha(c("#a84632", "#8ba832"),.3)) 
   
-
-
-  
-
 # Creating a linear model 
 f0lifespanls1 <- lm(longevity ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
 
@@ -112,67 +79,66 @@ MASS::boxcox(f0lifespanls1)
 
 # Using sqrt to transform data 
 f0lifespanls1 <- lm(sqrt(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
+# Using performance check to check for normality 
 performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
-
 
 # Using log to transform data 
 f0lifespanls1 <- lm(log(longevity) ~ rnai + treatment + rnai + rnai:treatment, data = f0lifespan)
+# Using performance check to check for normality 
 performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
 
-# Found that 
-# Using residual deviance and degrees of freedom 
-#  619/394 = 
+# Found that - Using residual deviance and degrees of freedom 619/394 = 1.6
 
-# 
-
+# using glm to transform data 
 f0lifespanls1 <- glm(formula = longevity ~ rnai + treatment + rnai:treatment,
                      family = quasipoisson(), data = f0lifespan)
-summary(f0lifespanls1)
-
-# Confirming log exp value of intercept 
-
+# Using performance check to check for normality 
+performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
 
 # Using summary and broom tidy to give a summary of f0lifespanls1 results 
 summary(f0lifespanls1)
 broom::tidy(f0lifespanls1) 
 
-
-
-
+# model with exp values 
 broom::tidy(f0lifespanls1, 
             exponentiate=T, 
             conf.int=T)
-
- 
 
 # Using drop1 function to see if rnai:treatment interaction term should be kept  
 drop1(f0lifespanls1, test = "F")
 # Do not keep interaction effect, there is no statistical significance 
 
+# Model without the interaction effect
 f0lifespanls1 <- glm(formula = longevity ~ rnai + treatment,
                      family = quasipoisson(), data = f0lifespan)
-
+# Using performance check to check for normality 
 performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
 
-
-
+# Using emmeans for means value for RNAi and treatment
 means <- emmeans::emmeans(f0lifespanls1, specs = ~rnai)
-means
-
 means <- emmeans::emmeans(f0lifespanls1, specs = ~treatment)
 
+# Calculating real values
 exp(1.74)
-
 exp(2.20)
 exp(2.32)
-
 exp(2.15)
 exp(2.26)
-
 exp(2.27)
 exp(2.38)
+exp(-24.85)
+exp(2.67) 
+exp (2.78)
+# 14- 16 days 
+exp(0.05)
+exp(0.19)
+# 1 - 1.21 days 
+exp(-1.13)
+exp (-0.97)
+# 0.32 - 0.38 days 
 
 
+# Using summary and broom::tidy for analysis of new model 
 summary(f0lifespanls1)
 broom::tidy(f0lifespanls1)
 
@@ -193,22 +159,6 @@ f0lifespanls1table <-
 
 f0lifespanls1table
 
-here(f0lifespanls1table)
-
-exp(-24.85)
-
-exp(2.67) 
-exp (2.78)
-# 14- 16 days 
-
-exp(0.05)
-exp(0.19)
-# 1 - 1.21 days 
-
-exp(-1.13)
-exp (-0.97)
-# 0.32 - 0.38 days 
-
 
 
 
@@ -225,8 +175,10 @@ labs('title' = ' F0 - Effect of treatment on longevity',
        fill = "Treatment") +
   scale_fill_manual(values = alpha(c("#a84632", "#8ba832"),.3)) 
 
+# patchwork to create joint plots of the two
 q1 + q2
 
+# Saving the plot via ggsave 
 ggsave("figures/treatmentslongevity.png", plot= q1+q2 , dpi=900, width = 7, height = 7)
 
 # Creating linear model 
@@ -234,12 +186,8 @@ f0lifespanls2 <- lm(longevity ~ treatment, data = f0lifespan)
 
 # performance function - checked for normality
 performance::check_model(f0lifespanls2)
-
 performance::check_model(f0lifespanls2, check=c("normality","qq")) 
 # Doesn't look great
-
-
-
 
 # Did a transformation test
 MASS::boxcox(f0lifespanls2)
@@ -247,28 +195,27 @@ MASS::boxcox(f0lifespanls2)
 
 # Using sqrt to transform data 
 f0lifespanls2 <- lm(sqrt(longevity) ~  treatment, data = f0lifespan)
+# performance function - checked for normality
 performance::check_model(f0lifespanls2, check=c("homogeneity", "qq"))
 # Looks OK 
 
 # log
 f0lifespanls2 <- lm(log(longevity) ~  treatment, data = f0lifespan)
+# performance function - checked for normality
 performance::check_model(f0lifespanls2, check=c("homogeneity", "qq"))
 # sqrt looks better 
 
 f0lifespanls2 <- glm(formula = longevity ~ treatment,
                      family = quasipoisson(), data = f0lifespan)
+# performance function - checked for normality
 performance::check_model(f0lifespanls2, check=c("homogeneity", "qq"))
 # Looks the best 
-
 
 # Using broom::tidy and summary function 
 broom::tidy(f0lifespanls2)
 summary(f0lifespanls2)
 
-drop1(f0lifespanls2, test = "F")
-
-
-# created a table for the final model choice 
+# created a table using KableExtra for the final model choice 
 f0lifespanls2table <- 
   f0lifespanls2 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
@@ -286,7 +233,6 @@ f0lifespanls2table <-
 f0lifespanls2table
 
 
-
 # Looked at emmeans data for amount of offspring f0 generation have vs rnai treatment
 f0offspringmeans <- emmeans::emmeans(f0lifespanls2, specs = ~treatment)
 f0offspringmeans
@@ -300,40 +246,39 @@ f0offspringmeans %>%
     ymax=upper.CL))
 
 
-
-
 # MODEL 3
 
 # Visualising the data 
 ggplot(f0reproduction, aes(x=rnai, y=offspring, fill=treatment))+
   geom_boxplot()
- 
+
 # Creating a linear model 
 f0reproductionls1 <- lm(offspring ~ rnai + treatment + rnai:treatment, data = f0reproduction)
 
 # Using performance check to check for normality 
 performance::check_model(f0reproductionls1)
-
 performance::check_model(f0reproductionls1, check=c("normality","qq"))
 # Doesn't look good 
 
-
-# Transforming data 
+# Transforming data using BoxCox
 MASS::boxcox(f0reproductionls1)
 # 0-0.5
 
 # Using sqrt to transform data 
 f0reproductionls1 <- lm(sqrt(offspring) ~ rnai + treatment + rnai:treatment, data = f0reproduction)
+# Using performance check to check for normality 
 performance::check_model(f0reproductionls1, check=c("homogeneity", "qq"))
 
 # Using log to transform data 
 f0reproductionls1 <- lm(log(offspring) ~ rnai + treatment +  rnai:treatment, data = f0reproduction)
+# Using performance check to check for normality 
 performance::check_model(f0reproductionls1, check=c("homogeneity", "qq"))
 
 #  glm test 
 f0reproductionls1 <- glm(formula = offspring ~ rnai + treatment 
                       + rnai:treatment,
                       family = quasipoisson(), data = f0reproduction)
+# Using performance check to check for normality 
 performance::check_model(f0reproductionls1, check=c("homogeneity", "qq"))
 
 #  sqrt was best to transform data 
@@ -386,40 +331,33 @@ f1lifespanls1 <- lm(longevity ~ parental_rnai, data = f1lifespan )
 performance::check_model(f1lifespanls1)
 # Doesn't look good 
 
+# Using performance check to check for normality 
 performance::check_model(f1lifespanls1, check = c("normality", "qq"))
 
-# When normality is bad 
-# BoxCox to transform data 
 
-# run this, pick a transformation and retest the model fit
+# BoxCox to transform data 
 MASS::boxcox(f1lifespanls1)
 
 # Using sqrt to transform data 
 f1lifespanls1 <- lm(sqrt(longevity) ~ parental_rnai, data = f1lifespan)
+# Using performance check to check for normality 
 performance::check_model(f1lifespanls1, check=c("homogeneity", "qq")) 
 
 # Using log to transform data 
 f1lifespanls1 <- lm(log(longevity) ~ parental_rnai, data = f1lifespan)
+# Using performance check to check for normality 
 performance::check_model(f1lifespanls1, check=c("homogeneity", "qq")) 
 
 
-# poisson 
+# poisson glm
 f1lifespanls1<- glm(formula = longevity ~ parental_rnai,
                       family = quasipoisson(), data = f1lifespan)
+# Using performance check to check for normality 
 performance::check_model(f1lifespanls1, check=c("homogeneity", "qq")) 
 
-f1lifespanls1<- glm(longevity ~ parental_rnai,
-                    family=binomial(link=logit), data = f1lifespan)
-
-
-
-
-# best fit out of 
-
-
+# Summary of the models
 summary(f1lifespanls1)
 broom::tidy(f1lifespanls1)
-
 
 # Doing an anova 
 anova(f1lifespanls1)

@@ -32,11 +32,11 @@ It could be predicted that *raga-1* gene being the dsDNA target gene will theref
 ```{r echo=FALSE, message=FALSE}
 
 source(here("scripts", "Spring Summative Code.R"))
-f01lifespanls1plot 
+plot1
 
 ```
 
-Living in stressful conditions and having a particular RNAi gene treatment is likely to influence the lifespan of *c.elegans*. There has been previous research into how stressful conditions for the *c.elegans* like living in the light, as supposed to living in the soil having dark conditions can be considered a key factor for having shorter longevity.\
+Living in stressful conditions and having a particular RNAi gene treatment is likely to influence the lifespan of *c.elegans*. There has been previous research into how stressful conditions for the *c.elegans* like living in the light, as supposed to living in the soil having dark conditions can be considered a key factor for having shorter longevity.
 Previous research has indicated that there is a correlation of stressful conditions and a decreased lifespan in the *c.elegans*. Although, a connection between the two is known, the data for the exact reasons for this is skewed (Zhou et al, 2011). There are some nematodes, however, which can withstand having an effect of aging from stress, this is known as having a stress resistance. This is quite rare, however.
 
 The model tested, originally started with an interaction effect between RNAi for gene expression knockdown and treatment, the conditions in which the *c.elegans* lived in. However, this was removed from the model as no statistical significance that it made a difference to the model (*P* = 0.12).
@@ -64,7 +64,7 @@ A model looking at just the stressful conditions in which the lifespan of the *c
 ```{r echo=FALSE, message=FALSE}
 
 source(here("scripts", "Spring Summative Code.R"))
-f0reproductionls2plot 
+q1 + q2
 
 ```
 
@@ -95,7 +95,7 @@ There is a high amount of significance when looking at the amount of offspring f
 ```{r echo=FALSE, message=FALSE}
 
 source(here("scripts", "Spring Summative Code.R"))
-f0lifespanls1table
+plot3
 
 ```
     
@@ -132,7 +132,7 @@ Model 6
 ```{r echo=FALSE, message=FALSE}
 
 source(here("scripts", "Spring Summative Code.R"))
-f0lifespanls1table
+plot4
 
 ```
 
@@ -153,7 +153,7 @@ The rnai treatment in which the parent of the F1 generation received during thei
 ```{r echo=FALSE, message=FALSE}
 
 source(here("scripts", "Spring Summative Code.R"))
-f0lifespanls1table
+plot5
 
 ```
 
