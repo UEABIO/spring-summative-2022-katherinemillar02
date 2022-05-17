@@ -175,6 +175,10 @@ f0lifespanls1table <-
 
 f0lifespanls1table
 
+here(f0lifespanls1table)
+
+exp(-24.85)
+
 exp(2.67) 
 exp (2.78)
 # 14- 16 days 
@@ -483,7 +487,9 @@ drop1(f1longevityls2, test = "F")
 
 # New model
 
-f1longevityls3 <-  lm(sqrt(longevity ~ parental_rnai + parental_treatment, data = f1lifespan)
+
+f1longevityls3 <- lm(sqrt(longevity ~ parental_rnai + parental_treatment, data = f1lifespan))
+                     
 performance::check_model(f1longevityls3, check=c("homogeneity", "qq"))
 
 
@@ -503,7 +509,7 @@ f1longevityls3table <-
                     "Upper 95% CI"),
       caption = "Model 4", 
       booktabs = TRUE) %>% 
-  kable_styling(full_width = FALSE, font_size=16)
+kable_styling(full_width = FALSE, font_size=16)
 
 f1longevityls3table
 
@@ -516,11 +522,6 @@ f1longevityls3table
 # Visualising the data 
  ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=parental_rnai))+
   geom_boxplot()
- 
-  labs('title' = "F1 offspring and their parent's rnai"
-       "subtitle" = "the amount of offspring F1 generation have and what rnai gene their parents had",
-       y = 'Offspring',
-       x = 'RNAi treatment')
 
 # Creating the model 
 f1reproductionls1 <- lm(offsprings ~ parental_rnai, data = f1reproduction )
@@ -584,11 +585,13 @@ MASS::boxcox(f1lifespanls3)
 # Using sqrt 
 f1longevityls3 <- lm(sqrt(longevity) ~ treatment + parental_treatment 
                      + parental_treatment:treatment, data = f1lifespan)
+ 
 performance::check_model(f1longevityls3, check=c("homogeneity", "qq"))
 
 # Using log 
 f1longevityls3 <- lm(log(longevity) ~ treatment + parental_treatment 
                      + parental_treatment:treatment, data = f1lifespan)
+
 performance::check_model(f1longevityls3, check=c("homogeneity", "qq"))
 
 # Doing a glm 
