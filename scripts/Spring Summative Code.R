@@ -45,6 +45,7 @@ f0lifespan_summary <- f0lifespan %>%
   summarise(mean = mean(longevity),
             sd=sd(longevity))
 
+# Looking for a mean and SD for f0 lifespan depending on rnai treatment
 f0lifespan_summary <- f0lifespan %>%
   group_by(as.factor(treatment)) %>%
   summarise(mean = mean(longevity),
@@ -129,12 +130,20 @@ f0lifespanls1 <- glm(formula = longevity ~ rnai + treatment + rnai:treatment,
 summary(f0lifespanls1)
 
 # Confirming log exp value of intercept 
-exp(2.7)
-# = 15 
+
 
 # Using summary and broom tidy to give a summary of f0lifespanls1 results 
 summary(f0lifespanls1)
 broom::tidy(f0lifespanls1) 
+
+
+
+
+broom::tidy(f0lifespanls1, 
+            exponentiate=T, 
+            conf.int=T)
+
+ 
 
 # Using drop1 function to see if rnai:treatment interaction term should be kept  
 drop1(f0lifespanls1, test = "F")
@@ -152,7 +161,7 @@ means
 
 means <- emmeans::emmeans(f0lifespanls1, specs = ~treatment)
 
-exp(2.79)
+exp(1.74)
 
 
 summary(f0lifespanls1)
