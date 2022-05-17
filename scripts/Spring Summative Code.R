@@ -163,6 +163,15 @@ means <- emmeans::emmeans(f0lifespanls1, specs = ~treatment)
 
 exp(1.74)
 
+exp(2.20)
+exp(2.32)
+
+exp(2.15)
+exp(2.26)
+
+exp(2.27)
+exp(2.38)
+
 
 summary(f0lifespanls1)
 broom::tidy(f0lifespanls1)
@@ -256,6 +265,7 @@ performance::check_model(f0lifespanls2, check=c("homogeneity", "qq"))
 broom::tidy(f0lifespanls2)
 summary(f0lifespanls2)
 
+drop1(f0lifespanls2, test = "F")
 
 
 # created a table for the final model choice 
@@ -293,8 +303,6 @@ f0offspringmeans %>%
 
 
 # MODEL 3
-# F0-generation offspring against rnai gene and treatment 
-# F0 - offspring, rnai, treatment 
 
 # Visualising the data 
 ggplot(f0reproduction, aes(x=rnai, y=offspring, fill=treatment))+
