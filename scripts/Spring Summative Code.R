@@ -167,7 +167,7 @@ f0lifespanls1table
  # F0 - longevity, treatment 
 
 # Visualising the data 
-q1 <- ggplot(f0lifespan, aes(x=treatment, y=longevity, fill=treatment))+ 
+q1 <- ggplot(f0lifespan, aes(x=treatEent, y=longevity, fill=treatment))+ 
 geom_boxplot() + 
 labs('title' = ' F0 - Effect of treatment on longevity',
        y = 'Longevity',
@@ -296,6 +296,11 @@ performance::check_model(f0reproductionls2, check=c("homogeneity", "qq"))
 broom::tidy(f0reproductionls2)
 summary(f0reproductionls2)
 
+f0offspringmeans2 <- emmeans::emmeans(f0reproductionls2, specs = ~treatment)
+f0offspringmeans2
+
+
+
 # Creating a table for the write-up
 f0reproductionls2table <- 
   f0reproductionls2 %>% broom::tidy(conf.int = T) %>% 
@@ -354,10 +359,13 @@ f1lifespanls1<- glm(formula = longevity ~ parental_rnai,
                       family = quasipoisson(), data = f1lifespan)
 # Using performance check to check for normality 
 performance::check_model(f1lifespanls1, check=c("homogeneity", "qq")) 
+# Use Poisson quasi glm 
 
 # Summary of the models
 summary(f1lifespanls1)
 broom::tidy(f1lifespanls1)
+
+
 
 # Doing an anova 
 anova(f1lifespanls1)
@@ -426,6 +434,7 @@ f1lifespanls2<- glm(longevity ~ parental_rnai + parental_treatment
                      + parental_treatment:parental_rnai, 
               family = gaussian(link = "identity"),
               data = f1lifespan)
+
 performance::check_model(f1lifespanls2, check=c("normality", "qq"))
 
 
@@ -440,9 +449,9 @@ drop1(f1lifespanls2, test = "F")
 #  Don't keep interaction term, no significance 
 
 
-# New model
+# New model - use log 
 
-f1lifespanls3 <- lm(sqrt(longevity) ~ parental_rnai + parental_treatment, data = f1lifespan)
+f1lifespanls3 <- lm(log(longevity) ~ parental_rnai + parental_treatment, data = f1lifespan)
                      
 performance::check_model(f1lifespanls3, check=c("homogeneity", "qq"))
 
