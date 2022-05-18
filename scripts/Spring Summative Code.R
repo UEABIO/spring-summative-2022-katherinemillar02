@@ -336,14 +336,12 @@ f0reproductionls2table
   # f1 - longevity, parent's rnai
 
 # Visualise the data 
-f1lifespanls1plot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=colours))+
-  geom_boxplot()
-
-
-ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill= name)) + 
+f1lifespanls1plot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill= parental_rnai)) + 
   geom_violin()+
    labs( x = "Parental RNAi Treatment", 
-         y = "Longevity")
+         y = "Longevity",
+         fill = "Treatment")+
+  scale_fill_manual(values = alpha(c("#7732a8", "#32a854"),.3)) 
 
 
 
@@ -404,7 +402,7 @@ f1lifespanls1table <-
                     "Z-value",
                     "P",
                     "Lower 95% CI",
-                    "Upper 95% CI"),
+                    "Upper 95% CI")
       caption = "Model 4", 
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=16, latex_options = c("striped", "hold_position"))
