@@ -143,8 +143,7 @@ summary(f0lifespanls1)
 broom::tidy(f0lifespanls1)
 
 # Making a table of f0lifespan for the write-up based on their rnai gene and light/dark treatment 
-f0lifespanls1table <- 
-  f0lifespanls1 %>% broom::tidy(conf.int = T) %>% 
+f0lifespanls1table <-  f0lifespanls1 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
   mutate_if(is.numeric, round, 2) %>% 
   kbl(col.names = c("Predictors",
@@ -155,7 +154,9 @@ f0lifespanls1table <-
                     "Upper 95% CI"),
       caption = "FO Lifepan - Dark/Light Conditions and RNAi gene treatment", 
       booktabs = TRUE) %>% 
-  kable_styling(full_width = FALSE, font_size=16)
+  kable_styling(full_width = FALSE, font_size=16, latex_options = c("striped", "hold_position"))
+
+
 
 f0lifespanls1table
 
@@ -226,9 +227,9 @@ f0lifespanls2table <-
                     "P",
                     "Lower 95% CI",
                     "Upper 95% CI"),
-      caption = "Model 1", 
+      caption = "FO Lifepan - Dark/Light Conditions", 
       booktabs = TRUE) %>% 
-  kable_styling(full_width = FALSE, font_size=16)
+  kable_styling(full_width = FALSE, font_size=16, latex_options = c("striped", "hold_position"))
 
 f0lifespanls2table
 
@@ -250,7 +251,11 @@ f0offspringmeans %>%
 
 # Visualising the data 
 f0reproductionls2plot <-  ggplot(f0reproduction, aes(x=rnai, y=offspring, fill=treatment))+
-  geom_boxplot()
+  geom_boxplot()+
+  scale_fill_manual(values = alpha(c("#a84632", "#8ba832"),.3))+
+  labs( x = "RNAi Treatment",
+        y = "Offspring",
+        fill ="Treatment")
 
 # Creating a linear model 
 f0reproductionls1 <- lm(offspring ~ rnai + treatment + rnai:treatment, data = f0reproduction)
@@ -297,7 +302,11 @@ broom::tidy(f0reproductionls2)
 summary(f0reproductionls2)
 
 f0offspringmeans2 <- emmeans::emmeans(f0reproductionls2, specs = ~treatment)
+
 f0offspringmeans2
+
+f0offspringmeans21 <- emmeans::emmeans(f0reproductionls2, specs = ~rnai)
+f0offspringmeans21
 
 
 
@@ -312,9 +321,10 @@ f0reproductionls2table <-
                     "P",
                     "Lower 95% CI",
                     "Upper 95% CI"),
-      caption = "Model 3", 
+      caption = "F0 Reproduction - Dark/Light Conditions and RNAi gene treatment", 
       booktabs = TRUE) %>% 
-  kable_styling(full_width = FALSE, font_size=16)
+  kable_styling(full_width = FALSE, font_size=16, latex_options = c("striped", "hold_position"))
+
 
 f0reproductionls2table
 
@@ -326,8 +336,18 @@ f0reproductionls2table
   # f1 - longevity, parent's rnai
 
 # Visualise the data 
-f1lifespanls1plot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=longevity))+
+f1lifespanls1plot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=colours))+
   geom_boxplot()
+
+
+ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill= name)) + 
+  geom_violin()+
+   labs( x = "Parental RNAi Treatment", 
+         y = "Longevity")
+
+
+
+
 
 # creating a linear model
 f1lifespanls1 <- lm(longevity ~ parental_rnai, data = f1lifespan )
@@ -387,7 +407,7 @@ f1lifespanls1table <-
                     "Upper 95% CI"),
       caption = "Model 4", 
       booktabs = TRUE) %>% 
-  kable_styling(full_width = FALSE, font_size=16)
+  kable_styling(full_width = FALSE, font_size=16, latex_options = c("striped", "hold_position"))
 # ISSUE WITH TABLE 
 
 f1lifespanls1table
@@ -476,7 +496,7 @@ f1lifespanls3table <-
                     "Upper 95% CI"),
       caption = "Model 4", 
       booktabs = TRUE) %>% 
-kable_styling(full_width = FALSE, font_size=16)
+kable_styling(full_width = FALSE, font_size=12, latex_options = c("striped", "hold_position"))
 
 f1lifespanls3table
 
@@ -487,7 +507,7 @@ f1lifespanls3table
 #  F1 offsprings, parent's rnai 
 
 # Visualising the data 
- ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=parental_rnai))+
+f1reproductionls1plot <- ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=parental_rnai))+
   geom_boxplot()
 
 # Creating the model 
@@ -526,7 +546,9 @@ f1reproductionls1table <-
                     "Upper 95% CI"),
       caption = "Model 4", 
       booktabs = TRUE) %>% 
-  kable_styling(full_width = FALSE, font_size=16)
+  kable_styling(full_width = FALSE, font_size=12, latex_options = c("striped", "hold_position"))
+
+
 
 f1reproductionls1table
 
@@ -597,6 +619,7 @@ drop1(f1lifespanls4,
       test = "F")
 # no longer significant 
  
+
 # new model without interaction effect 
 f1lifespanls5 <- glm(longevity ~ treatment + parental_treatment,
                       data=f1lifespan, family=quasipoisson(link="log"))
@@ -626,7 +649,7 @@ f1lifespanls5table <-
                     "Upper 95% CI"),
       caption = "Model 4", 
       booktabs = TRUE) %>% 
-  kable_styling(full_width = FALSE, font_size=16)
+  kable_styling(full_width = FALSE, font_size=12, latex_options = c("striped", "hold_position"))
 
 
 f1lifespanls5table
