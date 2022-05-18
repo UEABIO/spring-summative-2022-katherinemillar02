@@ -56,7 +56,7 @@ f0reproduction_summary %>%
 # Visualising the data with a box plot 
 q2 <- ggplot(f0lifespan, aes(x=rnai, y=longevity, fill=treatment)) +
   geom_boxplot() +
-  labs('title' = ' F0 - Effect of treatment and genes on longevity',
+  labs('title' = 'Treatment and genes on longevity',
        y = 'Longevity',
        x = 'RNAi treatment', 
        fill = "Treatment") +
@@ -74,7 +74,7 @@ performance::check_model(f0lifespanls1, check="outliers")
 # Doesn't look normal 
 
 # Data Transformations - using BoxCox
-MASS::boxcox(f0lifespanls1)
+#MASS::boxcox(f0lifespanls1)
 # Shows parameter = (0-0.5) 
 
 # Using sqrt to transform data 
@@ -153,7 +153,7 @@ f0lifespanls1table <-
                     "P",
                     "Lower 95% CI",
                     "Upper 95% CI"),
-      caption = "Model 2", 
+      caption = "FO Lifepan - Dark/Light Conditions and RNAi gene treatment", 
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=16)
 
@@ -167,9 +167,9 @@ f0lifespanls1table
  # F0 - longevity, treatment 
 
 # Visualising the data 
-q1 <- ggplot(f0lifespan, aes(x=treatEent, y=longevity, fill=treatment))+ 
+q1 <- ggplot(f0lifespan, aes(x=treatment, y=longevity, fill=treatment))+ 
 geom_boxplot() + 
-labs('title' = ' F0 - Effect of treatment on longevity',
+labs('title' = ' Treatment on longevity',
        y = 'Longevity',
        x = 'Treatment', 
        fill = "Treatment") +
@@ -179,7 +179,7 @@ labs('title' = ' F0 - Effect of treatment on longevity',
 q1 + q2
 
 # Saving the plot via ggsave 
-ggsave("figures/treatmentslongevity.png", plot= q1+q2 , dpi=900, width = 7, height = 7)
+ggsave("figures/treatmentslongevity.png", plot= q1+q2 , dpi=900, width = 7, height = 5)
 
 # Creating linear model 
 f0lifespanls2 <- lm(longevity ~ treatment, data = f0lifespan)
@@ -190,7 +190,7 @@ performance::check_model(f0lifespanls2, check=c("normality","qq"))
 # Doesn't look great
 
 # Did a transformation test
-MASS::boxcox(f0lifespanls2)
+#MASS::boxcox(f0lifespanls2)
 # 0-05
 
 # Using sqrt to transform data 
@@ -249,7 +249,7 @@ f0offspringmeans %>%
 # MODEL 3
 
 # Visualising the data 
-ggplot(f0reproduction, aes(x=rnai, y=offspring, fill=treatment))+
+f0reproductionls2plot <-  ggplot(f0reproduction, aes(x=rnai, y=offspring, fill=treatment))+
   geom_boxplot()
 
 # Creating a linear model 
@@ -261,7 +261,7 @@ performance::check_model(f0reproductionls1, check=c("normality","qq"))
 # Doesn't look good 
 
 # Transforming data using BoxCox
-MASS::boxcox(f0reproductionls1)
+#MASS::boxcox(f0reproductionls1)
 # 0-0.5
 
 # Using sqrt to transform data 
@@ -326,7 +326,7 @@ f0reproductionls2table
   # f1 - longevity, parent's rnai
 
 # Visualise the data 
-ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=longevity))+
+f1lifespanls1plot <- ggplot(f1lifespan, aes(x=parental_rnai, y=longevity, fill=longevity))+
   geom_boxplot()
 
 # creating a linear model
@@ -341,7 +341,7 @@ performance::check_model(f1lifespanls1, check = c("normality", "qq"))
 
 
 # BoxCox to transform data 
-MASS::boxcox(f1lifespanls1)
+#MASS::boxcox(f1lifespanls1)
 
 # Using sqrt to transform data 
 f1lifespanls1 <- lm(sqrt(longevity) ~ parental_rnai, data = f1lifespan)
@@ -369,6 +369,10 @@ broom::tidy(f1lifespanls1)
 
 # Doing an anova 
 anova(f1lifespanls1)
+
+# looking for emmeans 
+f1lifespan1 <- emmeans::emmeans(f1lifespanls1, specs = ~parental_rnai)
+f1lifespan1
 
 
 f1lifespanls1table <- 
@@ -419,7 +423,7 @@ performance::check_model(f1lifespanls2, check=c("normality", "qq"))
 
 # Transformation with BoxCox 
 # run this, pick a transformation and retest the model fit
-MASS::boxcox(f1lifespanls2)
+#MASS::boxcox(f1lifespanls2)
 
 # transforming data with sqrt 
 f1lifespanls2 <- lm(sqrt(longevity) ~ parental_rnai + parental_treatment + parental_treatment:parental_rnai, data = f1lifespan)
@@ -496,13 +500,17 @@ performance::check_model(f1reproductionls1, check=c("homogeneity", "qq"))
 
 # Transformation with BoxCox 
 # run this, pick a transformation and retest the model fit
-MASS::boxcox(f1reproductionls1)
+#MASS::boxcox(f1reproductionls1)
 
 # use glm 
 f1reproductionls1 <- glm(offsprings ~ parental_rnai, 
               family = gaussian(link = "identity"),
               data = f1reproduction)
 performance::check_model(f1reproductionls1, check=c("homogeneity", "qq"))
+
+# looking for emmeans 
+f1reproduction1 <- emmeans::emmeans(f1reproductionls1, specs = ~parental_rnai)
+f1reproduction1
 
 broom::tidy(f1reproductionls1)
 
@@ -537,7 +545,7 @@ f1lifespanls4 <- lm(longevity ~ parental_treatment + treatment + parental_treatm
 performance::check_model(f1lifespanls4, check=c("homogeneity", "qq"))
 
 # BoxCox to transform data 
-MASS::boxcox(f1lifespanls4)
+#MASS::boxcox(f1lifespanls4)
 
 
 # Using sqrt 
@@ -598,10 +606,15 @@ performance::check_model(f1lifespanls5, check=c("homogeneity", "qq"))
 # fixed mean variance model - chisquared
 drop1(f1lifespanls5, test = "Chisq")
 
+ 
 # A summary of the model 
 broom::tidy(f1lifespanls5)
 
-f1lifespanls5table <- 
+# Looked at emmeans data for amount of offspring f0 generation have vs rnai treatment
+f1offspringmeans5 <- emmeans::emmeans(f1lifespanls5, specs = ~treatment)
+f1offspringmeans5
+
+f1lifespanls5table <-  
   f1lifespanls5 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
   mutate_if(is.numeric, round, 2) %>% 

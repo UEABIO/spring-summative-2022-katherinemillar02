@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.4.22)  17 MAY 2022 14:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.4.22)  18 MAY 2022 10:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -468,6 +468,15 @@ LaTeX Warning: Label `tab:unnamed-chunk-1' multiply defined.
 
 LaTeX Warning: Label `tab:unnamed-chunk-1' multiply defined.
 
+
+LaTeX Warning: Label `tab:unnamed-chunk-1' multiply defined.
+
+
+LaTeX Warning: Label `tab:unnamed-chunk-1' multiply defined.
+
+
+LaTeX Warning: Label `tab:unnamed-chunk-1' multiply defined.
+
 )
 \openout1 = `Spring-Summative.aux'.
 
@@ -616,185 +625,149 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 8
 7.
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-<Spring-Summative_files/figure-latex/unnamed-chunk-1-1.pdf, id=4, 436.63126pt x
- 252.945pt>
-File: Spring-Summative_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (t
-ype pdf)
-<use Spring-Summative_files/figure-latex/unnamed-chunk-1-1.pdf>
-Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-1-1.
-pdf  used on input line 92.
-(pdftex.def)             Requested size: 436.63019pt x 252.94438pt.
-<Spring-Summative_files/figure-latex/unnamed-chunk-1-2.pdf, id=5, 436.63126pt x
- 252.945pt>
-File: Spring-Summative_files/figure-latex/unnamed-chunk-1-2.pdf Graphic file (t
-ype pdf)
-<use Spring-Summative_files/figure-latex/unnamed-chunk-1-2.pdf>
-Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-1-2.
-pdf  used on input line 93.
-(pdftex.def)             Requested size: 436.63019pt x 252.94438pt.
-<Spring-Summative_files/figure-latex/unnamed-chunk-1-3.pdf, id=6, 436.63126pt x
- 251.94125pt>
-File: Spring-Summative_files/figure-latex/unnamed-chunk-1-3.pdf Graphic file (t
-ype pdf)
-<use Spring-Summative_files/figure-latex/unnamed-chunk-1-3.pdf>
-Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-1-3.
-pdf  used on input line 94.
-(pdftex.def)             Requested size: 436.63019pt x 251.94063pt.
-<Spring-Summative_files/figure-latex/unnamed-chunk-1-4.pdf, id=7, 436.63126pt x
- 252.945pt>
-File: Spring-Summative_files/figure-latex/unnamed-chunk-1-4.pdf Graphic file (t
-ype pdf)
-<use Spring-Summative_files/figure-latex/unnamed-chunk-1-4.pdf>
-Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-1-4.
-pdf  used on input line 95.
-(pdftex.def)             Requested size: 436.63019pt x 252.94438pt.
-<Spring-Summative_files/figure-latex/unnamed-chunk-1-5.pdf, id=8, 436.63126pt x
- 252.945pt>
-File: Spring-Summative_files/figure-latex/unnamed-chunk-1-5.pdf Graphic file (t
-ype pdf)
-<use Spring-Summative_files/figure-latex/unnamed-chunk-1-5.pdf>
-Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-1-5.
-pdf  used on input line 96.
-(pdftex.def)             Requested size: 436.63019pt x 252.94438pt.
-<Spring-Summative_files/figure-latex/unnamed-chunk-1-6.pdf, id=9, 436.63126pt x
- 252.945pt>
-File: Spring-Summative_files/figure-latex/unnamed-chunk-1-6.pdf Graphic file (t
-ype pdf)
-<use Spring-Summative_files/figure-latex/unnamed-chunk-1-6.pdf>
-Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-1-6.
-pdf  used on input line 97.
-(pdftex.def)             Requested size: 436.63019pt x 252.94438pt.
-<Spring-Summative_files/figure-latex/unnamed-chunk-1-7.pdf, id=10, 436.63126pt 
-x 252.945pt>
-File: Spring-Summative_files/figure-latex/unnamed-chunk-1-7.pdf Graphic file (t
-ype pdf)
-<use Spring-Summative_files/figure-latex/unnamed-chunk-1-7.pdf>
-Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-1-7.
-pdf  used on input line 98.
-(pdftex.def)             Requested size: 436.63019pt x 252.94438pt.
+) [1
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--99
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 92--99
-[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 92--99
-[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 92--99
-[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 92--99
-[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 92--99
-[]
- []
-
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./Spring-Summative_files/f
-igure-latex/unnamed-chunk-1-1.pdf>] [2 <./Spring-Summative_files/figure-latex/u
-nnamed-chunk-1-2.pdf> <./Spring-Summative_files/figure-latex/unnamed-chunk-1-3.
-pdf>] [3 <./Spring-Summative_files/figure-latex/unnamed-chunk-1-4.pdf> <./Sprin
-g-Summative_files/figure-latex/unnamed-chunk-1-5.pdf>] [4 <./Spring-Summative_f
-iles/figure-latex/unnamed-chunk-1-6.pdf> <./Spring-Summative_files/figure-latex
-/unnamed-chunk-1-7.pdf>]
-LaTeX Font Info:    Calculating math sizes for size <16> on input line 147.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Calculating math sizes for size <16> on input line 179.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <16> on input line 147.
+(Font)              <16> on input line 179.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <11.19995> on input line 147.
-[5pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
+(Font)              <11.19995> on input line 179.
+<Spring-Summative_files/figure-latex/unnamed-chunk-4-1.pdf, id=23, 453.695pt x 
+305.14pt>
+File: Spring-Summative_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (t
+ype pdf)
+<use Spring-Summative_files/figure-latex/unnamed-chunk-4-1.pdf>
+Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-4-1.
+pdf  used on input line 235.
+(pdftex.def)             Requested size: 453.6939pt x 305.13924pt.
+[2pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
 as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.217   M
-         odel 3pdfTeX warning (ext4): destination with the same identifier (nam
-e{table.2}) has been already used, duplicate ignored
+l.237 R
+       NAi gene used and treatment is also likely to influencepdfTeX warning (e
+xt4): destination with the same identifier (name{table.2}) has been already use
+d, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.217   M
-         odel 3]
-<Spring-Summative_files/figure-latex/unnamed-chunk-5-1.pdf, id=106, 459.7175pt 
-x 305.14pt>
-File: Spring-Summative_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (t
+l.237 R
+       NAi gene used and treatment is also likely to influence]
+Overfull \hbox (13.77832pt too wide) in paragraph at lines 249--258
+ [][] 
+ []
+
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
+76.
+(/usr/share/texmf/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [3pdfTeX warning (ext4): destination with the same identifier (name{table.3})
+ has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.280 
+       <./Spring-Summative_files/figure-latex/unnamed-chunk-4-1.pdf>]
+<Spring-Summative_files/figure-latex/unnamed-chunk-6-1.pdf, id=48, 453.695pt x 
+313.17pt>
+File: Spring-Summative_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (t
 ype pdf)
-<use Spring-Summative_files/figure-latex/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-5-1.
-pdf  used on input line 225.
-(pdftex.def)             Requested size: 459.73741pt x 305.1532pt.
+<use Spring-Summative_files/figure-latex/unnamed-chunk-6-1.pdf>
+Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-6-1.
+pdf  used on input line 285.
+(pdftex.def)             Requested size: 453.6939pt x 313.16922pt.
 
-Overfull \hbox (13.77832pt too wide) in paragraph at lines 251--260
+Overfull \hbox (38.29303pt too wide) in paragraph at lines 302--310
  [][] 
  []
 
-[6 <./Spring-Summative_files/figure-latex/unnamed-chunk-5-1.pdf>]
-Overfull \hbox (30.95506pt too wide) in paragraph at lines 329--337
- [][] 
- []
-
-[7pdfTeX warning (ext4): destination with the same identifier (name{table.3}) h
+<Spring-Summative_files/figure-latex/unnamed-chunk-8-1.pdf, id=49, 459.7175pt x
+ 315.1775pt>
+File: Spring-Summative_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (t
+ype pdf)
+<use Spring-Summative_files/figure-latex/unnamed-chunk-8-1.pdf>
+Package pdftex.def Info: Spring-Summative_files/figure-latex/unnamed-chunk-8-1.
+pdf  used on input line 326.
+(pdftex.def)             Requested size: 459.74442pt x 315.19595pt.
+[4pdfTeX warning (ext4): destination with the same identifier (name{table.4}) h
 as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.363 
-      pdfTeX warning (ext4): destination with the same identifier (name{table.4
-}) has been already used, duplicate ignored
+l.328 T
+       he effect of both parental RNAi and parental treatment on the lifespan <
+./Spring-Summative_files/figure-latex/unnamed-chunk-6-1.pdf>]
+Overfull \hbox (85.47984pt too wide) in paragraph at lines 346--355
+ [][] 
+ []
+
+
+Overfull \hbox (30.95506pt too wide) in paragraph at lines 367--375
+ [][] 
+ []
+
+[5pdfTeX warning (ext4): destination with the same identifier (name{table.5}) h
+as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.363 
-      ]
+l.384 
+       <./Spring-Summative_files/figure-latex/unnamed-chunk-8-1.pdf>]
+Overfull \hbox (85.47984pt too wide) in paragraph at lines 399--408
+ [][] 
+ []
+
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 408.
+(Font)              <10> on input line 444.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 408.
+(Font)              <7> on input line 444.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 408.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 422.
-[8]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 422.
+(Font)              <5> on input line 444.
+[6pdfTeX warning (ext4): destination with the same identifier (name{table.6}) h
+as been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.447 Z
+       hou, K.I., Pincus, Z. and Slack, F.J., 2011. Longevity and stress inpdfT
+eX warning (ext4): destination with the same identifier (name{table.7}) has bee
+n already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.447 Z
+       hou, K.I., Pincus, Z. and Slack, F.J., 2011. Longevity and stress in]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 462.
+[7]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 462.
 (./Spring-Summative.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 422.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 422.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 462.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 462.
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14583 strings out of 481239
- 213207 string characters out of 5920377
- 506413 words of memory out of 5000000
- 29423 multiletter control sequences out of 15000+600000
- 608967 words of font info for 133 fonts, out of 8000000 for 9000
+ 14577 strings out of 481239
+ 212211 string characters out of 5920377
+ 506410 words of memory out of 5000000
+ 29427 multiletter control sequences out of 15000+600000
+ 608989 words of font info for 131 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,42p,912b,382s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}</usr/share/texmf/fonts/type1/
-public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/s
-hare/texmf/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/publ
-ic/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/t
-exmf/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lm
-ri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Spring-Summative.pdf (8 pages, 241949 bytes).
+ 41i,9n,42p,911b,337s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/share/texmf/fonts/enc/d
+vips/lm/lm-ec.enc}</usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/shar
+e/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/l
+m/lmbxi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/tex
+mf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr1
+7.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/font
+s/type1/public/lm/lmtt10.pfb>
+Output written on Spring-Summative.pdf (7 pages, 221121 bytes).
 PDF statistics:
- 213 PDF objects out of 1000 (max. 8388607)
- 169 compressed objects within 2 object streams
- 36 named destinations out of 1000 (max. 500000)
- 12401 words of extra memory for PDF output out of 14400 (max. 10000000)
+ 163 PDF objects out of 1000 (max. 8388607)
+ 135 compressed objects within 2 object streams
+ 33 named destinations out of 1000 (max. 500000)
+ 12376 words of extra memory for PDF output out of 14400 (max. 10000000)
 
