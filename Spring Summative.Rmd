@@ -102,7 +102,7 @@ There was significance in offspring produced depending on living conditions howe
 f0reproductionls2plot
 
 ```
-
+*Boxplot showing the influence of RNAi treatment and dark.light conditions in how reproductive c.elegans are. empty vector (shown left), shows both dark (pink) and light (green), while the box plots right show raga-1 with both dark (pink) and light (green). raga-1 first appears of a lower value than empty vector gene.*
 
 *C.elegans* are often used  in epigenetic research. Epigenetic marks are known to respond to environmental cues and can potentially pass on this information to the next few generations, it could be possible for transgenerational inheritance of longevity to occur in the *c.elegans* (Benayoun et al, 2012).  
 
@@ -125,7 +125,7 @@ A poisson GLM test was used to look at longevity based on the RNAi gene in which
 f1lifespanls1plot
 
 ```
-
+*A violin plot showing the affect of parental RNAi treatment on longevity, empty vector gene (shown left in purple) appears slightly broader than raga-1 but there is not a visually large signficant difference to raga-1 (shown right in green).*
 
 
  
@@ -147,7 +147,15 @@ f1lifespanls3table
 
  There was no significant difference in the longevity of F1 based on what knockdown gene treatment their parents had received.  (square-root-value: *P*=0.36, *z* = -0.922), when the ev gene was used as suppose to the *raga-1* gene. There was also no significant difference in the conditions the *c.elegans* lived for the longevity of their offspring (*P* = 0.33, *z* -0.969).  
  
+```{r echo=FALSE, message=FALSE}
 
+f1lifespanls3plot
+
+```
+*A Boxplot shown with jittered data points. Left shows parental dark treatment (empty vector gene is represented by pink), (raga-1 gene is represented by light blue). Right shows parental light treatment (empty vector gene is represented by pink). Boxplot shows the influences that parental RNAi treatment and parental living conditions treatment has on their own offspring.*
+ 
+ 
+ 
  
  RNAi gene treatment may affect the reproduction of their own offspring. A gaussian-generalized-linear-model test was used which looked at the amount of offspring's and parental RNAi gene they had. 
  
@@ -174,9 +182,14 @@ There was found to be no significant difference (identity-values: GLM: *P* = 0.9
 f1reproductionls1plot
 
 ```
+*Boxplot showing how parental RNAi treatment influences the reproduction of their own offspring. ev (shown in pink, left) visually has a simialr effect to raga-1 (shown in green) to how many offspring their own offspring are able to have* 
+
+
+
+
+
 
 A *c.elegans* longevity may be influenced by both their own treatment and their parents treatment.The initial model contained an interaction term between Parental RNAi and Parental Treatment, however this was dropped from the model as there was no significance (log-link-value *P* = 0.002), and did not alter the fit of the model.  
-
 
 
 ```{r echo=FALSE, message=FALSE}
@@ -194,46 +207,31 @@ There was no significant difference in lifespan of the F1 generation, however, b
 
 ```{r echo=FALSE, message=FALSE}
 
-
-
-```
-
-
-
-
-```{r echo=FALSE, message=FALSE}
-
+f1lifespanls5plot
 
 ```
-
-
-## Method
-
-
-# Results and Discussion
-
-# Analysis
-
-# Conclusion
+*A boxplot showing the influence of both own treatment and parental treatment on longevity of F1 generation. Parental dark shown left, shows boxplots for both own dark (pink) and own light (green), and is visually similar values for parental light shown right, which shows boxplots for both own dark (pink) and own light (green).*
 
 
 
-# References  
-  
-Hamilton, B., Dong, Y., Shindo, M., Liu, W., Odell, I., Ruvkun, G. and Lee, S.S., 2005. A systematic RNAi screen for longevity genes in C. elegans. Genes & development, 19(13), pp.1544-1555. 
-  
-Wormbase.org. 2022. raga-1 (gene) - WormBase : Nematode Information Resource. [online] Available at: <https://wormbase.org/species/c_elegans/gene/WBGene00006414?redirect=1#0-9f-10> [Accessed 5 May 2022]. 
-  
-Zhou, K.I., Pincus, Z. and Slack, F.J., 2011. Longevity and stress in Caenorhabditis elegans. Aging (Albany NY), 3(8), p.733. 
-  
-Scharf, A., Egan, B., Pohl, F., Kocsisova, Z. and Kornfeld, K., 2021. Reproductive aging in C. elegans: from molecules to ecology. Frontiers in cell and developmental biology, p.2343. 
-  
-Lapierre, L.R. and Hansen, M., 2012. Lessons from C. elegans: signaling pathways for longevity. Trends in Endocrinology & Metabolism, 23(12), pp.637-644. 
-Vancouver	 
  
-De Magalhaes Filho, C.D., Henriquez, B., Seah, N.E., Evans, R.M., Lapierre, L.R. and Dillin, A., 2018. Visible light reduces C. elegans longevity. Nature communications, 9(1), pp.1-13. 
+# Analysis  
+ Statistical analyses were performed in R 4.1.3. Generalized linear models (GLM) assuming a Poisson/quasi-Poisson variable and a log-link function were used. As well as general linear models with log or square rooted transformations.  
+Packages used 
  
+# Discussion  
+This report provides information on the effectiveness of both the *raga-1* gene and dark/light treatments on two generations of *c.elegans 
+ 
+It was found that although treatment had a direct effect on a *c.elegans* own longevity (*P*<0.0001(log)), and reproduction (*P*=0.03 (sqrt)), it did not influence their offspring's longevity (*P*= 0.33(sqrt)) and reproduction (*P*=0.9(identity)).  
+ 
+RNAi gene knockdown had a small effect on their own longevity (*P*<0.001(log)), but no effect on their own reproduction (*P*=0.85) or their offspring’s longevity (*P*=0.36(log)) or reproduction (*P*=0.85(log-link)). 
+ 
+Overall the findings of this report show that the *raga-1* gene has little to no epigenetic effects on *c.elegans, as there was no significant difference found in how this effected their offspring. Similar was found with what treatment a *c.elegans* received. Although, large significant effects were found in what treatment did directly to a *c.elegans* longevity and reproduction, there were no significant differences found into what it did to their offspring's longevity and reproduction.  
 
-```{r pressure, echo=FALSE}
 
-```
+
+
+
+
+
+

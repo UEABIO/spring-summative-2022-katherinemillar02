@@ -227,7 +227,7 @@ f0lifespanls2table <-
                     "P",
                     "Lower 95% CI",
                     "Upper 95% CI"),
-      caption = "FO Lifepan - Dark/Light Conditions", 
+      caption = "FO Lifepan - Dark/Light conditions", 
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=16, latex_options = c("striped", "hold_position"))
 
@@ -321,7 +321,7 @@ f0reproductionls2table <-
                     "P",
                     "Lower 95% CI",
                     "Upper 95% CI"),
-      caption = "F0 Reproduction - Dark/Light Conditions and RNAi gene treatment", 
+      caption = "F0 Reproduction - Dark/Light conditions and RNAi gene treatment", 
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=16, latex_options = c("striped", "hold_position"))
 
@@ -402,8 +402,8 @@ f1lifespanls1table <-
                     "Z-value",
                     "P",
                     "Lower 95% CI",
-                    "Upper 95% CI")
-      caption = "Model 4", 
+                    "Upper 95% CI"),
+      caption = "How parental RNAi treatment influences longevity", 
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=16, latex_options = c("striped", "hold_position"))
 # ISSUE WITH TABLE 
@@ -418,7 +418,7 @@ f1lifespanls1table
 # F1 - longevity, parent's rnai, parent's treatment 
 
 # Visualising the data 
-ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
+f1lifespanls3plot <- ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
   geom_boxplot(aes(fill = parental_rnai),
                alpha = 0.2, 
                width = 0.5, 
@@ -427,7 +427,10 @@ ggplot(data=f1lifespan, aes(x = tolower(parental_treatment), y = longevity)) +
               width=0.2)+
   labs('title' = 'Effect of parental treatment on offspring longevity',
        x = 'Parental Treatment',
-       y = 'Longevity of offspring')
+       y = 'Longevity of offspring', 
+       fill = "Parental RNAi")
+
+
 
 # Creating a model 
 f1lifespanls2 <-  lm(longevity ~ parental_rnai + parental_treatment + parental_rnai:parental_treatment, data = f1lifespan)
@@ -492,7 +495,7 @@ f1lifespanls3table <-
                     "P",
                     "Lower 95% CI",
                     "Upper 95% CI"),
-      caption = "Model 4", 
+      caption = "Longevity of F1 - based on parental RNAi and parental treatment", 
       booktabs = TRUE) %>% 
 kable_styling(full_width = FALSE, font_size=12, latex_options = c("striped", "hold_position"))
 
@@ -506,8 +509,18 @@ f1lifespanls3table
 
 # Visualising the data 
 f1reproductionls1plot <- ggplot(f1reproduction, aes(x=parental_rnai, y=offsprings, fill=parental_rnai))+
-  geom_boxplot()
+  geom_boxplot()+
+  scale_fill_manual(values = alpha(c("#a84632", "#8ba832"),.3))+
+  labs( x = "Parental (FO)  RNAi Treatment",
+        y = " F1 Offspring",
+        fill ="Parental (FO)  RNAi Treatment",
+        title = "F1 offspring based off their parents RNAi treatment")
 
+
+
+
+  
+  
 # Creating the model 
 f1reproductionls1 <- lm(offsprings ~ parental_rnai, data = f1reproduction )
 
@@ -542,7 +555,7 @@ f1reproductionls1table <-
                     "P",
                     "Lower 95% CI",
                     "Upper 95% CI"),
-      caption = "Model 4", 
+      caption = "How parental RNAi influences reproduction", 
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=12, latex_options = c("striped", "hold_position"))
 
@@ -557,8 +570,12 @@ f1reproductionls1table
  # f1 - longevity, parental treatment and their own treatment, with interaction effect  
 
 # Visualise the data 
-ggplot(f1lifespan, aes(x=parental_treatment, y=longevity, fill=treatment))+
-  geom_boxplot()
+f1lifespanls5plot <- ggplot(f1lifespan, aes(x=parental_treatment, y=longevity, fill=treatment))+
+  geom_boxplot()+
+  scale_fill_manual(values = alpha(c("#a84632", "#8ba832"),.3))+
+  labs( x = "Parental Treatment",
+        y = "Longevity",
+        fill ="Own Treatment")
 
 # created a linear model 
 f1lifespanls4 <- lm(longevity ~ parental_treatment + treatment + parental_treatment:treatment, data = f1lifespan)
@@ -645,7 +662,7 @@ f1lifespanls5table <-
                     "P",
                     "Lower 95% CI",
                     "Upper 95% CI"),
-      caption = "Model 4", 
+      caption = "Own treatment and parental treatment influence on longevity", 
       booktabs = TRUE) %>% 
   kable_styling(full_width = FALSE, font_size=12, latex_options = c("striped", "hold_position"))
 
