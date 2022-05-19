@@ -1,5 +1,5 @@
 ---
-title: "Spring Summative"
+title: "Investigating the effect of RNAi knockdown genes and living conditions on the longevity and reproduction of *c.elegans* "
 author: 'Katie Millar' 
 output: pdf_document
 css: style.css
@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE, message=FALSE)
 ```
 
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(here)
 library(tidyverse)
 library(kableExtra)
@@ -19,12 +19,12 @@ source(here("scripts", "Spring Summative Code.R"))
 
 ```
 
-### Investigating the effect of RNAi knockdown genes and living conditions on the longevity and reproduction of *c.elegans* 
+ 
   
 ### Abstract  
 It was thought that both the RNAi gene used and what conditions a *c.elegans* lived in would have a direct, negative effect on not only the *c.elegans* longevity and reproductive rate, but also their offspring's. 
- Previous research would indicate that having *raga-1* (an aging modulator) would have a negative effect on longevity and reproduction. Dark conditions would affect the longevity of the *c.elegans*, and their offspring due to epigenetic effects.  
-It was found that the RNAi gene treatment had little effect on the *c.elegans* longevity and reproduction directly, receiving *raga-1* gene, meant they lived slightly longer but not by a large amount. The RNAi gene treatment received however, was not at all significant as to how long their offspring lived or how reproductive their own offspring were. Stressful conditions effected the longevity and reproduction of the parental *c.elegans* but did not effect the longevity and reproduction of their own offspring. The longevity of the F1 generation, were however affected by their own treatment.  
+ Previous research would indicate that having *raga-1* (an aging modulator) would have a negative effect on longevity and reproduction. Light  conditions could affect the longevity of the *c.elegans*, and their offspring due to epigenetic effects.  
+It was found that the RNAi gene treatment had little effect on the *c.elegans* longevity and reproduction directly, receiving *raga-1* gene, meant they lived slightly longer but not by a large amount. The RNAi gene treatment received however, was not at all significant as to how long their offspring lived or how reproductive their own offspring were. Stressful conditions effected the longevity and reproduction of the parental *c.elegans* but did not effect the longevity and reproduction of their own offspring. The longevity of the F1 generation, were however effected by their own treatment.  
  
 ### Introduction 
 The nematode worm (*Caenorhabditis elegans*) are a widely used as a model organism in biology. They are often used to test for epigenetic effects, and how the life history of the *c.elegans* will affect their offspring. Both the longevity and fertility of organisms are known to be influenced by both diverse genetic and environmental factors (Hamilton et al, 2005). Stress can be an influential factor on longevity, as well as fertility in organisms, there have been previous studies into how particular RNAi treatments such as using the *raga-1* gene, can affect both longevity and reproduction in the *c. elegans*, *raga-1* is the dominant gene involved in the determination of adult lifespan in the *c.elegans*  (WormBase, 2022). The RNAi inhibition of *raga-1* in the intestine is sufficient for lifespan extension (Lapierre et al, 2012).  
@@ -33,8 +33,8 @@ Work by Schreiber et al, 2010 into looking at the *raga-1* gene as an aging modu
  
 It could be predicted that *raga-1* gene being the dsDNA target gene will therefore have a direct effect on decreasing how many offspring a *c.elegans* will have, as well as decreasing longevity both in themselves and in their offspring. 
   
-It also could be indicated that stressful dark conditions for the *c.elegans* can result in a shorter lifespan.  
-There has been previous research into how stressful conditions for the *c.elegans* (like living in the light conditions), as supposed to living in the soil, having dark conditions can be considered a key factor for having shorter longevity (De Magalhaes et al, 2018).   
+It also could be indicated that stressful light conditions for the *c.elegans* can result in a shorter lifespan.  
+There has been previous research into how stressful conditions for the *c.elegans*, as supposed to living in the soil, having dark conditions can be considered a key factor for having shorter longevity (De Magalhaes et al, 2018).   
 Previous research has indicated that there is a correlation of stressful conditions and a decreased lifespan in the *c.elegans*. Although, a connection between the two is known, the data for the exact reasons behind this is skewed. There are some nematodes, however, which can withstand having an effect of aging from stress, this is known as having a stress resistance. This is quite rare, however (Zhou et al, 2011). 
 
 ### Results and Analysis 
@@ -42,7 +42,7 @@ Previous research has indicated that there is a correlation of stressful conditi
 Stressful conditions and RNAi gene treatment are likely to have a negative effect on a *c.elegans* longevity. An interaction term between RNAi for gene expression knockdown and dark/light treatment in an F0-generation, was used to test this. However, this was removed from the model as no statistical significance that it made a difference to the model (log value:*P* = 0.12).
  
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 
 f0lifespanls1table 
@@ -52,13 +52,13 @@ f0lifespanls1table
 
 
 
-A Poisson GLM test without the interaction term and with Quasi, to counter for overdispersion in variance was performed. The RNAi gene treatment used was the categorical predictor and the longevity was used as a continuous predictor. There was a significant overall effect on longevity of the nematode worm (log-values: Poisson GLM:  *P* < 0.0001), the average lifespan of the *c.elegans* living in dark conditions was (actual values - 16 days, [95% CI 14 - 16].  The average lifespan of *c.elegans* that lived in light, stressful conditions was (actual values - 6 days [95% CI (0.3-0.4 days]).  
+A Poisson GLM test without the interaction term and with Quasi, to counter for overdispersion in variance was performed. The RNAi gene treatment used was the categorical predictor and the longevity was used as a continuous predictor. There was a significant overall effect on longevity of the nematode worm (log-values: Poisson GLM:  *P* < 0.0001), the average lifespan of the *c.elegans* living in dark conditions was (actual values - 16 days, [95% CI 14 - 16].  The average lifespan of *c.elegans* that lived in light, stressful conditions was (actual values - 6 days [95% CI (5-6 days]).  
 Having the empty vector (ev) gene, as suppose to the *raga-1* gene, showed significance to the longevity of the *c.elegans* in the F0 generation (log values: Poisson GLM: *P* < 0.001). Showing that the *c.elegans* which received *raga-1*, lived slightly longer. The mean days lived with empty vector gene was (actual-values:   9 days, [95% CI 8.6 - 9.6 days]). The mean days lived with *raga-1* gene were (actual-values: 10.2 days [95% CI 9.7 - 10.8 days]).  
 
 
 
  
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 f0lifespanls2table
 
@@ -70,7 +70,7 @@ A separate Poisson GLM model looking at just the stressful conditions in which t
 
 
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 q1 + q2 
 
@@ -80,11 +80,11 @@ q1 + q2
 
 RNAi treatment and living conditions may also influence reproduction.   
 The number of replicates used in the model with treatment was analysed, however there was no significance found between treatment and replicates (actual values: *P*=1), so replicates was not used in the model.   
-A linear model was transformed into a square root to test how conditions and treatment effected a *c.elegans* lifespan. There was originally an interaction term between RNAi and treatment for the number of offspring, yet this was removed as there was no significance found (square-root-value: *P*= 0.9).   
+A linear model was transformed into a square root to test how conditions and treatment affected a *c.elegans* lifespan. There was originally an interaction term between RNAi and treatment for the number of offspring, yet this was removed as there was no significance found (square-root-value: *P*= 0.9).   
  
  
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 f0reproductionls2table
 
@@ -92,12 +92,12 @@ f0reproductionls2table
 
  
 There was no significance found when looking at the difference in offspring produced from *raga-1* and the ev (square-root-value: *P*= 0.85, *z* = -0.19). *C.elegans* tended to have similar amount of offspring whether they had ev or *raga-1*.  
-There was significance in offspring produced depending on living conditions however: (square root scale: *P*=0.03, *z* = -2.13). Dark had a mean of 8.84 ± 0.215 [95% CI 8.42-9.27] df=368, while light had a mean of 8.17 ± 0.234 [95% CI 7.71-8.63], df=368. Showing living conditions will effect how reproductive *C.elegans* are.  
+There was significance in offspring produced depending on living conditions however: (square root scale: *P*=0.03, *z* = -2.13). Dark had a mean of 8.84 ± 0.215 [95% CI 8.42-9.27] df=368, while light had a mean of 8.17 ± 0.234 [95% CI 7.71-8.63], df=368. Showing living conditions will affect how reproductive *C.elegans* are.  
 
  
  
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 f0reproductionls2plot
 
@@ -108,7 +108,7 @@ f0reproductionls2plot
 
     
     
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 f1lifespanls1table
 
@@ -120,7 +120,7 @@ A poisson GLM test was used to look at longevity based on the RNAi gene in which
    
     
     
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 f1lifespanls1plot
 
@@ -138,7 +138,7 @@ There was an interaction effect between parental RNAi and parental treatment use
 
 
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 f1lifespanls3table
 
@@ -147,7 +147,7 @@ f1lifespanls3table
 
  There was no significant difference in the longevity of F1 based on what knockdown gene treatment their parents had received.  (square-root-value: *P*=0.36, *z* = -0.922), when the ev gene was used as suppose to the *raga-1* gene. There was also no significant difference in the conditions the *c.elegans* lived for the longevity of their offspring (*P* = 0.33, *z* -0.969).  
  
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 f1lifespanls3plot
 
@@ -164,7 +164,7 @@ f1lifespanls3plot
   
   
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 f1reproductionls1table
 
@@ -176,9 +176,7 @@ There was found to be no significant difference (identity-values: GLM: *P* = 0.9
 
 
 
-
-```{r echo=FALSE, message=FALSE}
-
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 f1reproductionls1plot
 
 ```
@@ -191,8 +189,7 @@ f1reproductionls1plot
 
 A *c.elegans* longevity may be influenced by both their own treatment and their parents treatment.The initial model contained an interaction term between Parental RNAi and Parental Treatment, however this was dropped from the model as there was no significance (log-link-value *P* = 0.002), and did not alter the fit of the model.  
 
-
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 f1lifespanls5table
 
@@ -205,7 +202,7 @@ There was no significant difference in lifespan of the F1 generation, however, b
  
 
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 f1lifespanls5plot
 
@@ -216,8 +213,8 @@ f1lifespanls5plot
 
  
 # Analysis  
- Statistical analyses were performed in R 4.1.3. Generalized linear models (GLM) assuming a Poisson/quasi-Poisson variable and a log-link function were used. As well as general linear models with log or square rooted transformations.  
-Packages used 
+ Statistical analyses were performed in R 4.1.3. Packages used were: tidyverse, readxl, GGally, emmeans, rstatix, kableExtra, performance, patchwork and here. Generalized linear models (GLM) assuming a Poisson/quasi-Poisson variable and a log-link function were used. As well as general linear models with log or square rooted transformations.  
+
  
 # Discussion  
 This report provides information on the effectiveness of both the *raga-1* gene and dark/light treatments on two generations of *c.elegans 
@@ -226,12 +223,38 @@ It was found that although treatment had a direct effect on a *c.elegans* own lo
  
 RNAi gene knockdown had a small effect on their own longevity (*P*<0.001(log)), but no effect on their own reproduction (*P*=0.85) or their offspring’s longevity (*P*=0.36(log)) or reproduction (*P*=0.85(log-link)). 
  
-Overall the findings of this report show that the *raga-1* gene has little to no epigenetic effects on *c.elegans, as there was no significant difference found in how this effected their offspring. Similar was found with what treatment a *c.elegans* received. Although, large significant effects were found in what treatment did directly to a *c.elegans* longevity and reproduction, there were no significant differences found into what it did to their offspring's longevity and reproduction.  
+Overall the findings of this report show that the *raga-1* gene has little to no epigenetic effects on *c.elegans*, as there was no significant difference found in how this effected their offspring. Similar was found with what treatment a *c.elegans* received. Although, large significant effects were found in what treatment did directly to a *c.elegans* longevity and reproduction, there were no significant differences found into what it did to their offspring's longevity and reproduction. Showing that there are little costly epigenetic effects from RNAi gene treatment and living conditions. 
 
 
 
 
+# References 
 
+De Magalhaes Filho, C.D., Henriquez, B., Seah, N.E., Evans, R.M., Lapierre, L.R. and Dillin, A., 2018. Visible light reduces C. elegans longevity. Nature communications, 9(1), pp.1-13. 
+  
+Hamilton, B., Dong, Y., Shindo, M., Liu, W., Odell, I., Ruvkun, G. and Lee, S.S., 2005. A systematic RNAi screen for longevity genes in C. elegans. Genes & development, 19(13), pp.1544-1555. 
+
+Horst, Allison, Alison Hill, and Kristen Gorman. 2020. Palmerpenguins: Palmer Archipelago (Antarctica) Penguin Data. https://CRAN.R-project.org/package=palmerpenguins.
+Kassambara, Alboukadel. 2020. Rstatix: Pipe-Friendly Framework for Basic Statistical Tests. https://rpkgs.datanovia.com/rstatix/.
+
+Lapierre, L.R. and Hansen, M., 2012. Lessons from C. elegans: signaling pathways for longevity. Trends in Endocrinology & Metabolism, 23(12), pp.637-644. 
+Vancouver	 
+
+Müller, Kirill. 2020. Here: A Simpler Way to Find Your Files. https://CRAN.R-project.org/package=here.
+Ou, Jianhong. 2021. colorBlindness: Safe Color Set for Color Blindness. https://CRAN.R-project.org/package=colorBlindness.
+
+Pedersen, Thomas Lin. 2020. Patchwork: The Composer of Plots. https://CRAN.R-project.org/package=patchwork.
+  
+Scharf, A., Egan, B., Pohl, F., Kocsisova, Z. and Kornfeld, K., 2021. Reproductive aging in C. elegans: from molecules to ecology. Frontiers in cell and developmental biology, p.2343. 
+
+Wormbase.org. 2022. raga-1 (gene) - WormBase : Nematode Information Resource. [online] Available at: <https://wormbase.org/species/c_elegans/gene/WBGene00006414?redirect=1#0-9f-10> [Accessed 5 May 2022]. 
+  
+Zhou, K.I., Pincus, Z. and Slack, F.J., 2011. Longevity and stress in Caenorhabditis elegans. Aging (Albany NY), 3(8), p.733.  
+ 
+Zhu, Hao. 2020. kableExtra: Construct Complex Table with Kable and Pipe Syntax. https://CRAN.R-project.org/package=kableExtra.
+
+———. 2021. Tidyr: Tidy Messy Data. https://CRAN.R-project.org/package=tidyr.
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the tidyverse.” Journal of Open Source Software 4 (43): 1686. https://doi.org/10.21105/joss.01686.
 
 
 

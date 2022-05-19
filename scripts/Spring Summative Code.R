@@ -9,6 +9,7 @@ library(performance)
 library(patchwork)
 library(here)
 
+
 # Importing the sheets via a read_excel path
 f0lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "lifespan_f0", na = "NA"))
 f1lifespan <- (read_excel(path = "Data/elegans.xlsx", sheet = "f1_lifespan", na = "NA"))
@@ -42,6 +43,7 @@ GGally::ggpairs(f1reproduction)
   group_by(rnai) %>%
   summarise(mean = mean(offspring),
             sd=sd(offspring))
+ 
 # Created a table for mean and sd of f0 offspring based on rnai treatment
 f0reproduction_summary %>%
   kbl(caption="The mean and sd offspring from f0 when treated with ev or raga rnai") %>% 
@@ -118,7 +120,9 @@ performance::check_model(f0lifespanls1, check=c("homogeneity", "qq"))
 means <- emmeans::emmeans(f0lifespanls1, specs = ~rnai)
 means <- emmeans::emmeans(f0lifespanls1, specs = ~treatment)
 
-# Calculating real values
+# Calculating actual values
+exp(1.67)
+exp(1.81)
 exp(1.74)
 exp(2.20)
 exp(2.32)
@@ -200,12 +204,13 @@ f0lifespanls2 <- lm(sqrt(longevity) ~  treatment, data = f0lifespan)
 performance::check_model(f0lifespanls2, check=c("homogeneity", "qq"))
 # Looks OK 
 
-# log
+# using log to transform data 
 f0lifespanls2 <- lm(log(longevity) ~  treatment, data = f0lifespan)
 # performance function - checked for normality
 performance::check_model(f0lifespanls2, check=c("homogeneity", "qq"))
 # sqrt looks better 
 
+# using glm with quasi poisson to transform data 
 f0lifespanls2 <- glm(formula = longevity ~ treatment,
                      family = quasipoisson(), data = f0lifespan)
 # performance function - checked for normality
@@ -301,10 +306,10 @@ performance::check_model(f0reproductionls2, check=c("homogeneity", "qq"))
 broom::tidy(f0reproductionls2)
 summary(f0reproductionls2)
 
+
+# Calculating mean values of treatment and rnai using emmeans function
 f0offspringmeans2 <- emmeans::emmeans(f0reproductionls2, specs = ~treatment)
-
 f0offspringmeans2
-
 f0offspringmeans21 <- emmeans::emmeans(f0reproductionls2, specs = ~rnai)
 f0offspringmeans21
 
@@ -392,7 +397,7 @@ anova(f1lifespanls1)
 f1lifespan1 <- emmeans::emmeans(f1lifespanls1, specs = ~parental_rnai)
 f1lifespan1
 
-
+# making a table of f1lifespan from parental rnai 
 f1lifespanls1table <- 
   f1lifespanls1 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
@@ -437,8 +442,6 @@ f1lifespanls2 <-  lm(longevity ~ parental_rnai + parental_treatment + parental_r
 summary(f1lifespanls2)
 # Assumption checking 
 performance::check_model(f1lifespanls2)
-
-
 performance::check_model(f1lifespanls2, check=c("normality", "qq"))
 # Doesn't look normal 
 
@@ -459,7 +462,7 @@ f1lifespanls2<- glm(longevity ~ parental_rnai + parental_treatment
                      + parental_treatment:parental_rnai, 
               family = gaussian(link = "identity"),
               data = f1lifespan)
-
+# Assumption checking 
 performance::check_model(f1lifespanls2, check=c("normality", "qq"))
 
 
@@ -475,9 +478,8 @@ drop1(f1lifespanls2, test = "F")
 
 
 # New model - use log 
-
 f1lifespanls3 <- lm(log(longevity) ~ parental_rnai + parental_treatment, data = f1lifespan)
-                     
+# Assumption checking                      
 performance::check_model(f1lifespanls3, check=c("homogeneity", "qq"))
 
 
@@ -485,6 +487,7 @@ performance::check_model(f1lifespanls3, check=c("homogeneity", "qq"))
 broom::tidy(f1lifespanls3)
 summary(f1lifespanls3)
 
+# Making a table for f1 lifespan based on parental rnai and parental treatment 
 f1lifespanls3table <- 
   f1lifespanls3 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
@@ -537,14 +540,18 @@ performance::check_model(f1reproductionls1, check=c("homogeneity", "qq"))
 f1reproductionls1 <- glm(offsprings ~ parental_rnai, 
               family = gaussian(link = "identity"),
               data = f1reproduction)
+# Assumption Checking 
 performance::check_model(f1reproductionls1, check=c("homogeneity", "qq"))
 
 # looking for emmeans 
 f1reproduction1 <- emmeans::emmeans(f1reproductionls1, specs = ~parental_rnai)
 f1reproduction1
 
+# Making a summary
 broom::tidy(f1reproductionls1)
+summary(f1reproductionls1)
 
+# Making a table of f1 reproduction based on parental rnai 
 f1reproductionls1table <- 
   f1reproductionls1 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
@@ -579,6 +586,7 @@ f1lifespanls5plot <- ggplot(f1lifespan, aes(x=parental_treatment, y=longevity, f
 
 # created a linear model 
 f1lifespanls4 <- lm(longevity ~ parental_treatment + treatment + parental_treatment:treatment, data = f1lifespan)
+# Assumption Checking 
 performance::check_model(f1lifespanls4, check=c("homogeneity", "qq"))
 
 # BoxCox to transform data 
@@ -588,7 +596,7 @@ performance::check_model(f1lifespanls4, check=c("homogeneity", "qq"))
 # Using sqrt 
 f1lifespanls4<- lm(sqrt(longevity) ~ treatment + parental_treatment 
                      + parental_treatment:treatment, data = f1lifespan)
- 
+# Assumption Checking 
 performance::check_model(f1lifespanls4, check=c("homogeneity", "qq"))
 
 # Using log 
@@ -647,11 +655,13 @@ drop1(f1lifespanls5, test = "Chisq")
  
 # A summary of the model 
 broom::tidy(f1lifespanls5)
+summary(f1lifespanls5)
 
 # Looked at emmeans data for amount of offspring f0 generation have vs rnai treatment
 f1offspringmeans5 <- emmeans::emmeans(f1lifespanls5, specs = ~treatment)
 f1offspringmeans5
 
+# Making a table of f1 lifespan based on their own treatment and parental treatment
 f1lifespanls5table <-  
   f1lifespanls5 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 
