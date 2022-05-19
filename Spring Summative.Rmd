@@ -241,7 +241,6 @@ Lapierre, L.R. and Hansen, M., 2012. Lessons from C. elegans: signaling pathways
 Vancouver	 
 
 Müller, Kirill. 2020. Here: A Simpler Way to Find Your Files. https://CRAN.R-project.org/package=here.
-Ou, Jianhong. 2021. colorBlindness: Safe Color Set for Color Blindness. https://CRAN.R-project.org/package=colorBlindness.
 
 Pedersen, Thomas Lin. 2020. Patchwork: The Composer of Plots. https://CRAN.R-project.org/package=patchwork.
   

@@ -661,7 +661,7 @@ summary(f1lifespanls5)
 f1offspringmeans5 <- emmeans::emmeans(f1lifespanls5, specs = ~treatment)
 f1offspringmeans5
 
-# Making a table of f1 lifespan based on their own treatment and parental treatment
+# Making a table of f1 lifespan based on their treatment and parental treatment
 f1lifespanls5table <-  
   f1lifespanls5 %>% broom::tidy(conf.int = T) %>% 
   select(-`std.error`) %>% 

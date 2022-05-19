@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.4.22)  19 MAY 2022 08:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.4.22)  19 MAY 2022 12:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -769,12 +769,12 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 464.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 464.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 502.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 500.
 [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 502.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 500.
 (./Spring-Summative.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 502.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 502.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 500.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 500.
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -782,7 +782,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  14556 strings out of 481239
  212527 string characters out of 5920377
- 508867 words of memory out of 5000000
+ 507867 words of memory out of 5000000
  29396 multiletter control sequences out of 15000+600000
  606703 words of font info for 137 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -793,10 +793,10 @@ e/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/l
 m/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf
 /fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10
 .pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb>
-Output written on Spring-Summative.pdf (9 pages, 282797 bytes).
+Output written on Spring-Summative.pdf (9 pages, 282646 bytes).
 PDF statistics:
- 202 PDF objects out of 1000 (max. 8388607)
- 163 compressed objects within 2 object streams
+ 200 PDF objects out of 1000 (max. 8388607)
+ 161 compressed objects within 2 object streams
  29 named destinations out of 1000 (max. 500000)
  12367 words of extra memory for PDF output out of 14400 (max. 10000000)
 
